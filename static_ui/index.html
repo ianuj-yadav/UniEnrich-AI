@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniEnrich AI – Intelligent Product Data Enrichment Platform</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="brand-logo">UE</div>
+      <div class="brand-info">
+        <div class="brand-name">UniEnrich AI <span class="badge badge-blue">v2.0</span></div>
+        <div class="brand-tagline">Industrial Product Data Enrichment Platform</div>
+      </div>
+    </div>
+
+    <div class="nav-right">
+      <button class="copilot-btn" id="openCopilotBtn">
+        <span class="pulse-dot"></span>
+        🤖 AI Copilot
+      </button>
+      <div class="engine-badge">
+        <span class="engine-label">Engine:</span>
+        <span class="engine-val">Gemini 2.5 + RapidFuzz</span>
+      </div>
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        <span class="status-val">&ge; 70% Quality Gate</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <nav class="nav-menu">
+        <button class="nav-item active" data-tab="dashboard">
+          <span class="icon">📊</span> Dashboard
+        </button>
+        <button class="nav-item" data-tab="upload">
+          <span class="icon">☁️</span> CSV Ingestion
+        </button>
+        <button class="nav-item" data-tab="process">
+          <span class="icon">⚡</span> Live Pipeline
+        </button>
+        <button class="nav-item" data-tab="products">
+          <span class="icon">📦</span> Catalog Browser
+        </button>
+        <button class="nav-item" data-tab="review">
+          <span class="icon">🛡️</span> Review Queue <span class="badge badge-yellow" id="sidebarReviewCount">0</span>
+        </button>
+        <button class="nav-item" data-tab="duplicates">
+          <span class="icon">🧬</span> Duplicate Merge <span class="badge badge-blue">Vector</span>
+        </button>
+        <button class="nav-item" data-tab="datasheet">
+          <span class="icon">📄</span> Datasheet OCR <span class="badge badge-purple">Vision</span>
+        </button>
+        <button class="nav-item" data-tab="rules">
+          <span class="icon">🛠️</span> Rule Studio
+        </button>
+        <button class="nav-item" data-tab="analytics">
+          <span class="icon">📈</span> Quality Analytics
+        </button>
+        <button class="nav-item" data-tab="export">
+          <span class="icon">💾</span> Export Center
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="footer-title">System Status</div>
+        <div class="footer-stat"><span>Backend API:</span> <strong class="text-green" id="apiStatusText">Connected</strong></div>
+        <div class="footer-stat"><span>Active Feed:</span> <strong id="activeFeedName">None</strong></div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+
+      <!-- Toast Notification Container -->
+      <div id="toastContainer" class="toast-container"></div>
+
+      <!-- TAB 1: DASHBOARD -->
+      <section id="tab-dashboard" class="tab-pane active">
+        <div class="hero-banner">
+          <div class="hero-text">
+            <div class="hero-tags">
+              <span class="badge badge-blue">Catalog Intelligence Engine</span>
+              <span class="badge badge-lime">Universal Stack: HTML/CSS/JS + TSX + Python</span>
+            </div>
+            <h1>UniEnrich AI – Industrial Catalog Transformation</h1>
+            <p>Transform messy, abbreviated industrial product catalogs into structured, classified, search-ready records.</p>
+          </div>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="switchTab('upload')">☁️ Upload Catalog Feed</button>
+            <button class="btn btn-purple" onclick="openCopilot()">🤖 Launch Copilot</button>
+          </div>
+        </div>
+
+        <!-- 5 KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-header"><span>Products Ingested</span> <span>📁</span></div>
+            <div class="kpi-value" id="kpiTotalUploaded">0</div>
+            <div class="kpi-sub">Across all uploaded supplier feeds</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header"><span>Standardized Records</span> <span>✅</span></div>
+            <div class="kpi-value text-green" id="kpiTotalProcessed">0</div>
+            <div class="kpi-sub">Enriched with 15+ specifications</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header"><span>Average Accuracy</span> <span>✨</span></div>
+            <div class="kpi-value text-purple" id="kpiAccuracy">96.4%</div>
+            <div class="kpi-sub">Dual confidence scoring engine</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header"><span>Needs Review (&lt;70%)</span> <span>⚠️</span></div>
+            <div class="kpi-value text-yellow" id="kpiNeedsReview">0</div>
+            <div class="kpi-sub">Routed to Human Review Queue</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header"><span>Duplicate SKUs</span> <span>🧬</span></div>
+            <div class="kpi-value text-red" id="kpiDuplicates">0</div>
+            <div class="kpi-sub">Vector similarity clusters</div>
+          </div>
+        </div>
+
+        <!-- Launchpad Feature Modules -->
+        <div class="section-heading">Enterprise Feature Modules</div>
+        <div class="feature-grid">
+          <div class="feature-card" onclick="switchTab('datasheet')">
+            <div class="feature-icon bg-purple-soft">📄</div>
+            <div class="feature-body">
+              <div class="feature-title">Datasheet OCR Lab <span class="badge badge-purple">Vision</span></div>
+              <div class="feature-desc">Extract engineering specs &amp; CAD dimensions from PDF datasheets.</div>
+            </div>
+          </div>
+          <div class="feature-card" onclick="switchTab('duplicates')">
+            <div class="feature-icon bg-blue-soft">🧬</div>
+            <div class="feature-body">
+              <div class="feature-title">Duplicate Merge Studio <span class="badge badge-blue">Vector</span></div>
+              <div class="feature-desc">Resolve fuzzy cross-supplier SKUs with n-gram vector matching.</div>
+            </div>
+          </div>
+          <div class="feature-card" onclick="switchTab('rules')">
+            <div class="feature-icon bg-green-soft">🛠️</div>
+            <div class="feature-body">
+              <div class="feature-title">Rule Studio &amp; Scratchpad <span class="badge badge-green">Studio</span></div>
+              <div class="feature-desc">Manage custom acronym expansions with live execution scratchpad.</div>
+            </div>
+          </div>
+          <div class="feature-card" onclick="switchTab('export')">
+            <div class="feature-icon bg-orange-soft">💾</div>
+            <div class="feature-body">
+              <div class="feature-title">Multi-Channel Export <span class="badge badge-orange">Profiles</span></div>
+              <div class="feature-desc">Download Shopify, Magento, and formula-safe CSVs.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9-Stage Pipeline Banner -->
+        <div class="card pipeline-flow-card">
+          <div class="card-header">
+            <h3>9-Stage Automated Enrichment Sequence</h3>
+            <p>Deterministic sanitation &rarr; RapidFuzz Brand Matching &rarr; LLM Extraction &rarr; UNSPSC &rarr; Quality Gate</p>
+          </div>
+          <div class="pipeline-steps">
+            <div class="step-box"><span class="step-num">1</span> CSV Upload</div>
+            <div class="step-box"><span class="step-num">2</span> Cleaner Engine</div>
+            <div class="step-box"><span class="step-num">3</span> Acronym Expansion</div>
+            <div class="step-box"><span class="step-num">4</span> Brand Resolver</div>
+            <div class="step-box"><span class="step-num">5</span> Attribute AI</div>
+            <div class="step-box"><span class="step-num">6</span> UNSPSC Code</div>
+            <div class="step-box"><span class="step-num">7</span> Copywriter</div>
+            <div class="step-box"><span class="step-num">8</span> Confidence Gate</div>
+            <div class="step-box"><span class="step-num">9</span> Multi-Export</div>
+          </div>
+        </div>
+
+        <!-- Recent Feeds Table -->
+        <div class="card">
+          <div class="card-header flex-between">
+            <div>
+              <h3>Recent Catalog Feeds</h3>
+              <p>Supplier catalogs processed through UniEnrich AI</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="switchTab('upload')">+ Upload Feed</button>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="dashboardBatchesTable">
+              <thead>
+                <tr>
+                  <th>Filename</th>
+                  <th>Total SKUs</th>
+                  <th>Status</th>
+                  <th>Quality Breakdown</th>
+                  <th>Uploaded</th>
+                  <th class="text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="dashboardBatchesBody">
+                <tr><td colspan="6" class="text-center text-muted py-4">No feeds uploaded yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: CSV INGESTION STUDIO -->
+      <section id="tab-upload" class="tab-pane">
+        <div class="page-header">
+          <div class="page-meta">
+            <span class="badge badge-blue">Stage 1</span>
+            <span class="meta-label">File Ingestion &amp; Pre-Flight Validation</span>
+          </div>
+          <h2>CSV / XLSX Ingestion Studio</h2>
+          <p>Upload raw, unstandardized supplier catalog files. The pre-flight validator checks encoding, headers, syntax errors, and duplicate SKUs.</p>
+        </div>
+
+        <!-- Domain Presets -->
+        <div class="section-heading">1-Click Domain Demo Datasets</div>
+        <div class="preset-grid">
+          <div class="preset-card" onclick="loadDomainPreset('mro')">
+            <div class="preset-icon">🔧</div>
+            <div>
+              <div class="preset-title">MRO Piping &amp; Fittings <span class="badge badge-blue">5 SKUs</span></div>
+              <div class="preset-desc">Couplings, ball valves, and flanges with CPLG, BRS, 150#.</div>
+            </div>
+          </div>
+          <div class="preset-card" onclick="loadDomainPreset('electrical')">
+            <div class="preset-icon">⚡</div>
+            <div>
+              <div class="preset-title">Electrical &amp; Power <span class="badge badge-yellow">5 SKUs</span></div>
+              <div class="preset-desc">Breakers, insulated pliers, and wire with Square D &amp; Leviton.</div>
+            </div>
+          </div>
+          <div class="preset-card" onclick="loadDomainPreset('tools')">
+            <div class="preset-icon">🔨</div>
+            <div>
+              <div class="preset-title">Tools &amp; Machinery <span class="badge badge-purple">5 SKUs</span></div>
+              <div class="preset-desc">Cordless drills, impact drivers with DeWalt, Milwaukee, Bosch.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dropzone -->
+        <div class="card">
+          <div class="dropzone" id="uploadDropzone">
+            <input type="file" id="catalogFileInput" accept=".csv,.xlsx,.xls,.tsv" style="display:none;">
+            <div class="dropzone-icon">☁️</div>
+            <div class="dropzone-title" id="dropzoneFilename">Drag &amp; drop catalog file here or click to browse</div>
+            <div class="dropzone-sub">Supports .CSV, .XLSX, .TSV up to 50MB (approx. 100,000 SKUs)</div>
+            <button class="btn btn-primary mt-3" id="uploadFileBtn" onclick="document.getElementById('catalogFileInput').click()">Choose File</button>
+          </div>
+        </div>
+
+        <!-- Scorecard Container (Rendered on Upload) -->
+        <div id="scorecardContainer" class="scorecard-wrapper" style="display: none;">
+          <div class="flex-between mb-3">
+            <h3 class="flex-align text-white">✅ Pre-Flight Validation Scorecard</h3>
+            <span class="badge badge-green">Validation Passed</span>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-header">Products Uploaded</div>
+              <div class="kpi-value text-white" id="scTotalRows">0</div>
+              <div class="kpi-sub">Total data rows detected</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">Rows with Errors</div>
+              <div class="kpi-value text-red" id="scErrorRows">0</div>
+              <div class="kpi-sub">Missing description or invalid</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">Duplicate Rows</div>
+              <div class="kpi-value text-orange" id="scDuplicateRows">0</div>
+              <div class="kpi-sub">Duplicate SKU keys</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-header">Missing Brand</div>
+              <div class="kpi-value text-yellow" id="scMissingBrandRows">0</div>
+              <div class="kpi-sub">Will resolve via AI &amp; regex</div>
+            </div>
+          </div>
+
+          <!-- Raw Preview Table -->
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3>Raw Ingestion Preview (First 5 Rows)</h3>
+              <p>Uncleaned supplier feed input</p>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Raw SKU</th>
+                    <th>Raw Brand</th>
+                    <th>Raw Description</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="rawPreviewTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Start Pipeline Action Banner -->
+          <div class="action-banner">
+            <div>
+              <h3>Ready to Enrich Catalog Data</h3>
+              <p>Trigger the 9-step pipeline: Cleaner &rarr; RapidFuzz Brand Resolver &rarr; Gemini 2.5 Flash Attributes &rarr; Classifier &rarr; Descriptions &rarr; Quality Gate.</p>
+            </div>
+            <button class="btn btn-purple btn-lg" id="startPipelineBtn" onclick="triggerEnrichmentPipeline()">
+              ✨ Start AI Enrichment Pipeline
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: LIVE PIPELINE MONITOR -->
+      <section id="tab-process" class="tab-pane">
+        <div class="page-header">
+          <div class="page-meta">
+            <span class="badge badge-purple">Stage 2</span>
+            <span class="meta-label">Live Processing &amp; Inference Monitor</span>
+          </div>
+          <h2>Real-Time Pipeline Execution</h2>
+          <p>Watch deterministic cleaning, fuzzy brand resolution, and Gemini 2.5 Flash attribute extraction execute in real-time.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header flex-between">
+            <div>
+              <h3 id="pipelineStatusTitle">Pipeline Status: Ready</h3>
+              <p id="pipelineStatusSub">Select a batch to monitor live progress</p>
+            </div>
+            <span class="badge badge-purple" id="pipelineProgressBadge">0% Complete</span>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="pipelineProgressBar" style="width: 0%;"></div>
+          </div>
+
+          <!-- Live Terminal Output -->
+          <div class="terminal-container">
+            <div class="terminal-header">
+              <span class="terminal-dots"><span></span><span></span><span></span></span>
+              <span class="terminal-title">live_pipeline_execution.log</span>
+            </div>
+            <div class="terminal-body" id="pipelineLogsContainer">
+              <div class="log-line">[SYSTEM] Ready to execute catalog transformation pipeline.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: CATALOG BROWSER & SPLIT VIEW -->
+      <section id="tab-products" class="tab-pane">
+        <div class="page-header flex-between">
+          <div>
+            <div class="page-meta">
+              <span class="badge badge-lightblue">Stage 3</span>
+              <span class="meta-label">Catalog &amp; Comparison</span>
+            </div>
+            <h2>Enriched Product Catalog</h2>
+            <p>Browse standardized records, filter by status or brand, and open split-screen Before/After comparisons.</p>
+          </div>
+          <div class="feed-selector-wrapper">
+            <select class="form-select" id="catalogBatchSelect" onchange="loadCatalogProducts()"></select>
+          </div>
+        </div>
+
+        <!-- Filter Toolbar -->
+        <div class="filter-toolbar">
+          <div class="filter-pills">
+            <button class="pill active" data-status="ALL" onclick="filterCatalogStatus('ALL')">All Products</button>
+            <button class="pill" data-status="AUTO_APPROVED" onclick="filterCatalogStatus('AUTO_APPROVED')">Auto-Approved (&ge;70%)</button>
+            <button class="pill" data-status="NEEDS_REVIEW" onclick="filterCatalogStatus('NEEDS_REVIEW')">Needs Review</button>
+            <button class="pill" data-status="REVIEWED_APPROVED" onclick="filterCatalogStatus('REVIEWED_APPROVED')">Human Approved</button>
+          </div>
+          <div class="filter-search">
+            <input type="text" class="form-input" id="catalogSearchInput" placeholder="Search SKU, brand, title..." oninput="handleCatalogSearch(this.value)">
+          </div>
+        </div>
+
+        <!-- Products Table -->
+        <div class="card">
+          <div class="table-responsive">
+            <table class="data-table" id="catalogProductsTable">
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>Resolved Brand</th>
+                  <th>Standardized Product Title</th>
+                  <th>Taxonomy &amp; UNSPSC</th>
+                  <th>Technical Specs</th>
+                  <th>Confidence</th>
+                  <th>Status</th>
+                  <th class="text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="catalogProductsBody">
+                <tr><td colspan="8" class="text-center py-4 text-muted">Loading catalog products...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: HUMAN REVIEW QUEUE -->
+      <section id="tab-review" class="tab-pane">
+        <div class="page-header flex-between">
+          <div>
+            <div class="page-meta">
+              <span class="badge badge-yellow">Stage 4</span>
+              <span class="meta-label">Human-in-the-Loop Quality Gate</span>
+            </div>
+            <h2>Human Review &amp; Discrepancy Queue</h2>
+            <p>Review items with confidence &lt; 70%. Make inline edits, localize copy, or approve records.</p>
+          </div>
+          <div class="keyboard-hints">
+            <span>Shortcuts:</span>
+            <kbd>A</kbd> Approve &bull; <kbd>R</kbd> Reject &bull; <kbd>E</kbd> Edit
+          </div>
+        </div>
+
+        <!-- Bulk Action Toolbar -->
+        <div class="filter-toolbar flex-between">
+          <div class="flex-align gap-2">
+            <span class="text-white font-semibold">Pending Reviews: <strong class="text-yellow" id="reviewCountBadge">0</strong></span>
+          </div>
+          <div class="flex-align gap-2">
+            <button class="btn btn-green btn-sm" onclick="bulkApproveReviews()">✅ Bulk Approve All</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>Original Supplier String</th>
+                  <th>AI Standardized Prediction</th>
+                  <th>Confidence</th>
+                  <th class="text-right">Review Decisions</th>
+                </tr>
+              </thead>
+              <tbody id="reviewTableBody">
+                <tr><td colspan="5" class="text-center py-4 text-muted">No items pending review.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 6: DUPLICATE MERGE STUDIO -->
+      <section id="tab-duplicates" class="tab-pane">
+        <div class="page-header flex-between">
+          <div>
+            <div class="page-meta">
+              <span class="badge badge-blue">Vector Engine</span>
+              <span class="meta-label">Semantic Similarity &amp; Consolidation</span>
+            </div>
+            <h2>Semantic Duplicate Intelligence &amp; Merge</h2>
+            <p>Detect cross-vendor duplicate SKUs with vector n-gram cosine matching and merge them into canonical masters.</p>
+          </div>
+          <div class="flex-align gap-2">
+            <label class="text-muted text-xs">Match Threshold:</label>
+            <input type="range" min="0.60" max="0.95" step="0.05" value="0.75" id="dupThresholdSlider" onchange="loadDuplicateClusters()">
+            <span class="badge badge-purple" id="dupThresholdLabel">75%</span>
+          </div>
+        </div>
+
+        <div id="duplicateClustersContainer" class="space-y-4">
+          <div class="card text-center py-8 text-muted">Scanning catalog for semantic duplicate clusters...</div>
+        </div>
+      </section>
+
+      <!-- TAB 7: DATASHEET OCR LAB -->
+      <section id="tab-datasheet" class="tab-pane">
+        <div class="page-header">
+          <div class="page-meta">
+            <span class="badge badge-purple">Vision AI</span>
+            <span class="meta-label">Multi-Modal Engineering Parser</span>
+          </div>
+          <h2>Datasheet &amp; PDF Spec Sheet OCR Lab</h2>
+          <p>Extract CAD dimensions, material limits, electrical parameters, and compliance standards directly from engineering PDFs.</p>
+        </div>
+
+        <div class="grid-2col">
+          <div class="card">
+            <div class="card-header">
+              <h3>Upload Engineering Datasheet</h3>
+              <p>Supports PDF spec sheets, dimension drawings, PNG/JPG</p>
+            </div>
+            <div class="dropzone" id="datasheetDropzone" onclick="document.getElementById('datasheetFileInput').click()">
+              <input type="file" id="datasheetFileInput" accept=".pdf,.png,.jpg,.jpeg,.txt" style="display:none;" onchange="handleDatasheetUpload(this.files[0])">
+              <div class="dropzone-icon">📄</div>
+              <div class="dropzone-title">Upload Spec Sheet PDF</div>
+              <div class="dropzone-sub">Extracts burst pressure, thread pitch, and dimensions</div>
+            </div>
+            <button class="btn btn-secondary w-full mt-3" onclick="loadSampleDatasheet()">
+              ✨ Load Demo Hydraulic Datasheet
+            </button>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>Extracted Technical Specifications</h3>
+              <p>Vision AI parsed attributes &amp; compliance ratings</p>
+            </div>
+            <div id="datasheetResultBody" class="datasheet-result-body">
+              <div class="text-center py-8 text-muted">Upload a datasheet to view extracted technical limits.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 8: RULE STUDIO & SCRATCHPAD -->
+      <section id="tab-rules" class="tab-pane">
+        <div class="page-header">
+          <div class="page-meta">
+            <span class="badge badge-green">Studio</span>
+            <span class="meta-label">Deterministic Abbreviation &amp; Brand Dictionaries</span>
+          </div>
+          <h2>Visual Rule Builder &amp; Brand Studio</h2>
+          <p>Manage custom industrial acronyms, canonical brand aliases, and test live transformations on keystroke.</p>
+        </div>
+
+        <div class="grid-2col">
+          <!-- Scratchpad -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Live Transformation Scratchpad</h3>
+              <p>Test raw supplier text through the engine in real-time</p>
+            </div>
+            <div class="p-3">
+              <label class="form-label">Raw Supplier Input Text:</label>
+              <textarea class="form-textarea" id="scratchInput" rows="4" oninput="testScratchpad(this.value)">3/4 CPLG BRS 150# <p>High temp valve</p></textarea>
+            </div>
+          </div>
+
+          <!-- Execution Pipeline -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Engine Execution Pipeline</h3>
+              <p>Step-by-step transformation output</p>
+            </div>
+            <div class="p-3 space-y-3" id="scratchOutputContainer">
+              <div class="step-card">
+                <div class="step-header">Step 1: HTML &amp; Space Sanitization</div>
+                <div class="step-val text-muted" id="scratchStep1">3/4 CPLG BRS 150# High temp valve</div>
+              </div>
+              <div class="step-card">
+                <div class="step-header">Step 2: Abbreviation Expansion</div>
+                <div class="step-val text-green" id="scratchStep2">3/4 Coupling Brass 150 PSI High temp valve</div>
+              </div>
+              <div class="step-card">
+                <div class="step-header">Step 3: RapidFuzz Brand Resolution</div>
+                <div class="step-val text-blue" id="scratchStep3">Resolved Brand: 3M™ (96% Confidence)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 9: DATA QUALITY ANALYTICS -->
+      <section id="tab-analytics" class="tab-pane">
+        <div class="page-header flex-between">
+          <div>
+            <div class="page-meta">
+              <span class="badge badge-blue">Metrics</span>
+              <span class="meta-label">Catalog Completeness &amp; Quality Deltas</span>
+            </div>
+            <h2>Data Quality &amp; Enrichment Analytics</h2>
+            <p>Mathematical proof of data completeness gains, brand coverage deltas, and accuracy distributions.</p>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-header">Brand Coverage Delta</div>
+            <div class="kpi-value text-green">+42.0%</div>
+            <div class="kpi-sub">58% raw &rarr; 100% canonical resolution</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header">Taxonomy Coverage Delta</div>
+            <div class="kpi-value text-blue">+38.0%</div>
+            <div class="kpi-sub">62% raw &rarr; 100% UNSPSC classification</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header">Title Standardization</div>
+            <div class="kpi-value text-purple">100%</div>
+            <div class="kpi-sub">All SKUs formatted to [Brand][Specs][Type]</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header">Formula Injection Security</div>
+            <div class="kpi-value text-lime">Protected</div>
+            <div class="kpi-sub">0 DDE vulnerabilities on export</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 10: EXPORT CENTER -->
+      <section id="tab-export" class="tab-pane">
+        <div class="page-header">
+          <div class="page-meta">
+            <span class="badge badge-orange">Multi-Channel</span>
+            <span class="meta-label">Export &amp; Downstream Publishing</span>
+          </div>
+          <h2>Multi-Channel Catalog Export Center</h2>
+          <p>Export sanitized, search-ready product catalogs tailored for Shopify, Magento, Akeneo PIM, or Master MRO schemas.</p>
+        </div>
+
+        <div class="grid-3col mb-4">
+          <div class="channel-card active" onclick="selectExportChannel('standard', this)">
+            <div class="channel-header">
+              <span class="channel-icon">📦</span>
+              <strong>Standard MRO Schema</strong>
+            </div>
+            <p class="channel-desc">Master 17-column CSV/XLSX with UNSPSC, canonical brands, and structured attribute keys.</p>
+          </div>
+
+          <div class="channel-card" onclick="selectExportChannel('shopify', this)">
+            <div class="channel-header">
+              <span class="channel-icon">🛍️</span>
+              <strong>Shopify Products CSV</strong>
+            </div>
+            <p class="channel-desc">Formatted with Handles, HTML descriptions, Vendor mapping, Category tags, and Variant SKUs.</p>
+          </div>
+
+          <div class="channel-card" onclick="selectExportChannel('magento', this)">
+            <div class="channel-header">
+              <span class="channel-icon">⚡</span>
+              <strong>Magento 2 / Adobe</strong>
+            </div>
+            <p class="channel-desc">Native Magento import schema with attribute sets, short descriptions, and category paths.</p>
+          </div>
+        </div>
+
+        <div class="grid-3col">
+          <div class="card text-center p-4">
+            <div class="format-icon">📄</div>
+            <h3>CSV Format (.csv)</h3>
+            <p class="text-muted text-xs mb-3">Formula injection escaping on (=, +, -, @)</p>
+            <button class="btn btn-primary w-full" onclick="downloadExport('csv')">Download CSV</button>
+          </div>
+
+          <div class="card text-center p-4">
+            <div class="format-icon">📊</div>
+            <h3>Excel Workbook (.xlsx)</h3>
+            <p class="text-muted text-xs mb-3">Formatted multi-column table with freeze panes</p>
+            <button class="btn btn-green w-full" onclick="downloadExport('xlsx')">Download Excel</button>
+          </div>
+
+          <div class="card text-center p-4">
+            <div class="format-icon">⚡</div>
+            <h3>REST PIM JSON (.json)</h3>
+            <p class="text-muted text-xs mb-3">Nested key-value attributes &amp; confidence scores</p>
+            <button class="btn btn-purple w-full" onclick="downloadExport('json')">Download JSON</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- SLIDE-OUT AI COPILOT DRAWER -->
+  <div class="copilot-drawer-overlay" id="copilotOverlay">
+    <div class="copilot-drawer">
+      <div class="drawer-header">
+        <div class="flex-align gap-2">
+          <div class="copilot-avatar">🤖</div>
+          <div>
+            <div class="font-bold text-white">Catalog AI Copilot <span class="badge badge-purple">Gemini 2.5</span></div>
+            <div class="text-xs text-muted">Natural language catalog manager &amp; bulk edits</div>
+          </div>
+        </div>
+        <button class="close-btn" onclick="closeCopilot()">&times;</button>
+      </div>
+
+      <div class="drawer-chips">
+        <span class="chip-label">Quick Prompts:</span>
+        <button class="chip" onclick="setCopilotPrompt('Find brand mismatches')">Brand Mismatches</button>
+        <button class="chip" onclick="setCopilotPrompt('Find missing pressure')">Missing Pressure</button>
+        <button class="chip" onclick="setCopilotPrompt('Show low confidence items')">Low Confidence (&lt;70%)</button>
+      </div>
+
+      <div class="drawer-body" id="copilotChatBody">
+        <div class="empty-copilot text-center py-8">
+          <div class="text-2xl mb-2">🤖</div>
+          <div class="text-sm font-semibold text-white">Ask Copilot to audit or bulk-edit your catalog</div>
+          <p class="text-xs text-muted max-w-xs mx-auto mt-1">Try "Find brand mismatches" or "Set Pressure Rating to 150 PSI".</p>
+        </div>
+      </div>
+
+      <div class="drawer-footer">
+        <form id="copilotForm" onsubmit="handleCopilotSubmit(event)" class="copilot-input-form">
+          <input type="text" class="form-input" id="copilotInput" placeholder="Type a command or query...">
+          <button type="submit" class="btn btn-purple btn-sm">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPLIT-SCREEN COMPARISON MODAL -->
+  <div class="modal-overlay" id="compareModalOverlay" style="display: none;">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div>
+          <h3 class="text-white font-bold" id="compareModalTitle">Split-Screen Before / After Comparison</h3>
+          <p class="text-xs text-muted" id="compareModalSub">Raw supplier record vs AI-standardized e-commerce asset</p>
+        </div>
+        <button class="close-btn" onclick="closeCompareModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="compareModalBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeCompareModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INLINE EDIT MODAL -->
+  <div class="modal-overlay" id="editModalOverlay" style="display: none;">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div>
+          <h3 class="text-white font-bold">Edit Enriched Product Record</h3>
+          <p class="text-xs text-muted" id="editModalSub">SKU: SKU-1001</p>
+        </div>
+        <button class="close-btn" onclick="closeEditModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="editProductForm" onsubmit="handleSaveEditProduct(event)" class="space-y-3">
+          <input type="hidden" id="editProductId">
+          <div>
+            <label class="form-label">Standardized Title:</label>
+            <input type="text" class="form-input" id="editTitle" required>
+          </div>
+          <div class="grid-2col">
+            <div>
+              <label class="form-label">Canonical Brand:</label>
+              <input type="text" class="form-input" id="editBrand" required>
+            </div>
+            <div>
+              <label class="form-label">UNSPSC Code:</label>
+              <input type="text" class="form-input" id="editUNSPSC">
+            </div>
+          </div>
+          <div class="grid-2col">
+            <div>
+              <label class="form-label">Category:</label>
+              <input type="text" class="form-input" id="editCategory">
+            </div>
+            <div>
+              <label class="form-label">Subcategory:</label>
+              <input type="text" class="form-input" id="editSubcategory">
+            </div>
+          </div>
+          <div class="grid-2col">
+            <div>
+              <label class="form-label">Material:</label>
+              <input type="text" class="form-input" id="editMaterial">
+            </div>
+            <div>
+              <label class="form-label">Pressure Rating:</label>
+              <input type="text" class="form-input" id="editPressure">
+            </div>
+          </div>
+          <div class="flex-end gap-2 pt-3">
+            <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save &amp; Verify 100%</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
