@@ -11,10 +11,13 @@ import {
   AlertTriangle, 
   Sparkles, 
   ArrowRight, 
-  X,
-  FileSpreadsheet,
-  Tag,
-  Check
+  X, 
+  FileSpreadsheet, 
+  Tag, 
+  Check,
+  Copy,
+  Info,
+  Filter
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -40,10 +43,12 @@ function ProductsContent() {
   const [products, setProducts] = useState<EnrichedProduct[]>([]);
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedBrand, setSelectedBrand] = useState<string>("ALL");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedProduct, setSelectedProduct] = useState<EnrichedProduct | null>(null);
   const [comparisonData, setComparisonData] = useState<ComparisonData | null>(null);
   const [isLoadingComparison, setIsLoadingComparison] = useState<boolean>(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // Load Batches
   useEffect(() => {
@@ -98,6 +103,20 @@ function ProductsContent() {
     }
   };
 
+  const copyToClipboard = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  // Distinct Brands for Filter
+  const distinctBrands = Array.from(new Set(products.map((p) => p.resolved_brand).filter(Boolean)));
+
+  const filteredProducts = products.filter((p) => {
+    if (selectedBrand !== "ALL" && p.resolved_brand !== selectedBrand) return false;
+    return true;
+  });
+
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       {/* Header */}
@@ -133,8 +152,8 @@ function ProductsContent() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-black-800 p-3 rounded-lg border border-black-600">
-        <div className="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
+      <div className="flex flex-col lg:flex-row items-center justify-between gap-3 bg-black-800 p-3 rounded-lg border border-black-600">
+        <div className="flex flex-wrap items-center gap-1.5 w-full lg:w-auto">
           {["ALL", "NEEDS_REVIEW", "AUTO_APPROVED", "REVIEWED_APPROVED"].map((st) => (
             <button
               key={st}
@@ -150,15 +169,31 @@ function ProductsContent() {
           ))}
         </div>
 
-        <div className="relative w-full sm:w-64">
-          <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-grey-400" />
-          <input
-            type="text"
-            placeholder="Search SKU, brand, title..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-black-900 border border-black-600 rounded-md pl-8 pr-3 py-1.5 text-xs text-white-100 focus:outline-none focus:ring-1 focus:ring-blue-400"
-          />
+        <div className="flex items-center gap-2 w-full lg:w-auto">
+          {/* Brand Filter */}
+          {distinctBrands.length > 0 && (
+            <select
+              value={selectedBrand}
+              onChange={(e) => setSelectedBrand(e.target.value)}
+              className="bg-black-900 border border-black-600 rounded-md px-2.5 py-1.5 text-xs text-white-100 focus:outline-none"
+            >
+              <option value="ALL">All Brands ({distinctBrands.length})</option>
+              {distinctBrands.map((b) => (
+                <option key={b as string} value={b as string}>{b}</option>
+              ))}
+            </select>
+          )}
+
+          <div className="relative flex-1 sm:w-64">
+            <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-grey-400" />
+            <input
+              type="text"
+              placeholder="Search SKU, brand, title..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-black-900 border border-black-600 rounded-md pl-8 pr-3 py-1.5 text-xs text-white-100 focus:outline-none focus:ring-1 focus:ring-blue-400"
+            />
+          </div>
         </div>
       </div>
 
@@ -166,7 +201,7 @@ function ProductsContent() {
       <Card>
         {isLoading ? (
           <div className="text-center py-12 text-grey-300 text-sm">Loading catalog items...</div>
-        ) : products.length === 0 ? (
+        ) : filteredProducts.length === 0 ? (
           <div className="text-center py-12 space-y-3">
             <Layers className="w-10 h-10 text-grey-400 mx-auto opacity-60" />
             <p className="text-sm text-grey-200">No products match the selected criteria.</p>
@@ -179,15 +214,15 @@ function ProductsContent() {
                   <th className="py-3 px-3">SKU</th>
                   <th className="py-3 px-3">Resolved Brand</th>
                   <th className="py-3 px-3">Standardized Product Title</th>
-                  <th className="py-3 px-3">Category & UNSPSC</th>
+                  <th className="py-3 px-3">Category &amp; UNSPSC</th>
                   <th className="py-3 px-3">Extracted Attributes</th>
                   <th className="py-3 px-3">Confidence</th>
                   <th className="py-3 px-3">Status</th>
-                  <th className="py-3 px-3 text-right">Action</th>
+                  <th className="py-3 px-3 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-black-600">
-                {products.map((prod) => {
+                {filteredProducts.map((prod) => {
                   const badge = getConfidenceBadgeProps(prod.confidence_score);
                   return (
                     <tr key={prod.id} className="hover:bg-black-700/50 transition-colors">
@@ -242,14 +277,23 @@ function ProductsContent() {
                         </Badge>
                       </td>
                       <td className="py-3 px-3 text-right">
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          icon={<Eye className="w-3.5 h-3.5" />}
-                          onClick={() => handleOpenComparison(prod)}
-                        >
-                          Compare
-                        </Button>
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            onClick={() => copyToClipboard(JSON.stringify(prod, null, 2), prod.id)}
+                            title="Copy Enriched JSON"
+                            className="p-1.5 rounded bg-black-800 hover:bg-black-700 text-grey-300 hover:text-white border border-black-700 transition"
+                          >
+                            {copiedId === prod.id ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
+                          </button>
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            icon={<Eye className="w-3.5 h-3.5" />}
+                            onClick={() => handleOpenComparison(prod)}
+                          >
+                            Compare
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -260,7 +304,7 @@ function ProductsContent() {
         )}
       </Card>
 
-      {/* Split-Screen Before/After Comparison Modal / Drawer */}
+      {/* Split-Screen Before/After Comparison Modal */}
       {selectedProduct && (
         <div className="fixed inset-0 bg-black-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-black-800 border border-black-600 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-6 animate-in zoom-in-95">
@@ -345,7 +389,7 @@ function ProductsContent() {
 
                     <div className="space-y-2.5 text-xs">
                       <div>
-                        <span className="text-grey-400 block text-[10px] uppercase">Standardized Brand & Mfr</span>
+                        <span className="text-grey-400 block text-[10px] uppercase">Standardized Brand &amp; Mfr</span>
                         <span className="font-bold text-green-300">
                           {comparisonData.enriched_record.brand}
                         </span>
@@ -364,7 +408,7 @@ function ProductsContent() {
                       </div>
 
                       <div>
-                        <span className="text-grey-400 block text-[10px] uppercase">Taxonomy & UNSPSC</span>
+                        <span className="text-grey-400 block text-[10px] uppercase">Taxonomy &amp; UNSPSC</span>
                         <span className="text-white-100 font-medium">{comparisonData.enriched_record.category} &rarr; {comparisonData.enriched_record.subcategory}</span>
                         <span className="block font-mono text-purple-300 text-[10px]">Code: {comparisonData.enriched_record.unspsc}</span>
                       </div>

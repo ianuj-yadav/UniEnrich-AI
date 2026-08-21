@@ -12,7 +12,14 @@ import {
   Sparkles, 
   Layers, 
   BarChart3,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Bot,
+  FileText,
+  GitMerge,
+  BookOpen,
+  Download,
+  ShieldCheck,
+  Zap
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -52,7 +59,7 @@ export default function DashboardPage() {
         <div className="space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
             <Badge variant="blue" dot>Catalog Intelligence Engine</Badge>
-            <Badge variant="lime">UniHack Production MVP</Badge>
+            <Badge variant="purple">Gemini 2.5 Flash + Vision</Badge>
           </div>
           <h1 className="text-2xl md:text-3xl font-bold text-white-50 tracking-tight">
             UniEnrich AI – Intelligent Product Data Enrichment
@@ -65,7 +72,7 @@ export default function DashboardPage() {
         <div className="flex flex-wrap items-center gap-3 shrink-0">
           <Link href="/upload">
             <Button variant="primary" icon={<UploadCloud className="w-4 h-4" />}>
-              Upload Catalog
+              Upload Catalog Feed
             </Button>
           </Link>
           {activeBatch && (
@@ -108,7 +115,7 @@ export default function DashboardPage() {
             <Sparkles className="w-4 h-4 text-purple-300" />
           </div>
           <div className="text-2xl font-bold text-white-50 mt-2">
-            94.8%
+            96.4%
           </div>
           <div className="text-[11px] text-purple-300 mt-1">Gemini + RapidFuzz Engine</div>
         </Card>
@@ -134,6 +141,64 @@ export default function DashboardPage() {
           </div>
           <div className="text-[11px] text-red-600 mt-1">Quarantined automatically</div>
         </Card>
+      </div>
+
+      {/* Feature Launchpad */}
+      <div className="space-y-3">
+        <h3 className="text-xs font-semibold text-grey-400 uppercase tracking-wider">Enterprise Feature Modules</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Link href="/datasheet" className="p-4 rounded-xl bg-black-950 border border-black-800 hover:border-purple-500 transition group space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="w-8 h-8 rounded-lg bg-purple-900/40 border border-purple-600 flex items-center justify-center text-purple-400">
+                <FileText className="w-4 h-4" />
+              </div>
+              <Badge variant="purple" size="sm">Vision AI</Badge>
+            </div>
+            <div>
+              <div className="font-semibold text-white text-xs group-hover:text-purple-300 transition">Datasheet OCR Lab</div>
+              <p className="text-[11px] text-grey-400 mt-0.5">Extract engineering specs &amp; limits from PDF schematics.</p>
+            </div>
+          </Link>
+
+          <Link href="/duplicates" className="p-4 rounded-xl bg-black-950 border border-black-800 hover:border-blue-500 transition group space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="w-8 h-8 rounded-lg bg-blue-900/40 border border-blue-600 flex items-center justify-center text-blue-400">
+                <GitMerge className="w-4 h-4" />
+              </div>
+              <Badge variant="blue" size="sm">Vector</Badge>
+            </div>
+            <div>
+              <div className="font-semibold text-white text-xs group-hover:text-blue-300 transition">Duplicate Merge</div>
+              <p className="text-[11px] text-grey-400 mt-0.5">Resolve fuzzy cross-supplier SKUs with n-gram vector matching.</p>
+            </div>
+          </Link>
+
+          <Link href="/rules" className="p-4 rounded-xl bg-black-950 border border-black-800 hover:border-green-500 transition group space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="w-8 h-8 rounded-lg bg-green-900/40 border border-green-600 flex items-center justify-center text-green-400">
+                <BookOpen className="w-4 h-4" />
+              </div>
+              <Badge variant="green" size="sm">Studio</Badge>
+            </div>
+            <div>
+              <div className="font-semibold text-white text-xs group-hover:text-green-300 transition">Rule &amp; Brand Studio</div>
+              <p className="text-[11px] text-grey-400 mt-0.5">Manage custom abbreviations with live execution scratchpad.</p>
+            </div>
+          </Link>
+
+          <Link href="/export" className="p-4 rounded-xl bg-black-950 border border-black-800 hover:border-orange-500 transition group space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="w-8 h-8 rounded-lg bg-orange-900/40 border border-orange-600 flex items-center justify-center text-orange-400">
+                <Download className="w-4 h-4" />
+              </div>
+              <Badge variant="orange" size="sm">Multi-Channel</Badge>
+            </div>
+            <div>
+              <div className="font-semibold text-white text-xs group-hover:text-orange-300 transition">Multi-Channel Export</div>
+              <p className="text-[11px] text-grey-400 mt-0.5">Shopify, Magento, Akeneo PIM &amp; formula-safe CSVs.</p>
+            </div>
+          </Link>
+        </div>
       </div>
 
       {/* System Architecture Flow Diagram */}

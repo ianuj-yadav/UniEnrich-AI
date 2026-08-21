@@ -9,9 +9,12 @@ import {
   AlertOctagon, 
   Copy, 
   Sparkles, 
-  ArrowRight,
-  HelpCircle,
-  FileCheck
+  ArrowRight, 
+  HelpCircle, 
+  FileCheck,
+  Wrench,
+  Zap,
+  Hammer
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -55,29 +58,45 @@ export default function UploadPage() {
     }
   };
 
-  const handleLoadSample = async () => {
+  const handleLoadDomainSample = async (domain: "mro" | "electrical" | "tools") => {
     setIsUploading(true);
     setErrorMessage(null);
     try {
-      // Create sample CSV blob
-      const sampleCsvContent = `SKU,Brand,Raw_Description,Category,Price
+      let csvContent = "";
+      let filename = "";
+
+      if (domain === "mro") {
+        filename = "mro_piping_catalog.csv";
+        csvContent = `SKU,Brand,Raw_Description,Category,Price
 SKU-1001,3 M,"3/4 CPLG BRS 150# <p>Pipe fitting</p>",,14.50
 SKU-1002,-- Unbranded --,"1/2 IN BALL VALV BRS FNPT 600 WOG",,22.80
-SKU-1003,DEWALT,"20V MAX CORDLESS DRILL 1/2 IN CHUCK BL MOTOR",Power Tools,129.00
-SKU-1004,Milwaukee Electric,"M18 FUEL 1/2 IN IMPACT WRENCH 1400 FT-LBS",,249.00
 SKU-1005,3M INC,"2 IN FLG SS 316 150 LB ANSI B16.5",,89.20
-SKU-1006,Frigidaire Pro,"Dishwasher SS Display 24 In Built-In Tall Tub",Appliances,649.00
-SKU-1007,Square D,"20A 1-POLE CIRCUIT BREAKER 120V QO120",,11.50
 SKU-1008,Parker Hannifin,"1/4 IN OD TUBE X 1/4 IN NPT MALE COMPRESSION ELBOW BRASS",,8.75
-SKU-1009,Klein,"1000V INSULATED HIGH-LEVERAGE SIDE-CUTTING PLIERS 9-INCH",Hand Tools,45.00
 SKU-1010,N/A,"SCH 40 PVC TEE 1-1/2 IN SLIP X SLIP X SLIP",,3.25`;
+      } else if (domain === "electrical") {
+        filename = "electrical_components_feed.csv";
+        csvContent = `SKU,Brand,Raw_Description,Category,Price
+SKU-2001,Square D,"20A 1-POLE CIRCUIT BREAKER 120V QO120",,11.50
+SKU-2002,Square D,"100A 2-POLE MAIN BREAKER 120/240V QOM2100",,85.00
+SKU-2003,Klein,"1000V INSULATED HIGH-LEVERAGE SIDE-CUTTING PLIERS 9-INCH",Hand Tools,45.00
+SKU-2004,-- Unbranded --,"12/2 WG NM-B WIRE 250 FT COPPER 600V",,78.50
+SKU-2005,Leviton,"15A 125V DUPLEX RECEPTACLE TAMPER RESISTANT WHITE",,2.45`;
+      } else {
+        filename = "industrial_tools_machinery.csv";
+        csvContent = `SKU,Brand,Raw_Description,Category,Price
+SKU-3001,DEWALT,"20V MAX CORDLESS DRILL 1/2 IN CHUCK BL MOTOR",Power Tools,129.00
+SKU-3002,De Walt,"ATOMIC 20V MAX COMPACT 1/4 IN IMPACT DRIVER",Power Tools,119.00
+SKU-3003,Milwaukee Electric,"M18 FUEL 1/2 IN IMPACT WRENCH 1400 FT-LBS",,249.00
+SKU-3004,Milwaukee,"M12 CORDLESS 3/8 IN RATCHET BARE TOOL 2457-20",,139.00
+SKU-3005,Bosch,"18V 1-INCH SDS-PLUS ROTARY HAMMER BULLDOG",Power Tools,219.00`;
+      }
 
-      const sampleFile = new File([sampleCsvContent], "sample_messy_catalog.csv", { type: "text/csv" });
+      const sampleFile = new File([csvContent], filename, { type: "text/csv" });
       setFile(sampleFile);
       const result = await uploadCatalogFile(sampleFile);
       setUploadResult(result);
     } catch (err: any) {
-      setErrorMessage(err.message || "Failed to load sample dataset");
+      setErrorMessage(err.message || "Failed to load dataset");
     } finally {
       setIsUploading(false);
     }
@@ -107,6 +126,54 @@ SKU-1010,N/A,"SCH 40 PVC TEE 1-1/2 IN SLIP X SLIP X SLIP",,3.25`;
         <p className="text-sm text-grey-200">
           Upload raw, unstandardized supplier catalog files. The pre-flight validator checks encoding, headers, syntax errors, and duplicate SKUs.
         </p>
+      </div>
+
+      {/* Preset Domain Sample Cards */}
+      <div className="space-y-2">
+        <span className="text-xs font-semibold text-grey-400 uppercase tracking-wider">1-Click Demo Datasets</span>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <button
+            onClick={() => handleLoadDomainSample("mro")}
+            disabled={isUploading}
+            className="p-3.5 rounded-xl bg-black-900 border border-black-800 hover:border-blue-500/60 hover:bg-black-800 transition text-left space-y-1 group"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 font-semibold text-white text-xs">
+                <Wrench className="w-3.5 h-3.5 text-blue-400" /> MRO Piping &amp; Fittings
+              </div>
+              <Badge variant="blue" size="sm">5 SKUs</Badge>
+            </div>
+            <p className="text-[11px] text-grey-400">Couplings, ball valves, and flanges with CPLG, BRS, 150#.</p>
+          </button>
+
+          <button
+            onClick={() => handleLoadDomainSample("electrical")}
+            disabled={isUploading}
+            className="p-3.5 rounded-xl bg-black-900 border border-black-800 hover:border-yellow-500/60 hover:bg-black-800 transition text-left space-y-1 group"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 font-semibold text-white text-xs">
+                <Zap className="w-3.5 h-3.5 text-yellow-400" /> Electrical &amp; Power
+              </div>
+              <Badge variant="warning" size="sm">5 SKUs</Badge>
+            </div>
+            <p className="text-[11px] text-grey-400">Breakers, insulated pliers, and wire with Square D &amp; Leviton.</p>
+          </button>
+
+          <button
+            onClick={() => handleLoadDomainSample("tools")}
+            disabled={isUploading}
+            className="p-3.5 rounded-xl bg-black-900 border border-black-800 hover:border-purple-500/60 hover:bg-black-800 transition text-left space-y-1 group"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 font-semibold text-white text-xs">
+                <Hammer className="w-3.5 h-3.5 text-purple-400" /> Tools &amp; Machinery
+              </div>
+              <Badge variant="purple" size="sm">5 SKUs</Badge>
+            </div>
+            <p className="text-[11px] text-grey-400">Cordless drills, impact drivers with DeWalt, Milwaukee, Bosch.</p>
+          </button>
+        </div>
       </div>
 
       {/* Upload Dropzone */}
@@ -149,16 +216,6 @@ SKU-1010,N/A,"SCH 40 PVC TEE 1-1/2 IN SLIP X SLIP X SLIP",,3.25`;
             >
               Upload & Validate
             </Button>
-
-            <Button
-              variant="secondary"
-              size="md"
-              icon={<FileCheck className="w-4 h-4" />}
-              onClick={handleLoadSample}
-              disabled={isUploading}
-            >
-              Load Demo Sample (10 SKUs)
-            </Button>
           </div>
         </div>
 
@@ -170,7 +227,7 @@ SKU-1010,N/A,"SCH 40 PVC TEE 1-1/2 IN SLIP X SLIP X SLIP",,3.25`;
         )}
       </Card>
 
-      {/* Validation Scorecard (When File Uploaded) */}
+      {/* Validation Scorecard */}
       {uploadResult && (
         <div className="space-y-6 animate-in fade-in duration-300">
           <div className="flex items-center justify-between">
