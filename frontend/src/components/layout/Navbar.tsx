@@ -1,40 +1,50 @@
-import React from "react";
-import Link from "next/link";
-import { Sparkles, Database, ShieldCheck, RefreshCw } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
+"use client";
 
-export const Navbar: React.FC = () => {
+import React from "react";
+import { Sparkles, Shield, Cpu, RefreshCw, Bot, Bell } from "lucide-react";
+import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
+
+interface NavbarProps {
+  onOpenCopilot?: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
   return (
-    <header className="h-16 bg-black-900 border-b border-black-600 flex items-center justify-between px-6 sticky top-0 z-30">
+    <header className="h-16 bg-black-900 border-b border-black-700 px-6 flex items-center justify-between sticky top-0 z-30">
+      {/* Search / Breadcrumbs */}
       <div className="flex items-center gap-3">
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 bg-blue-500 rounded-lg flex items-center justify-center text-white-50 font-bold text-lg shadow-sm group-hover:bg-blue-400 transition-colors">
-            U
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-base text-white-100 tracking-tight">UniEnrich AI</span>
-              <Badge variant="purple" size="sm">v1.0 Hackathon</Badge>
-            </div>
-            <span className="text-[11px] text-grey-400 block -mt-0.5">Industrial Catalog Intelligence</span>
-          </div>
-        </Link>
+        <div className="flex items-center gap-2 text-xs text-grey-400">
+          <span className="text-grey-200 font-medium">Platform</span>
+          <span>/</span>
+          <span className="text-blue-400 font-semibold">Industrial Catalog Engine</span>
+        </div>
       </div>
 
+      {/* Action Controls & Badges */}
       <div className="flex items-center gap-3">
-        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-black-800 border border-black-600 rounded-md text-xs text-grey-200">
-          <Sparkles className="w-3.5 h-3.5 text-purple-300" />
-          <span>LLM Engine: <strong className="text-white-100 font-medium">Gemini 2.5 Flash</strong></span>
+        {/* Copilot Assistant Trigger */}
+        <button
+          onClick={onOpenCopilot}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-purple-900/40 hover:bg-purple-900/60 border border-purple-600/60 text-purple-300 text-xs font-semibold shadow-sm transition hover:scale-[1.02] active:scale-[0.98]"
+        >
+          <Bot className="w-4 h-4 text-purple-400 animate-pulse" />
+          <span>AI Copilot</span>
+          <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+        </button>
+
+        {/* Engine Token */}
+        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black-950 border border-black-700 text-xs text-grey-300">
+          <Cpu className="w-3.5 h-3.5 text-blue-400" />
+          <span className="text-grey-400">Model:</span>
+          <span className="font-semibold text-white">Gemini 2.5 Flash</span>
         </div>
 
-        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-black-800 border border-black-600 rounded-md text-xs text-grey-200">
-          <Database className="w-3.5 h-3.5 text-blue-400" />
-          <span>Matching: <strong className="text-white-100 font-medium">RapidFuzz C++</strong></span>
-        </div>
-
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-green-900/30 border border-green-700/60 rounded-md text-xs text-green-300">
-          <ShieldCheck className="w-3.5 h-3.5 text-green-500" />
-          <span>Quality Gate: <strong>&ge; 70%</strong></span>
+        {/* Quality Threshold */}
+        <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black-950 border border-black-700 text-xs text-grey-300">
+          <Shield className="w-3.5 h-3.5 text-green-400" />
+          <span className="text-grey-400">Threshold:</span>
+          <span className="font-semibold text-green-400">&ge; 70%</span>
         </div>
       </div>
     </header>

@@ -1,5 +1,6 @@
 import io
 import json
+import re
 import pandas as pd
 from typing import List, Dict, Any
 
@@ -13,7 +14,7 @@ class CatalogExporter:
                 return f"'{value}"
         return value
 
-    def format_records(self, enriched_items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def format_records_standard(self, enriched_items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         flat_records = []
         for item in enriched_items:
             attrs = item.get("extracted_attributes") or {}
@@ -41,16 +42,85 @@ class CatalogExporter:
             flat_records.append(rec)
         return flat_records
 
-    def export_csv(self, enriched_items: List[Dict[str, Any]]) -> io.BytesIO:
-        flat = self.format_records(enriched_items)
+    def format_records_shopify(self, enriched_items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        shopify_records = []
+        for item in enriched_items:
+            sku = str(item.get("canonical_sku") or item.get("raw_sku") or "SKU")
+            handle = re.sub(r"[^a-z0-9\-]+", "-", (item.get("product_title") or sku).lower()).strip("-")
+            attrs = item.get("extracted_attributes") or {}
+            tags = [item.get("resolved_brand", ""), item.get("category", ""), item.get("subcategory", "")]
+            tags.extend([f"{k}:{v}" for k, v in attrs.items()])
+
+            rec = {
+                "Handle": handle,
+                "Title": self.sanitize_for_csv(item.get("product_title")),
+                "Body (HTML)": f"<p>{item.get('long_description', '')}</p><p><strong>Mobile Summary:</strong> {item.get('mobile_description', '')}</p>",
+                "Vendor": self.sanitize_for_csv(item.get("resolved_brand") or item.get("resolved_manufacturer") or "Industrial Supplier"),
+                "Standardized Product Type": self.sanitize_for_csv(item.get("subcategory") or item.get("category")),
+                "Custom Product Type": self.sanitize_for_csv(item.get("category")),
+                "Tags": ", ".join([t for t in tags if t]),
+                "Published": "TRUE",
+                "Option1 Name": "Title",
+                "Option1 Value": "Default Title",
+                "Variant SKU": self.sanitize_for_csv(sku),
+                "Variant Grams": "500",
+                "Variant Inventory Tracker": "shopify",
+                "Variant Inventory Qty": "100",
+                "Variant Inventory Policy": "deny",
+                "Variant Fulfillment Service": "manual",
+                "Variant Price": "19.99",
+                "Variant Requires Shipping": "TRUE",
+                "Variant Taxable": "TRUE",
+                "Status": "active"
+            }
+            shopify_records.append(rec)
+        return shopify_records
+
+    def format_records_magento(self, enriched_items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        magento_records = []
+        for item in enriched_items:
+            sku = str(item.get("canonical_sku") or item.get("raw_sku") or "SKU")
+            rec = {
+                "sku": self.sanitize_for_csv(sku),
+                "attribute_set_code": "Industrial_MRO",
+                "product_type": "simple",
+                "categories": f"Default Category/{item.get('category', 'Supplies')}/{item.get('subcategory', 'General')}",
+                "name": self.sanitize_for_csv(item.get("product_title")),
+                "description": self.sanitize_for_csv(item.get("long_description")),
+                "short_description": self.sanitize_for_csv(item.get("mobile_description")),
+                "price": "19.99",
+                "weight": "1.0",
+                "visibility": "Catalog, Search",
+                "status": "Enabled",
+                "tax_class_name": "Taxable Goods",
+                "manufacturer": self.sanitize_for_csv(item.get("resolved_brand")),
+                "unspsc_code": self.sanitize_for_csv(item.get("unspsc_code"))
+            }
+            magento_records.append(rec)
+        return magento_records
+
+    def export_csv(self, enriched_items: List[Dict[str, Any]], template: str = "standard") -> io.BytesIO:
+        if template == "shopify":
+            flat = self.format_records_shopify(enriched_items)
+        elif template == "magento":
+            flat = self.format_records_magento(enriched_items)
+        else:
+            flat = self.format_records_standard(enriched_items)
+
         df = pd.DataFrame(flat)
         buf = io.BytesIO()
         df.to_csv(buf, index=False, encoding="utf-8")
         buf.seek(0)
         return buf
 
-    def export_excel(self, enriched_items: List[Dict[str, Any]]) -> io.BytesIO:
-        flat = self.format_records(enriched_items)
+    def export_excel(self, enriched_items: List[Dict[str, Any]], template: str = "standard") -> io.BytesIO:
+        if template == "shopify":
+            flat = self.format_records_shopify(enriched_items)
+        elif template == "magento":
+            flat = self.format_records_magento(enriched_items)
+        else:
+            flat = self.format_records_standard(enriched_items)
+
         df = pd.DataFrame(flat)
         buf = io.BytesIO()
         with pd.ExcelWriter(buf, engine="openpyxl") as writer:

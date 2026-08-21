@@ -13,7 +13,10 @@ import {
   X,
   Layers,
   ArrowRight,
-  ShieldCheck
+  ShieldCheck,
+  Globe,
+  Loader2,
+  Keyboard
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -23,6 +26,7 @@ import {
   submitReviewAction, 
   bulkReviewAction, 
   listBatches, 
+  localizeProduct,
   BatchItem, 
   EnrichedProduct 
 } from "@/lib/api";
@@ -43,6 +47,12 @@ function ReviewContent() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
+
+  // Localization Modal State
+  const [localizingProduct, setLocalizingProduct] = useState<EnrichedProduct | null>(null);
+  const [targetLang, setTargetLang] = useState<string>("es");
+  const [localizedData, setLocalizedData] = useState<any>(null);
+  const [loadingLocalization, setLoadingLocalization] = useState<boolean>(false);
 
   useEffect(() => {
     async function loadBatches() {
@@ -80,6 +90,34 @@ function ReviewContent() {
   useEffect(() => {
     loadReviewProducts();
   }, [selectedBatchId]);
+
+  // Keyboard Shortcuts (A: Approve, R: Reject, E: Edit)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger when typing in inputs/modals
+      if (["INPUT", "TEXTAREA", "SELECT"].includes((e.target as HTMLElement)?.tagName)) return;
+      if (editingProduct || localizingProduct) return;
+
+      if (selectedIds.length > 0) {
+        if (e.key === "a" || e.key === "A") {
+          handleBulkAccept();
+        } else if (e.key === "r" || e.key === "R") {
+          handleBulkReject();
+        }
+      } else if (products.length > 0) {
+        if (e.key === "a" || e.key === "A") {
+          handleAccept(products[0].id);
+        } else if (e.key === "r" || e.key === "R") {
+          handleReject(products[0].id);
+        } else if (e.key === "e" || e.key === "E") {
+          handleOpenEdit(products[0]);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [products, selectedIds, editingProduct, localizingProduct]);
 
   const handleAccept = async (prodId: string) => {
     try {
@@ -147,6 +185,47 @@ function ReviewContent() {
     }
   };
 
+  const handleBulkReject = async () => {
+    if (selectedIds.length === 0) return;
+    try {
+      await bulkReviewAction(selectedIds, "REJECT_ALL");
+      setSelectedIds([]);
+      setActionMessage(`Rejected ${selectedIds.length} products.`);
+      setTimeout(() => setActionMessage(null), 3000);
+      loadReviewProducts();
+    } catch (err: any) {
+      alert(err.message || "Bulk action failed");
+    }
+  };
+
+  const handleOpenLocalize = async (prod: EnrichedProduct) => {
+    setLocalizingProduct(prod);
+    setLoadingLocalization(true);
+    setLocalizedData(null);
+    try {
+      const res = await localizeProduct(prod.id, targetLang);
+      setLocalizedData(res.localized_data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingLocalization(false);
+    }
+  };
+
+  const handleChangeLanguage = async (newLang: string) => {
+    if (!localizingProduct) return;
+    setTargetLang(newLang);
+    setLoadingLocalization(true);
+    try {
+      const res = await localizeProduct(localizingProduct.id, newLang);
+      setLocalizedData(res.localized_data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingLocalization(false);
+    }
+  };
+
   const toggleSelectAll = () => {
     if (selectedIds.length === products.length) {
       setSelectedIds([]);
@@ -168,27 +247,18 @@ function ReviewContent() {
           </div>
           <h1 className="text-2xl font-bold text-white-50">Human Review & Discrepancy Queue</h1>
           <p className="text-sm text-grey-200">
-            Review items with confidence &lt; 70% or missing brand/category data. Accept, reject, or edit values directly.
+            Review items with confidence &lt; 70%. Use inline editing, multilingual preview, or keyboard shortcuts.
           </p>
         </div>
 
-        {/* Batch Selector */}
-        {batches.length > 1 && (
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-grey-300">Active Feed:</span>
-            <select
-              value={selectedBatchId || ""}
-              onChange={(e) => setSelectedBatchId(e.target.value)}
-              className="bg-black-800 border border-black-600 rounded-md px-3 py-1.5 text-xs text-white-100 focus:outline-none"
-            >
-              {batches.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.filename} ({b.total_records} SKUs)
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
+        {/* Keyboard Shortcut Hints */}
+        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-black-950 border border-black-700 text-[11px] text-grey-400">
+          <Keyboard className="w-3.5 h-3.5 text-purple-400" />
+          <span>Shortcuts:</span>
+          <kbd className="px-1.5 py-0.5 rounded bg-black-800 border border-black-600 text-white font-mono">A</kbd> Approve
+          <kbd className="px-1.5 py-0.5 rounded bg-black-800 border border-black-600 text-white font-mono">R</kbd> Reject
+          <kbd className="px-1.5 py-0.5 rounded bg-black-800 border border-black-600 text-white font-mono">E</kbd> Edit
+        </div>
       </div>
 
       {actionMessage && (
@@ -216,14 +286,24 @@ function ReviewContent() {
             </Button>
           )}
           {selectedIds.length > 0 && (
-            <Button
-              variant="success"
-              size="sm"
-              icon={<CheckCircle2 className="w-3.5 h-3.5" />}
-              onClick={handleBulkAccept}
-            >
-              Bulk Approve ({selectedIds.length})
-            </Button>
+            <>
+              <Button
+                variant="success"
+                size="sm"
+                icon={<CheckCircle2 className="w-3.5 h-3.5" />}
+                onClick={handleBulkAccept}
+              >
+                Bulk Approve ({selectedIds.length})
+              </Button>
+              <Button
+                variant="danger"
+                size="sm"
+                icon={<XCircle className="w-3.5 h-3.5" />}
+                onClick={handleBulkReject}
+              >
+                Bulk Reject ({selectedIds.length})
+              </Button>
+            </>
           )}
         </div>
       </div>
@@ -323,7 +403,7 @@ function ReviewContent() {
                         </span>
                       </td>
 
-                      {/* Action Buttons: Accept / Reject / Edit */}
+                      {/* Action Buttons */}
                       <td className="py-3 px-3 text-right">
                         <div className="flex items-center justify-end gap-1.5">
                           <Button
@@ -334,6 +414,14 @@ function ReviewContent() {
                           >
                             Accept
                           </Button>
+
+                          <button
+                            onClick={() => handleOpenLocalize(prod)}
+                            title="Translate / Localize Copy"
+                            className="p-1.5 rounded bg-black-800 hover:bg-black-700 text-purple-400 border border-black-700 transition"
+                          >
+                            <Globe className="w-3.5 h-3.5" />
+                          </button>
 
                           <Button
                             variant="secondary"
@@ -362,6 +450,76 @@ function ReviewContent() {
           </div>
         )}
       </Card>
+
+      {/* Multilingual Localization Modal */}
+      {localizingProduct && (
+        <div className="fixed inset-0 bg-black-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-black-900 border border-black-700 rounded-xl max-w-xl w-full shadow-2xl p-6 space-y-5 animate-in zoom-in-95">
+            <div className="flex items-center justify-between border-b border-black-800 pb-3">
+              <div className="flex items-center gap-2">
+                <Globe className="w-5 h-5 text-purple-400" />
+                <h3 className="text-base font-bold text-white">Multilingual Localization Studio</h3>
+              </div>
+              <button onClick={() => setLocalizingProduct(null)} className="p-1 text-grey-400 hover:text-white">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Language Selector */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-grey-400">Target Language:</span>
+              <div className="flex gap-1.5">
+                {[
+                  { code: "es", name: "Spanish (ES)" },
+                  { code: "de", name: "German (DE)" },
+                  { code: "fr", name: "French (FR)" },
+                ].map((l) => (
+                  <button
+                    key={l.code}
+                    onClick={() => handleChangeLanguage(l.code)}
+                    className={`px-3 py-1 rounded text-xs font-semibold transition ${
+                      targetLang === l.code ? "bg-purple-600 text-white" : "bg-black-800 text-grey-300 hover:bg-black-700"
+                    }`}
+                  >
+                    {l.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Translation Preview */}
+            <div className="p-4 rounded-lg bg-black-950 border border-black-800 space-y-3 text-xs">
+              {loadingLocalization ? (
+                <div className="py-8 text-center text-grey-400 space-y-2">
+                  <Loader2 className="w-6 h-6 animate-spin text-purple-400 mx-auto" />
+                  <p>Synthesizing localized catalog copy...</p>
+                </div>
+              ) : localizedData ? (
+                <div className="space-y-3">
+                  <div>
+                    <span className="text-[10px] uppercase font-bold text-grey-500 block mb-0.5">Localized Title:</span>
+                    <p className="font-semibold text-white">{localizedData.product_title}</p>
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase font-bold text-grey-500 block mb-0.5">Mobile Snippet:</span>
+                    <p className="text-grey-300">{localizedData.mobile_description}</p>
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase font-bold text-grey-500 block mb-0.5">Long Description:</span>
+                    <p className="text-grey-400">{localizedData.long_description}</p>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+
+            <div className="flex justify-end">
+              <Button variant="secondary" size="sm" onClick={() => setLocalizingProduct(null)}>
+                Close Preview
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Inline Editing Modal */}
       {editingProduct && (

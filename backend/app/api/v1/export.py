@@ -13,6 +13,7 @@ async def export_catalog(
     batch_id: str,
     format: str = Query("csv", pattern="^(csv|xlsx|json)$"),
     status: str = Query("ALL"),
+    template: str = Query("standard", pattern="^(standard|shopify|magento)$"),
     db: AsyncSession = Depends(get_db)
 ):
     batch_result = await db.execute(select(Batch).where(Batch.id == batch_id))
@@ -50,14 +51,14 @@ async def export_catalog(
             "review_status": ep.review_status
         })
 
-    filename_base = f"UniEnrich_Export_{batch.filename.rsplit('.', 1)[0]}"
+    filename_base = f"UniEnrich_{template.upper()}_{batch.filename.rsplit('.', 1)[0]}"
 
     if format == "csv":
-        buf = catalog_exporter.export_csv(items)
+        buf = catalog_exporter.export_csv(items, template=template)
         media_type = "text/csv"
         ext = "csv"
     elif format == "xlsx":
-        buf = catalog_exporter.export_excel(items)
+        buf = catalog_exporter.export_excel(items, template=template)
         media_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         ext = "xlsx"
     else:

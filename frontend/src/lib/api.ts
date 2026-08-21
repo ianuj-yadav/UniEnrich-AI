@@ -118,6 +118,28 @@ export interface AnalyticsData {
   top_extracted_attributes: Array<{ attribute: string; count: number }>;
 }
 
+export interface DuplicateCluster {
+  cluster_id: string;
+  canonical_candidate: EnrichedProduct;
+  duplicate_items: Array<EnrichedProduct & { similarity_score: number }>;
+  highest_similarity: number;
+  conflict_fields: string[];
+}
+
+export interface ParsedDatasheetResult {
+  document_name: string;
+  detected_sku: string;
+  detected_brand: string;
+  category: string;
+  subcategory: string;
+  unspsc: string;
+  technical_specs: Record<string, any>;
+  compliance: string;
+  confidence_score: number;
+  source_type: string;
+}
+
+/* Base Catalog API Calls */
 export async function uploadCatalogFile(file: File): Promise<UploadResult> {
   const formData = new FormData();
   formData.append("file", file);
@@ -219,6 +241,114 @@ export async function getBatchAnalytics(batchId: string): Promise<AnalyticsData>
   return res.json();
 }
 
-export function getExportUrl(batchId: string, format: "csv" | "xlsx" | "json", status: string = "ALL"): string {
-  return `${API_BASE}/export/${batchId}?format=${format}&status=${status}`;
+export function getExportUrl(
+  batchId: string, 
+  format: "csv" | "xlsx" | "json", 
+  status: string = "ALL",
+  template: "standard" | "shopify" | "magento" = "standard"
+): string {
+  return `${API_BASE}/export/${batchId}?format=${format}&status=${status}&template=${template}`;
+}
+
+/* AI Copilot APIs */
+export async function executeCopilotQuery(batchId: string, prompt: string): Promise<any> {
+  const res = await fetch(`${API_BASE}/copilot/query`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ batch_id: batchId, prompt }),
+  });
+  if (!res.ok) throw new Error("Failed to execute Copilot query");
+  return res.json();
+}
+
+export async function applyCopilotBulkEdit(
+  productIds: string[],
+  attributeName: string,
+  newValue: string
+): Promise<any> {
+  const res = await fetch(`${API_BASE}/copilot/apply-bulk-edit`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ product_ids: productIds, attribute_name: attributeName, new_value: newValue }),
+  });
+  if (!res.ok) throw new Error("Failed to apply bulk edit");
+  return res.json();
+}
+
+/* Datasheet & OCR APIs */
+export async function parseDatasheetFile(file: File): Promise<{ status: string; filename: string; data: ParsedDatasheetResult }> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetch(`${API_BASE}/datasheet/parse`, {
+    method: "POST",
+    body: formData,
+  });
+  if (!res.ok) throw new Error("Failed to parse datasheet");
+  return res.json();
+}
+
+export async function importDatasheetToBatch(batchId: string, parsedSpec: ParsedDatasheetResult): Promise<any> {
+  const res = await fetch(`${API_BASE}/datasheet/import-to-batch`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ batch_id: batchId, parsed_spec: parsedSpec }),
+  });
+  if (!res.ok) throw new Error("Failed to import datasheet record");
+  return res.json();
+}
+
+/* Duplicate Resolution APIs */
+export async function getDuplicateClusters(batchId: string, threshold: number = 0.75): Promise<any> {
+  const res = await fetch(`${API_BASE}/duplicates/${batchId}?threshold=${threshold}`, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to load duplicate clusters");
+  return res.json();
+}
+
+export async function mergeDuplicateRecords(batchId: string, primaryId: string, duplicateIds: string[]): Promise<any> {
+  const res = await fetch(`${API_BASE}/duplicates/merge`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ batch_id: batchId, primary_product_id: primaryId, duplicate_product_ids: duplicateIds }),
+  });
+  if (!res.ok) throw new Error("Failed to merge duplicate records");
+  return res.json();
+}
+
+/* Rules & Scratchpad APIs */
+export async function getRules(): Promise<any> {
+  const res = await fetch(`${API_BASE}/rules`, { cache: "no-store" });
+  if (!res.ok) throw new Error("Failed to load rules");
+  return res.json();
+}
+
+export async function addAbbreviationRule(acronym: string, expansion: string): Promise<any> {
+  const res = await fetch(`${API_BASE}/rules/abbreviation`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ acronym, expansion }),
+  });
+  if (!res.ok) throw new Error("Failed to add abbreviation");
+  return res.json();
+}
+
+export async function testTextTransformation(rawText: string): Promise<any> {
+  const res = await fetch(`${API_BASE}/rules/test-text`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ raw_text: rawText }),
+  });
+  if (!res.ok) throw new Error("Failed to test transformation");
+  return res.json();
+}
+
+/* Multilingual Localization API */
+export async function localizeProduct(productId: string, targetLanguage: string): Promise<any> {
+  const res = await fetch(`${API_BASE}/localize`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ product_id: productId, target_language: targetLanguage }),
+  });
+  if (!res.ok) throw new Error("Failed to localize product");
+  return res.json();
 }
