@@ -1,0 +1,47 @@
+[
+  {
+    "canonical_name": "3M™",
+    "manufacturer": "3M Company",
+    "aliases": ["3M", "3 M", "3M INC", "3M Corporation", "3-M", "3M CO"]
+  },
+  {
+    "canonical_name": "DEWALT®",
+    "manufacturer": "Stanley Black & Decker",
+    "aliases": ["DEWALT", "DeWALT", "De Walt", "Dewalt Inc", "DEWALT INDUSTRIAL"]
+  },
+  {
+    "canonical_name": "Milwaukee®",
+    "manufacturer": "Techtronic Industries",
+    "aliases": ["Milwaukee", "Milwaukee Electric", "Milwaukee Electric Tool", "Milw", "MILWAUKEE TOOL"]
+  },
+  {
+    "canonical_name": "Schneider Electric™",
+    "manufacturer": "Schneider Electric SE",
+    "aliases": ["Schneider", "Schneider Electric", "Schneider Elec", "Square D", "Square D by Schneider"]
+  },
+  {
+    "canonical_name": "Eaton®",
+    "manufacturer": "Eaton Corporation",
+    "aliases": ["Eaton", "Eaton Corp", "Cutler Hammer", "Cutler-Hammer", "Eaton Cutler-Hammer"]
+  },
+  {
+    "canonical_name": "Parker Hannifin™",
+    "manufacturer": "Parker Hannifin Corp",
+    "aliases": ["Parker", "Parker Hannifin", "Parker Fluid", "Parker Hannifin Corp"]
+  },
+  {
+    "canonical_name": "Klein Tools®",
+    "manufacturer": "Klein Tools",
+    "aliases": ["Klein", "Klein Tools", "Klein Hand Tools", "Klein Tools Inc"]
+  },
+  {
+    "canonical_name": "Frigidaire®",
+    "manufacturer": "Electrolux",
+    "aliases": ["Frigidaire", "Frigidaire Pro", "FRIGIDAIRE APPLIANCES", "Frigidaire Commercial"]
+  },
+  {
+    "canonical_name": "Dayton™",
+    "manufacturer": "W.W. Grainger, Inc.",
+    "aliases": ["Dayton", "Dayton Electric", "Dayton Motors", "Grainger Approved"]
+  }
+]
