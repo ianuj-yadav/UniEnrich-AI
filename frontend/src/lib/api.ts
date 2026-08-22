@@ -178,9 +178,17 @@ export async function getEnrichmentProgress(batchId: string): Promise<BatchItem>
 }
 
 export async function listBatches(): Promise<BatchItem[]> {
-  const res = await fetch(`${API_BASE}/batches`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to list batches");
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE}/batches`, { cache: "no-store" });
+    if (!res.ok) {
+      console.warn(`[UniEnrich API] Batches endpoint returned status ${res.status}`);
+      return [];
+    }
+    return await res.json();
+  } catch (err) {
+    console.warn("[UniEnrich API] Unable to connect to backend batches service:", err);
+    return [];
+  }
 }
 
 export async function getBatchProducts(
@@ -317,9 +325,13 @@ export async function mergeDuplicateRecords(batchId: string, primaryId: string, 
 
 /* Rules & Scratchpad APIs */
 export async function getRules(): Promise<any> {
-  const res = await fetch(`${API_BASE}/rules`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to load rules");
-  return res.json();
+  try {
+    const res = await fetch(`${API_BASE}/rules`, { cache: "no-store" });
+    if (!res.ok) return { abbreviations: {}, brands: [], total_abbreviations: 0, total_brands: 0 };
+    return await res.json();
+  } catch (err) {
+    return { abbreviations: {}, brands: [], total_abbreviations: 0, total_brands: 0 };
+  }
 }
 
 export async function addAbbreviationRule(acronym: string, expansion: string): Promise<any> {
