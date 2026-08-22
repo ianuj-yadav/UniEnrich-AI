@@ -318,23 +318,33 @@ function renderCatalogProducts(items) {
   tbody.innerHTML = items.map((p) => {
     const conf = Math.round((p.confidence_score || 0) * 100);
     const attrs = p.extracted_attributes || {};
-    const attrPills = Object.entries(attrs).slice(0, 2).map(([k, v]) => `<span class="badge badge-lime">${k}: ${v}</span>`).join(" ");
+    const attrPills = Object.entries(attrs).slice(0, 3).map(([k, v]) => `<span class="badge badge-lime">${k}: ${v}</span>`).join(" ");
 
     return `
       <tr>
-        <td class="font-mono text-blue">${p.canonical_sku || p.raw_sku}</td>
+        <td class="font-mono text-blue font-semibold">${p.canonical_sku || p.raw_sku}</td>
         <td><strong>${p.resolved_brand || "Unbranded"}</strong><div class="text-muted text-xs">${p.resolved_manufacturer || ""}</div></td>
-        <td>${p.product_title || p.raw_description}</td>
+        <td class="max-w-xs truncate">${p.product_title || p.raw_description}</td>
         <td>${p.category || "—"}<div class="text-purple font-mono text-xs">UNSPSC: ${p.unspsc_code || "—"}</div></td>
         <td>${attrPills}</td>
         <td><span class="badge ${conf >= 85 ? 'badge-green' : conf >= 70 ? 'badge-yellow' : 'badge-red'}">${conf}% Conf</span></td>
         <td><span class="badge badge-blue">${p.review_status}</span></td>
         <td class="text-right">
-          <button class="btn btn-secondary btn-sm" onclick="openCompareModal('${p.id}')">Compare</button>
+          <div class="flex-end gap-2">
+            <button class="btn btn-secondary btn-sm" onclick="copyProductJSON('${p.id}')" title="Copy JSON">📋 JSON</button>
+            <button class="btn btn-primary btn-sm" onclick="openCompareModal('${p.id}')">Compare</button>
+          </div>
         </td>
       </tr>
     `;
   }).join("");
+}
+
+function copyProductJSON(productId) {
+  const prod = state.catalogProducts.find((p) => p.id === productId);
+  if (!prod) return;
+  navigator.clipboard.writeText(JSON.stringify(prod, null, 2));
+  showToast(`Copied JSON for SKU ${prod.canonical_sku || prod.raw_sku}`);
 }
 
 function filterCatalogStatus(status) {
