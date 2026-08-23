@@ -5,6 +5,14 @@ import { AppShell } from "@/components/layout/AppShell";
 export const metadata: Metadata = {
   title: "UniEnrich AI – Industrial Product Data Intelligence",
   description: "Transform messy industrial product catalogs into structured, searchable, AI-enriched master catalog data.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/icon.svg",
+    shortcut: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
