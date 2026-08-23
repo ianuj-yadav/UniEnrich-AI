@@ -5,16 +5,16 @@ import { useSearchParams } from "next/navigation";
 import { 
   BarChart3, 
   TrendingUp, 
+  Layers, 
   Sparkles, 
   ShieldCheck, 
   Tag, 
-  CheckCircle2,
-  PieChart as PieIcon,
-  Layers
+  Percent,
+  CheckCircle2
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { getBatchAnalytics, listBatches, BatchItem, AnalyticsData } from "@/lib/api";
+import { getAnalyticsData, listBatches, AnalyticsData, BatchItem } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
 
@@ -35,8 +35,8 @@ function AnalyticsContent() {
         if (!selectedBatchId && list.length > 0) {
           setSelectedBatchId(list[0].id);
         }
-      } catch (e) {
-        console.error(e);
+      } catch (err) {
+        console.error(err);
       }
     }
     loadBatches();
@@ -44,10 +44,11 @@ function AnalyticsContent() {
 
   useEffect(() => {
     if (!selectedBatchId) return;
-    async function fetchAnalytics() {
+
+    async function loadAnalytics() {
       setIsLoading(true);
       try {
-        const data = await getBatchAnalytics(selectedBatchId!);
+        const data = await getAnalyticsData(selectedBatchId!);
         setAnalytics(data);
       } catch (err) {
         console.error(err);
@@ -55,34 +56,37 @@ function AnalyticsContent() {
         setIsLoading(false);
       }
     }
-    fetchAnalytics();
+
+    loadAnalytics();
   }, [selectedBatchId]);
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-8 max-w-7xl mx-auto pb-16">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <Badge variant="blue">Stage 5</Badge>
-            <span className="text-xs font-semibold text-grey-300 uppercase tracking-wider">
-              Quality & Completeness Analytics
+            <Badge variant="purple">Telemetry</Badge>
+            <span className="text-xs font-mono font-bold text-[#b18597] uppercase tracking-wider">
+              Catalog Quality Analytics
             </span>
           </div>
-          <h1 className="text-2xl font-bold text-white-50">Data Quality & Distribution Dashboard</h1>
-          <p className="text-sm text-grey-200">
-            Audit coverage improvements, confidence distribution, brand frequency, and taxonomy categorization.
+          <h1 className="text-3xl font-extrabold text-[#2b201a] tracking-tight">
+            Data Quality &amp; Distribution Dashboard
+          </h1>
+          <p className="text-xs text-[#5e4d46] max-w-2xl leading-relaxed">
+            Audit coverage improvements, confidence score distribution, brand frequency, and UNSPSC taxonomy categorization.
           </p>
         </div>
 
         {/* Batch Selector */}
         {batches.length > 1 && (
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-grey-300">Active Feed:</span>
+          <div className="flex items-center gap-2 bg-[#ffffff] p-2 rounded-2xl border-2 border-[#e8dede] shadow-xs">
+            <span className="text-xs font-mono font-bold text-[#8c7770] pl-2">FEED:</span>
             <select
               value={selectedBatchId || ""}
               onChange={(e) => setSelectedBatchId(e.target.value)}
-              className="bg-black-800 border border-black-600 rounded-md px-3 py-1.5 text-xs text-white-100 focus:outline-none"
+              className="bg-[#faf6f6] border border-[#e8dede] rounded-xl px-3 py-1.5 text-xs font-semibold text-[#2b201a] focus:outline-none focus:border-[#b18597]"
             >
               {batches.map((b) => (
                 <option key={b.id} value={b.id}>
@@ -95,62 +99,67 @@ function AnalyticsContent() {
       </div>
 
       {isLoading || !analytics ? (
-        <div className="text-center py-20 text-sm text-grey-300">Loading quality metrics...</div>
+        <div className="text-center py-20 text-xs font-mono text-[#8c7770]">Loading quality metrics...</div>
       ) : (
         <div className="space-y-6">
           {/* Completeness Delta Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Card className="p-4 bg-black-800 border-black-600">
+            <div className="p-6 rounded-3xl bg-[#ffffff] border-2 border-[#e8dede] shadow-[0_8px_32px_rgba(177,133,151,0.06)] space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-grey-300">Brand Coverage Gain</span>
-                <TrendingUp className="w-4 h-4 text-green-500" />
+                <span className="text-xs font-mono font-bold text-[#8c7770] uppercase">Brand Coverage Gain</span>
+                <TrendingUp className="w-5 h-5 text-[#10b981]" />
               </div>
               <div className="flex items-baseline gap-2 mt-2">
-                <span className="text-sm line-through text-grey-400">
+                <span className="text-sm line-through text-[#8c7770] font-mono">
                   {analytics.completeness_delta.brand_coverage_before}%
                 </span>
-                <span className="text-2xl font-bold text-green-300">
+                <span className="text-3xl font-extrabold text-[#065f46] font-mono">
                   {analytics.completeness_delta.brand_coverage_after}%
                 </span>
               </div>
-              <p className="text-[11px] text-green-500 mt-1">
-                +{(analytics.completeness_delta.brand_coverage_after - analytics.completeness_delta.brand_coverage_before).toFixed(1)}% via RapidFuzz & AI
+              <p className="text-[11px] text-[#065f46] font-medium mt-1">
+                +{(analytics.completeness_delta.brand_coverage_after - analytics.completeness_delta.brand_coverage_before).toFixed(1)}% via RapidFuzz &amp; AI
               </p>
-            </Card>
+            </div>
 
-            <Card className="p-4 bg-black-800 border-black-600">
+            <div className="p-6 rounded-3xl bg-[#ffffff] border-2 border-[#e8dede] shadow-[0_8px_32px_rgba(177,133,151,0.06)] space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-grey-300">Category Classification</span>
-                <Layers className="w-4 h-4 text-purple-300" />
+                <span className="text-xs font-mono font-bold text-[#8c7770] uppercase">Category Classification</span>
+                <Layers className="w-5 h-5 text-[#5b21b6]" />
               </div>
               <div className="flex items-baseline gap-2 mt-2">
-                <span className="text-sm line-through text-grey-400">
+                <span className="text-sm line-through text-[#8c7770] font-mono">
                   {analytics.completeness_delta.category_coverage_before}%
                 </span>
-                <span className="text-2xl font-bold text-purple-300">
+                <span className="text-3xl font-extrabold text-[#5b21b6] font-mono">
                   {analytics.completeness_delta.category_coverage_after}%
                 </span>
               </div>
-              <p className="text-[11px] text-purple-300 mt-1">UNSPSC codes assigned</p>
-            </Card>
+              <p className="text-[11px] text-[#5b21b6] font-medium mt-1">UNSPSC codes assigned</p>
+            </div>
 
-            <Card className="p-4 bg-black-800 border-black-600">
+            <div className="p-6 rounded-3xl bg-[#ffffff] border-2 border-[#e8dede] shadow-[0_8px_32px_rgba(177,133,151,0.06)] space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold text-grey-300">Title Standardization</span>
-                <Sparkles className="w-4 h-4 text-blue-400" />
+                <span className="text-xs font-mono font-bold text-[#8c7770] uppercase">Title Standardization</span>
+                <Sparkles className="w-5 h-5 text-[#b18597]" />
               </div>
-              <div className="text-2xl font-bold text-white-50 mt-2">
+              <div className="text-3xl font-extrabold text-[#2b201a] font-mono mt-2">
                 {analytics.completeness_delta.title_standardization_gain}%
               </div>
-              <p className="text-[11px] text-blue-400 mt-1">SEO formatted e-commerce titles</p>
-            </Card>
+              <p className="text-[11px] text-[#b18597] font-medium mt-1">SEO formatted e-commerce titles</p>
+            </div>
           </div>
 
           {/* Confidence Histogram & Top Attributes Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Confidence Histogram */}
-            <Card title="Confidence Score Distribution" subtitle="Granular quality routing histogram">
-              <div className="space-y-4 pt-2">
+            <div className="rounded-3xl border-2 border-[#e8dede] p-6 sm:p-8 bg-[#ffffff] shadow-[0_12px_40px_rgba(177,133,151,0.08)] space-y-5">
+              <div className="border-b border-[#e8dede] pb-3">
+                <h3 className="text-sm font-bold text-[#2b201a]">Confidence Score Distribution</h3>
+                <p className="text-xs text-[#8c7770]">Granular quality routing histogram</p>
+              </div>
+
+              <div className="space-y-4 pt-1">
                 {analytics.confidence_histogram.map((bin) => {
                   const total = analytics.total_products || 1;
                   const pct = Math.round((bin.count / total) * 100);
@@ -158,19 +167,19 @@ function AnalyticsContent() {
                   const isHigh = bin.range.includes("85-100%");
 
                   return (
-                    <div key={bin.range} className="space-y-1">
+                    <div key={bin.range} className="space-y-1.5">
                       <div className="flex items-center justify-between text-xs">
-                        <span className={`font-semibold ${isReview ? 'text-yellow-400' : isHigh ? 'text-green-300' : 'text-grey-200'}`}>
+                        <span className={`font-bold font-mono ${isReview ? 'text-[#92400e]' : isHigh ? 'text-[#065f46]' : 'text-[#2b201a]'}`}>
                           {bin.range}
                         </span>
-                        <span className="text-grey-300 font-mono">
+                        <span className="text-[#5e4d46] font-mono font-bold">
                           {bin.count} SKUs ({pct}%)
                         </span>
                       </div>
-                      <div className="w-full h-2.5 bg-black-900 rounded-full overflow-hidden border border-black-600">
+                      <div className="w-full h-3 bg-[#faf6f6] rounded-full overflow-hidden border border-[#e8dede] p-0.5">
                         <div
                           className={`h-full rounded-full transition-all ${
-                            isReview ? 'bg-yellow-400' : isHigh ? 'bg-green-500' : 'bg-blue-500'
+                            isReview ? 'bg-[#f59e0b]' : isHigh ? 'bg-[#10b981]' : 'bg-[#b18597]'
                           }`}
                           style={{ width: `${pct}%` }}
                         />
@@ -179,55 +188,70 @@ function AnalyticsContent() {
                   );
                 })}
               </div>
-            </Card>
+            </div>
 
             {/* Top Extracted Attributes */}
-            <Card title="Top Technical Attributes Extracted" subtitle="Key-value specifications populated by AI">
-              <div className="space-y-3 pt-2">
+            <div className="rounded-3xl border-2 border-[#e8dede] p-6 sm:p-8 bg-[#ffffff] shadow-[0_12px_40px_rgba(177,133,151,0.08)] space-y-5">
+              <div className="border-b border-[#e8dede] pb-3">
+                <h3 className="text-sm font-bold text-[#2b201a]">Top Technical Attributes Extracted</h3>
+                <p className="text-xs text-[#8c7770]">Key-value engineering specifications populated by AI</p>
+              </div>
+
+              <div className="space-y-2.5 pt-1">
                 {analytics.top_extracted_attributes.map((attr) => {
                   const total = analytics.total_products || 1;
                   const pct = Math.round((attr.count / total) * 100);
 
                   return (
-                    <div key={attr.attribute} className="flex items-center justify-between p-2.5 bg-black-900 border border-black-600 rounded-lg text-xs">
+                    <div key={attr.attribute} className="flex items-center justify-between p-3 bg-[#faf6f6] border border-[#e8dede] rounded-2xl text-xs">
                       <div className="flex items-center gap-2">
-                        <Tag className="w-3.5 h-3.5 text-lime-300" />
-                        <span className="font-semibold text-white-100">{attr.attribute}</span>
+                        <Tag className="w-3.5 h-3.5 text-[#b18597]" />
+                        <span className="font-bold text-[#2b201a] font-mono">{attr.attribute}</span>
                       </div>
                       <div className="flex items-center gap-3 font-mono">
-                        <span className="text-lime-300 font-bold">{attr.count} records</span>
-                        <span className="text-grey-400">({pct}%)</span>
+                        <span className="text-[#065f46] font-extrabold">{attr.count} records</span>
+                        <span className="text-[#8c7770]">({pct}%)</span>
                       </div>
                     </div>
                   );
                 })}
               </div>
-            </Card>
+            </div>
           </div>
 
           {/* Brand Distribution & Category Distribution */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card title="Brand Distribution" subtitle="Top resolved manufacturers and brands">
-              <div className="space-y-2 pt-2">
-                {analytics.brand_distribution.map((b) => (
-                  <div key={b.brand} className="flex items-center justify-between p-2.5 bg-black-900 border border-black-600 rounded-lg text-xs">
-                    <span className="font-semibold text-white-100">{b.brand}</span>
-                    <span className="font-mono text-blue-400">{b.count} SKUs</span>
-                  </div>
-                ))}
+            <div className="rounded-3xl border-2 border-[#e8dede] p-6 sm:p-8 bg-[#ffffff] shadow-[0_12px_40px_rgba(177,133,151,0.08)] space-y-4">
+              <div className="border-b border-[#e8dede] pb-3">
+                <h3 className="text-sm font-bold text-[#2b201a]">Brand Distribution</h3>
+                <p className="text-xs text-[#8c7770]">Top resolved manufacturers and verified brands</p>
               </div>
-            </Card>
 
-            <Card title="Category Breakdown" subtitle="Classified hierarchy shares">
-              <div className="space-y-2 pt-2">
-                {analytics.category_distribution.map((c) => (
-                  <div key={c.category} className="flex items-center justify-between p-2.5 bg-black-900 border border-black-600 rounded-lg text-xs">
-                    <span className="font-semibold text-white-100">{c.category}</span>
-                    <span className="font-mono text-purple-300">{c.count} SKUs</span>
+              <div className="space-y-2 pt-1">
+                {analytics.brand_distribution.map((b) => (
+                  <div key={b.brand} className="flex items-center justify-between p-3 bg-[#faf6f6] border border-[#e8dede] rounded-2xl text-xs">
+                    <span className="font-bold text-[#2b201a]">{b.brand}</span>
+                    <span className="font-mono font-bold text-[#1e40af]">{b.count} SKUs</span>
                   </div>
                 ))}
               </div>
-            </Card>
+            </div>
+
+            <div className="rounded-3xl border-2 border-[#e8dede] p-6 sm:p-8 bg-[#ffffff] shadow-[0_12px_40px_rgba(177,133,151,0.08)] space-y-4">
+              <div className="border-b border-[#e8dede] pb-3">
+                <h3 className="text-sm font-bold text-[#2b201a]">Category Breakdown</h3>
+                <p className="text-xs text-[#8c7770]">Classified hierarchy shares</p>
+              </div>
+
+              <div className="space-y-2 pt-1">
+                {analytics.category_distribution.map((c) => (
+                  <div key={c.category} className="flex items-center justify-between p-3 bg-[#faf6f6] border border-[#e8dede] rounded-2xl text-xs">
+                    <span className="font-bold text-[#2b201a]">{c.category}</span>
+                    <span className="font-mono font-bold text-[#5b21b6]">{c.count} SKUs</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -237,7 +261,7 @@ function AnalyticsContent() {
 
 export default function AnalyticsPage() {
   return (
-    <Suspense fallback={<div className="text-center py-20 text-sm text-grey-300">Loading analytics...</div>}>
+    <Suspense fallback={<div className="text-center py-20 text-xs font-mono text-[#8c7770]">Loading analytics...</div>}>
       <AnalyticsContent />
     </Suspense>
   );

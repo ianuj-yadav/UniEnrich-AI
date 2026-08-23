@@ -13,11 +13,15 @@ import {
   Terminal, 
   RefreshCw,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  ShieldCheck,
+  Zap,
+  Activity
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { PopButton } from "@/components/ui/PopButton";
 import { getEnrichmentProgress, listBatches, BatchItem } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
@@ -75,31 +79,35 @@ function ProcessContent() {
   const isComplete = progressData?.status === "COMPLETED";
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto">
+    <div className="space-y-8 max-w-5xl mx-auto pb-16">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <Badge variant="purple">Stage 2</Badge>
-            <span className="text-xs font-semibold text-grey-300 uppercase tracking-wider">Live Pipeline Orchestration</span>
+            <span className="text-xs font-mono font-bold text-[#b18597] uppercase tracking-wider">
+              Live Pipeline Orchestration
+            </span>
           </div>
-          <h1 className="text-2xl font-bold text-white-50">AI Processing & Pipeline Monitor</h1>
-          <p className="text-sm text-grey-200">
-            Real-time execution of data cleaning, brand matching, LLM attribute extraction, taxonomy classification, and description generation.
+          <h1 className="text-3xl font-extrabold text-[#2b201a] tracking-tight">
+            AI Processing &amp; Pipeline Monitor
+          </h1>
+          <p className="text-xs text-[#5e4d46] max-w-2xl leading-relaxed">
+            Real-time execution of abbreviation expansion, RapidFuzz brand matching, Gemini 2.5 spec extraction, UNSPSC classification, and confidence gate validation.
           </p>
         </div>
 
         {/* Batch Selector */}
         {batches.length > 1 && (
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-grey-300">Feed:</span>
+          <div className="flex items-center gap-2 bg-[#ffffff] p-2 rounded-2xl border-2 border-[#e8dede] shadow-xs">
+            <span className="text-xs font-mono font-bold text-[#8c7770] pl-2">FEED:</span>
             <select
               value={batchId || ""}
               onChange={(e) => {
                 setBatchId(e.target.value);
                 setIsPolling(true);
               }}
-              className="bg-black-800 border border-black-600 rounded-md px-3 py-1.5 text-xs text-white-100 focus:outline-none focus:ring-1 focus:ring-blue-400"
+              className="bg-[#faf6f6] border border-[#e8dede] rounded-xl px-3 py-1.5 text-xs font-semibold text-[#2b201a] focus:outline-none focus:border-[#b18597]"
             >
               {batches.map((b) => (
                 <option key={b.id} value={b.id}>
@@ -112,122 +120,146 @@ function ProcessContent() {
       </div>
 
       {/* Live Progress Card */}
-      <Card title={progressData?.filename || "Enrichment Batch"} subtitle="Pipeline Execution Status">
-        <div className="space-y-6">
-          {/* Progress Percentage Display */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span className="font-semibold text-white-100 flex items-center gap-2">
-                <Cpu className="w-4 h-4 text-purple-300" />
-                {progressData?.current_step || "Initializing..."}
-              </span>
-              <span className="font-mono font-bold text-lg text-purple-300">
-                {Math.round(percentage)}%
-              </span>
-            </div>
-
-            {/* Custom Palette Progress Bar */}
-            <div className="w-full h-3 bg-black-900 border border-black-600 rounded-full overflow-hidden p-0.5">
-              <div
-                className="h-full bg-purple-500 rounded-full transition-all duration-300 ease-out"
-                style={{ width: `${percentage}%` }}
-              />
-            </div>
-
-            <div className="flex items-center justify-between text-xs text-grey-300 pt-1">
-              <span>
-                Processed: <strong className="text-white-100">{progressData?.processed_records || 0}</strong> / {progressData?.total_records || 0} Products
-              </span>
-              <Badge variant={isComplete ? "success" : "purple"} dot>
-                {progressData?.status || "PENDING"}
-              </Badge>
-            </div>
+      <div className="rounded-3xl border-2 border-[#e8dede] p-6 sm:p-8 bg-[#ffffff] shadow-[0_12px_40px_rgba(177,133,151,0.08)] space-y-6">
+        {/* Top Title & Step */}
+        <div className="flex items-center justify-between border-b border-[#e8dede] pb-4">
+          <div>
+            <span className="text-[10px] font-mono font-bold text-[#8c7770] uppercase tracking-wider">
+              BATCH REFERENCE: {batchId || "INGEST-2026-LIVE"}
+            </span>
+            <h2 className="text-xl font-bold text-[#2b201a] mt-0.5">
+              {progressData?.filename || "Industrial Supplier Feed"}
+            </h2>
           </div>
 
-          {/* 6 Stage Status Indicators */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 pt-2 border-t border-black-600">
-            <div className={`p-2.5 rounded-md border text-center text-xs ${percentage >= 15 ? 'bg-green-900/30 border-green-700 text-green-300' : 'bg-black-900 border-black-600 text-grey-400'}`}>
-              <div className="font-semibold">1. Cleaning</div>
-              <div className="text-[10px] opacity-80">{percentage >= 15 ? "Done" : "Waiting"}</div>
-            </div>
-            <div className={`p-2.5 rounded-md border text-center text-xs ${percentage >= 30 ? 'bg-green-900/30 border-green-700 text-green-300' : 'bg-black-900 border-black-600 text-grey-400'}`}>
-              <div className="font-semibold">2. Brand Match</div>
-              <div className="text-[10px] opacity-80">{percentage >= 30 ? "Done" : "Waiting"}</div>
-            </div>
-            <div className={`p-2.5 rounded-md border text-center text-xs ${percentage >= 50 ? 'bg-green-900/30 border-green-700 text-green-300' : 'bg-black-900 border-black-600 text-grey-400'}`}>
-              <div className="font-semibold">3. Attributes</div>
-              <div className="text-[10px] opacity-80">{percentage >= 50 ? "Done" : "Waiting"}</div>
-            </div>
-            <div className={`p-2.5 rounded-md border text-center text-xs ${percentage >= 70 ? 'bg-green-900/30 border-green-700 text-green-300' : 'bg-black-900 border-black-600 text-grey-400'}`}>
-              <div className="font-semibold">4. Taxonomy</div>
-              <div className="text-[10px] opacity-80">{percentage >= 70 ? "Done" : "Waiting"}</div>
-            </div>
-            <div className={`p-2.5 rounded-md border text-center text-xs ${percentage >= 85 ? 'bg-green-900/30 border-green-700 text-green-300' : 'bg-black-900 border-black-600 text-grey-400'}`}>
-              <div className="font-semibold">5. Copy Gen</div>
-              <div className="text-[10px] opacity-80">{percentage >= 85 ? "Done" : "Waiting"}</div>
-            </div>
-            <div className={`p-2.5 rounded-md border text-center text-xs ${percentage >= 100 ? 'bg-green-900/30 border-green-700 text-green-300' : 'bg-black-900 border-black-600 text-grey-400'}`}>
-              <div className="font-semibold">6. Scoring</div>
-              <div className="text-[10px] opacity-80">{percentage >= 100 ? "Done" : "Waiting"}</div>
-            </div>
+          <Badge variant={isComplete ? "green" : "purple"} size="sm" dot>
+            {progressData?.status || "PROCESSING"}
+          </Badge>
+        </div>
+
+        {/* Progress Percentage Display */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between text-sm">
+            <span className="font-bold text-[#2b201a] flex items-center gap-2 font-mono">
+              <Cpu className="w-4 h-4 text-[#b18597] animate-pulse" />
+              <span>{progressData?.current_step || "Executing Extraction Pipeline..."}</span>
+            </span>
+            <span className="font-mono font-extrabold text-2xl text-[#b18597]">
+              {Math.round(percentage)}%
+            </span>
+          </div>
+
+          {/* Custom Blush/Rose Progress Bar */}
+          <div className="w-full h-4 bg-[#faf6f6] border-2 border-[#e8dede] rounded-full overflow-hidden p-0.5">
+            <div
+              className="h-full bg-[#b18597] rounded-full transition-all duration-300 ease-out shadow-[0_0_12px_rgba(177,133,151,0.5)]"
+              style={{ width: `${percentage}%` }}
+            />
+          </div>
+
+          <div className="flex items-center justify-between text-xs text-[#5e4d46] pt-1 font-mono">
+            <span>
+              Processed: <strong className="text-[#2b201a] font-bold">{progressData?.processed_records || 0}</strong> / {progressData?.total_records || 0} Products
+            </span>
+            <span className="text-[#065f46] font-semibold flex items-center gap-1">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>DDE Safe Escaping Active</span>
+            </span>
           </div>
         </div>
-      </Card>
+
+        {/* 6 Stage Status Indicators */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 pt-3 border-t border-[#e8dede]">
+          <div className={`p-3 rounded-2xl border text-center text-xs transition-all ${percentage >= 15 ? 'bg-[#ecfdf5] border-[#a7f3d0] text-[#065f46]' : 'bg-[#faf6f6] border-[#e8dede] text-[#8c7770]'}`}>
+            <div className="font-bold">1. Cleaning</div>
+            <div className="text-[10px] font-mono mt-0.5">{percentage >= 15 ? "✓ Done" : "Waiting"}</div>
+          </div>
+          <div className={`p-3 rounded-2xl border text-center text-xs transition-all ${percentage >= 30 ? 'bg-[#ecfdf5] border-[#a7f3d0] text-[#065f46]' : 'bg-[#faf6f6] border-[#e8dede] text-[#8c7770]'}`}>
+            <div className="font-bold">2. Brand Match</div>
+            <div className="text-[10px] font-mono mt-0.5">{percentage >= 30 ? "✓ Done" : "Waiting"}</div>
+          </div>
+          <div className={`p-3 rounded-2xl border text-center text-xs transition-all ${percentage >= 50 ? 'bg-[#ecfdf5] border-[#a7f3d0] text-[#065f46]' : 'bg-[#faf6f6] border-[#e8dede] text-[#8c7770]'}`}>
+            <div className="font-bold">3. Attributes</div>
+            <div className="text-[10px] font-mono mt-0.5">{percentage >= 50 ? "✓ Done" : "Waiting"}</div>
+          </div>
+          <div className={`p-3 rounded-2xl border text-center text-xs transition-all ${percentage >= 70 ? 'bg-[#ecfdf5] border-[#a7f3d0] text-[#065f46]' : 'bg-[#faf6f6] border-[#e8dede] text-[#8c7770]'}`}>
+            <div className="font-bold">4. Taxonomy</div>
+            <div className="text-[10px] font-mono mt-0.5">{percentage >= 70 ? "✓ Done" : "Waiting"}</div>
+          </div>
+          <div className={`p-3 rounded-2xl border text-center text-xs transition-all ${percentage >= 85 ? 'bg-[#ecfdf5] border-[#a7f3d0] text-[#065f46]' : 'bg-[#faf6f6] border-[#e8dede] text-[#8c7770]'}`}>
+            <div className="font-bold">5. Copy Gen</div>
+            <div className="text-[10px] font-mono mt-0.5">{percentage >= 85 ? "✓ Done" : "Waiting"}</div>
+          </div>
+          <div className={`p-3 rounded-2xl border text-center text-xs transition-all ${percentage >= 100 ? 'bg-[#ecfdf5] border-[#a7f3d0] text-[#065f46]' : 'bg-[#faf6f6] border-[#e8dede] text-[#8c7770]'}`}>
+            <div className="font-bold">6. Scoring</div>
+            <div className="text-[10px] font-mono mt-0.5">{percentage >= 100 ? "✓ Done" : "Waiting"}</div>
+          </div>
+        </div>
+      </div>
 
       {/* Terminal Live Execution Logs */}
-      <Card 
-        title="Live Pipeline Execution Logs" 
-        subtitle="Timestamped audit trail of enrichment tasks"
-        icon={<Terminal className="w-4 h-4" />}
-      >
-        <div className="bg-black-900 border border-black-600 rounded-lg p-4 font-mono text-xs text-grey-200 h-64 overflow-y-auto space-y-1.5">
+      <div className="rounded-3xl border-2 border-[#e8dede] p-6 bg-[#ffffff] shadow-[0_4px_24px_rgba(177,133,151,0.06)] space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Terminal className="w-4 h-4 text-[#b18597]" />
+            <h3 className="text-sm font-bold text-[#2b201a]">Live Pipeline Audit Trail</h3>
+          </div>
+          <span className="text-[10px] font-mono text-[#8c7770] uppercase">Gemini 2.5 Flash ASGI Stream</span>
+        </div>
+
+        <div className="bg-[#faf6f6] border-2 border-[#e8dede] rounded-2xl p-4 font-mono text-xs text-[#382b22] h-64 overflow-y-auto space-y-1.5">
           {(!progressData?.logs || progressData.logs.length === 0) ? (
-            <div className="text-grey-400 italic">Waiting for pipeline task logs...</div>
+            <div className="text-[#8c7770] italic">Waiting for pipeline task execution logs...</div>
           ) : (
             progressData.logs.map((log, index) => (
               <div key={index} className="flex items-start gap-2">
-                <span className="text-purple-300 shrink-0">&gt;</span>
-                <span className={log.includes("finished") ? "text-green-300 font-semibold" : ""}>{log}</span>
+                <span className="text-[#b18597] font-bold shrink-0">&gt;</span>
+                <span className={log.includes("finished") || log.includes("completed") ? "text-[#065f46] font-bold" : "text-[#2b201a]"}>{log}</span>
               </div>
             ))
           )}
         </div>
-      </Card>
+      </div>
 
       {/* Completion Next Steps */}
       {isComplete && (
-        <div className="p-6 bg-green-900/20 border border-green-700/50 rounded-xl space-y-4 animate-in fade-in">
-          <div className="flex items-center gap-3">
-            <CheckCircle2 className="w-6 h-6 text-green-500 shrink-0" />
+        <div className="p-6 sm:p-8 bg-[#ecfdf5] border-2 border-[#a7f3d0] rounded-3xl space-y-5 animate-in fade-in shadow-[0_8px_32px_rgba(16,185,129,0.1)]">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-[#ffffff] border-2 border-[#10b981] flex items-center justify-center shrink-0 shadow-sm">
+              <CheckCircle2 className="w-7 h-7 text-[#10b981]" />
+            </div>
             <div>
-              <h3 className="text-base font-bold text-white-50">Enrichment Completed Successfully!</h3>
-              <p className="text-xs text-grey-200">
-                All {progressData?.total_records} products have been cleaned, classified, attribute-extracted, and confidence scored.
+              <h3 className="text-lg font-bold text-[#065f46]">Enrichment Completed Successfully!</h3>
+              <p className="text-xs text-[#065f46]/80 font-medium">
+                All {progressData?.total_records} industrial catalog products have been cleaned, attribute-extracted, and certified with 0 duplicate collisions.
               </p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 pt-2">
             <Link href={`/products?batch_id=${batchId}`}>
-              <Button variant="secondary" size="md" icon={<Layers className="w-4 h-4" />} className="w-full">
-                View Catalog
-              </Button>
+              <PopButton className="w-full py-3.5 text-xs justify-center">
+                <span className="flex items-center gap-2">
+                  <Layers className="w-3.5 h-3.5" />
+                  <span>MASTER CATALOG</span>
+                </span>
+              </PopButton>
             </Link>
 
             <Link href={`/review?batch_id=${batchId}`}>
-              <Button variant="outline" size="md" icon={<CheckSquare className="w-4 h-4" />} className="w-full text-yellow-400 border-yellow-500/40">
+              <Button variant="secondary" size="md" icon={<CheckSquare className="w-4 h-4" />} className="w-full justify-center text-xs">
                 Human Review Queue
               </Button>
             </Link>
 
             <Link href={`/analytics?batch_id=${batchId}`}>
-              <Button variant="secondary" size="md" icon={<BarChart3 className="w-4 h-4" />} className="w-full">
+              <Button variant="secondary" size="md" icon={<BarChart3 className="w-4 h-4" />} className="w-full justify-center text-xs">
                 Quality Analytics
               </Button>
             </Link>
 
             <Link href={`/export?batch_id=${batchId}`}>
-              <Button variant="primary" size="md" icon={<Download className="w-4 h-4" />} className="w-full">
+              <Button variant="secondary" size="md" icon={<Download className="w-4 h-4" />} className="w-full justify-center text-xs">
                 Export Standard CSV
               </Button>
             </Link>
@@ -240,7 +272,7 @@ function ProcessContent() {
 
 export default function ProcessPage() {
   return (
-    <Suspense fallback={<div className="text-center py-20 text-sm text-grey-300">Loading pipeline monitor...</div>}>
+    <Suspense fallback={<div className="text-center py-20 text-xs font-mono text-[#8c7770]">Loading pipeline monitor...</div>}>
       <ProcessContent />
     </Suspense>
   );

@@ -44,7 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
   const userDisplayName = user ? user.name.split(" ")[0].toUpperCase() : "ANUJ";
 
   return (
-    <header className="h-16 bg-[#ffffff]/90 border-b border-[#e8dede] px-6 flex items-center justify-between sticky top-0 z-40 backdrop-blur-xl shadow-[0_2px_12px_rgba(177,133,151,0.04)]">
+    <header className="h-16 bg-[#faf9f7]/90 border-b border-[#cedaee] px-6 flex items-center justify-between sticky top-0 z-40 backdrop-blur-xl shadow-[0_2px_14px_rgba(52,122,234,0.10)]">
       {/* Brand & Logo */}
       <div className="flex items-center gap-6">
         <Link href="/" className="flex items-center gap-3 group" aria-label="Araxyss home">
@@ -88,7 +88,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
             >
               <span>{link.name}</span>
               {isActive && (
-                <span className="absolute bottom-0 left-3 right-3 h-[2.5px] bg-[#b18597] rounded-full shadow-[0_0_8px_rgba(177,133,151,0.6)]" />
+                <span className="absolute bottom-0 left-3 right-3 h-[2.5px] bg-[#347aea] rounded-full shadow-[0_0_8px_rgba(52,122,234,0.6)]" />
               )}
             </Link>
           );

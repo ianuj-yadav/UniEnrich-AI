@@ -218,13 +218,14 @@ export async function getProductComparison(productId: string): Promise<Compariso
 
 export async function submitReviewAction(
   productId: string,
-  action: "ACCEPT" | "REJECT" | "EDIT",
+  action: "ACCEPT" | "REJECT" | "EDIT" | "APPROVE",
   edits?: Record<string, any>
 ): Promise<any> {
+  const normalizedAction = action === "APPROVE" ? "ACCEPT" : action;
   const res = await fetch(`${API_BASE}/review/submit`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ product_id: productId, action, edits }),
+    body: JSON.stringify({ product_id: productId, action: normalizedAction, edits }),
   });
   if (!res.ok) throw new Error("Failed to submit review action");
   return res.json();
@@ -232,16 +233,18 @@ export async function submitReviewAction(
 
 export async function bulkReviewAction(
   productIds: string[],
-  action: "ACCEPT_ALL" | "REJECT_ALL"
+  action: "ACCEPT_ALL" | "REJECT_ALL" | "APPROVE" | "REJECT"
 ): Promise<any> {
+  const normalizedAction = action === "APPROVE" ? "ACCEPT_ALL" : action === "REJECT" ? "REJECT_ALL" : action;
   const res = await fetch(`${API_BASE}/review/bulk-action`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ product_ids: productIds, action }),
+    body: JSON.stringify({ product_ids: productIds, action: normalizedAction }),
   });
   if (!res.ok) throw new Error("Failed to execute bulk review action");
   return res.json();
 }
+
 
 export async function getBatchAnalytics(batchId: string): Promise<AnalyticsData> {
   const res = await fetch(`${API_BASE}/analytics/${batchId}`, { cache: "no-store" });
@@ -365,6 +368,32 @@ export async function localizeProduct(productId: string, targetLanguage: string)
   return res.json();
 }
 
+/* Aliases and helper wrappers for component compatibility */
+export const getEnrichedProducts = async (batchId: string) => {
+  const res = await getBatchProducts(batchId, 1, 100);
+  return res.items;
+};
+export const getComparisonData = getProductComparison;
+export const getAnalyticsData = getBatchAnalytics;
+export const exportCatalogUrl = getExportUrl;
+export const detectDuplicateClusters = async (batchId: string, threshold: number = 0.75) => {
+  return await getDuplicateClusters(batchId, threshold);
+};
+export const mergeDuplicateCluster = async (primaryId: string, duplicateIds: string[], batchId: string = "") => {
+  return await mergeDuplicateRecords(batchId, primaryId, duplicateIds);
+};
+export const parseDatasheetOcr = async (file: File) => {
+  const res = await parseDatasheetFile(file);
+  return res.data;
+};
+export type DatasheetOcrResult = ParsedDatasheetResult;
+export const appendProductToBatch = async (batchId: string, payload: any) => {
+  return await importDatasheetToBatch(batchId, payload);
+};
+export const getRuleSummary = getRules;
+export type RuleSummary = any;
+
+
 /* Authentication API */
 export interface AuthUserResponse {
   id: string;
@@ -409,11 +438,11 @@ export async function apiSignup(name: string, email: string, password = "Passwor
   return res.json();
 }
 
-export async function apiGoogleAuth(email = "anuj.yadav@gmail.com", name = "Anuj Yadav", picture?: string): Promise<AuthApiResponse> {
+export async function apiGoogleAuth(credential: string): Promise<AuthApiResponse> {
   const res = await fetch(`${API_BASE}/auth/google`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, name, picture }),
+    body: JSON.stringify({ credential }),
   });
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
@@ -422,3 +451,18 @@ export async function apiGoogleAuth(email = "anuj.yadav@gmail.com", name = "Anuj
   return res.json();
 }
 
+export async function apiGetCurrentUser(token: string): Promise<AuthUserResponse> {
+  const res = await fetch(`${API_BASE}/auth/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error("Your session has expired.");
+  return res.json();
+}
+
+export async function apiLogout(token: string): Promise<void> {
+  await fetch(`${API_BASE}/auth/logout`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}

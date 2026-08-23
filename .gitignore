@@ -41,6 +41,9 @@ wheels/
 *.sqlite3
 backend/unienrich.db
 unienrich.db
+backend/logs/
+frontend/server.out.log
+frontend/server.err.log
 
 # Pytest / Testing Cache
 .pytest_cache/

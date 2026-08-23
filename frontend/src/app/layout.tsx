@@ -3,8 +3,8 @@ import "./globals.css";
 import { AppShell } from "@/components/layout/AppShell";
 
 export const metadata: Metadata = {
-  title: "UniEnrich AI – Intelligent Product Data Enrichment Platform",
-  description: "Transform messy industrial product catalogs into structured, searchable, AI-enriched product data.",
+  title: "Araxyss / UniEnrich AI – Industrial Product Data Intelligence",
+  description: "Transform messy industrial product catalogs into structured, searchable, AI-enriched master catalog data.",
 };
 
 export default function RootLayout({
@@ -13,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className="bg-black-900 text-white-100 min-h-screen">
+    <html lang="en">
+      <body className="bg-[#fdfbfb] text-[#2b201a] min-h-screen antialiased selection:bg-[#f9c4d2] selection:text-[#382b22]">
         <AppShell>{children}</AppShell>
       </body>
     </html>

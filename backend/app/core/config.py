@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "UniEnrich AI"
     API_V1_STR: str = "/api/v1"
     DATABASE_URL: str = f"sqlite+aiosqlite:///{BASE_DIR}/unienrich.db"
+    FRONTEND_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000"
+    GOOGLE_CLIENT_ID: str = os.getenv("GOOGLE_CLIENT_ID", "")
     
     # AI / LLM Configuration
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")

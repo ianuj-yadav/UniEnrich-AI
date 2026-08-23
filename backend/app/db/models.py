@@ -17,6 +17,42 @@ class Project(Base):
     
     batches = relationship("Batch", back_populates="project", cascade="all, delete-orphan")
 
+
+class User(Base):
+    """A locally managed account for the demo deployment.
+
+    Passwords are stored as PBKDF2 hashes; never retain the submitted password.
+    """
+
+    __tablename__ = "users"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    name = Column(String(255), nullable=False)
+    email = Column(String(255), unique=True, nullable=False, index=True)
+    password_hash = Column(String(512), nullable=False)
+    role = Column(String(100), default="Catalog Reviewer", nullable=False)
+    organization = Column(String(255), default="Araxyss Industrial AI", nullable=False)
+    tier = Column(String(100), default="Enterprise Vault", nullable=False)
+    avatar = Column(String(1024), nullable=True)
+    provider = Column(String(32), default="email", nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    sessions = relationship("AuthSession", back_populates="user", cascade="all, delete-orphan")
+
+
+class AuthSession(Base):
+    """Server-side session record.  Only a digest of the bearer token is saved."""
+
+    __tablename__ = "auth_sessions"
+
+    id = Column(String(36), primary_key=True, default=generate_uuid)
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    token_digest = Column(String(64), unique=True, nullable=False, index=True)
+    expires_at = Column(DateTime, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    user = relationship("User", back_populates="sessions")
+
 class Batch(Base):
     __tablename__ = "batches"
 

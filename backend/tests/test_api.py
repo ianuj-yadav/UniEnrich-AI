@@ -1,10 +1,45 @@
 import pytest
 import io
 import asyncio
+import uuid
 from pathlib import Path
 from httpx import AsyncClient, ASGITransport
 from app.main import app
 from app.db.session import init_db
+
+
+@pytest.mark.asyncio
+async def test_authentication_lifecycle():
+    await init_db()
+    email = f"reviewer.auth.{uuid.uuid4().hex[:10]}@unienrich.ai"
+    password = "StrongPass123!"
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        signup = await client.post("/api/v1/auth/signup", json={
+            "name": "Auth Reviewer", "email": email, "password": password,
+        })
+        assert signup.status_code == 200
+        token = signup.json()["token"]
+
+        invalid_login = await client.post("/api/v1/auth/login", json={
+            "email": email, "password": "wrong-password",
+        })
+        assert invalid_login.status_code == 401
+
+        login = await client.post("/api/v1/auth/login", json={
+            "email": email, "password": password,
+        })
+        assert login.status_code == 200
+        token = login.json()["token"]
+
+        current = await client.get("/api/v1/auth/me", headers={"Authorization": f"Bearer {token}"})
+        assert current.status_code == 200
+        assert current.json()["email"] == email
+
+        logout = await client.post("/api/v1/auth/logout", headers={"Authorization": f"Bearer {token}"})
+        assert logout.status_code == 204
+        expired = await client.get("/api/v1/auth/me", headers={"Authorization": f"Bearer {token}"})
+        assert expired.status_code == 401
 
 @pytest.mark.asyncio
 async def test_full_catalog_lifecycle():

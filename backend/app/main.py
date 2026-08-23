@@ -7,11 +7,15 @@ from fastapi.responses import RedirectResponse
 from app.core.config import settings
 from app.db.session import init_db
 from app.api.router import api_router
+from app.api.v1.auth import ensure_demo_account
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup: Initialize DB tables
     await init_db()
+    from app.db.session import AsyncSessionLocal
+    async with AsyncSessionLocal() as session:
+        await ensure_demo_account(session)
     print("Database tables initialized successfully.")
     yield
     # Shutdown
@@ -26,7 +30,7 @@ app = FastAPI(
 # CORS configuration for Next.js frontend and local static clients
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[origin.strip() for origin in settings.FRONTEND_ORIGINS.split(",") if origin.strip()],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -54,4 +58,3 @@ async def root():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
-

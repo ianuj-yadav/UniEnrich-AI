@@ -38,99 +38,96 @@ export const Button: React.FC<ButtonProps> = ({
   const variantStyles = {
     // Pop Cream / Rose Blush (Exact "GET STARTED" styling)
     primary: cn(
-      "text-[#382b22] dark:text-[#382b22] bg-[#fff0f0] border-2 border-[#b18597]",
-      "shadow-[0_8px_0_-2px_#f9c4d2,0_8px_0_0_#b18597,0_14px_8px_-3px_rgba(0,0,0,0.3)]",
-      "hover:bg-[#ffe9e9] hover:translate-y-0.5 hover:shadow-[0_5px_0_-2px_#f9c4d2,0_5px_0_0_#b18597,0_10px_6px_-3px_rgba(0,0,0,0.3)]",
+      "text-[#382b22] bg-[#fff0f0] border-2 border-[#b18597]",
+      "shadow-[0_8px_0_-2px_#f9c4d2,0_8px_0_0_#b18597,0_14px_8px_-3px_rgba(0,0,0,0.15)]",
+      "hover:bg-[#ffe9e9] hover:translate-y-0.5 hover:shadow-[0_5px_0_-2px_#f9c4d2,0_5px_0_0_#b18597,0_10px_6px_-3px_rgba(0,0,0,0.15)]",
       "active:bg-[#ffe9e9] active:translate-y-2 active:shadow-[0_0px_0_0_#b18597]"
     ),
     pop: cn(
-      "text-[#382b22] dark:text-[#382b22] bg-[#fff0f0] border-2 border-[#b18597]",
+      "text-[#382b22] bg-[#fff0f0] border-2 border-[#b18597]",
       "shadow-[0_12px_0_-2px_#f9c4d2,0_12px_0_0_#b18597,0_22px_0_0_#ffe3e2]",
-      "dark:shadow-[0_12px_0_-2px_#f9c4d2,0_12px_0_0_#b18597,0_22px_15px_-5px_rgba(0,0,0,0.3)]",
       "hover:bg-[#ffe9e9] hover:translate-y-1 hover:shadow-[0_8px_0_-2px_#f9c4d2,0_8px_0_0_#b18597,0_16px_0_0_#ffe3e2]",
-      "dark:hover:shadow-[0_8px_0_-2px_#f9c4d2,0_8px_0_0_#b18597,0_16px_10px_-5px_rgba(0,0,0,0.3)]",
-      "active:bg-[#ffe9e9] active:translate-y-3 active:shadow-[0_0px_0_-2px_#f9c4d2,0_0px_0_0_#b18597,0_0px_0_0_#ffe3e2]",
-      "dark:active:shadow-[0_0px_0_-2px_#f9c4d2,0_0px_0_0_#b18597,0_0px_0_0_rgba(0,0,0,0)]"
+      "active:bg-[#ffe9e9] active:translate-y-3 active:shadow-[0_0px_0_-2px_#f9c4d2,0_0px_0_0_#b18597,0_0px_0_0_#ffe3e2]"
     ),
     "pop-cream": cn(
-      "text-[#382b22] dark:text-[#382b22] bg-[#fff0f0] border-2 border-[#b18597]",
-      "shadow-[0_8px_0_-2px_#f9c4d2,0_8px_0_0_#b18597,0_14px_8px_-3px_rgba(0,0,0,0.3)]",
+      "text-[#382b22] bg-[#fff0f0] border-2 border-[#b18597]",
+      "shadow-[0_8px_0_-2px_#f9c4d2,0_8px_0_0_#b18597,0_14px_8px_-3px_rgba(0,0,0,0.15)]",
       "hover:bg-[#ffe9e9] hover:translate-y-0.5 active:translate-y-2"
     ),
-    // Pop Dark
+    // Light Porcelain Secondary
     secondary: cn(
-      "text-[#fde8f0] bg-[#1a1c23] border-2 border-[#b18597]/70",
-      "shadow-[0_8px_0_-2px_#4c3a44,0_8px_0_0_#b18597,0_14px_8px_-3px_rgba(0,0,0,0.4)]",
-      "hover:bg-[#262935] hover:translate-y-0.5 hover:shadow-[0_5px_0_-2px_#4c3a44,0_5px_0_0_#b18597,0_10px_6px_-3px_rgba(0,0,0,0.4)]",
-      "active:bg-[#262935] active:translate-y-2 active:shadow-[0_0px_0_0_#b18597]"
+      "text-[#2b201a] bg-[#faf6f6] border-2 border-[#e8dede]",
+      "shadow-[0_4px_0_0_#e8dede]",
+      "hover:bg-[#ffffff] hover:border-[#b18597] hover:translate-y-0.5 hover:shadow-[0_2px_0_0_#b18597]",
+      "active:bg-[#ffffff] active:translate-y-1 active:shadow-[0_0px_0_0_#b18597]"
     ),
     "pop-dark": cn(
-      "text-white bg-[#1a1c23] border-2 border-[#4b5563]",
-      "shadow-[0_12px_0_-2px_#374151,0_12px_0_0_#4b5563,0_22px_15px_-5px_rgba(0,0,0,0.5)]",
-      "hover:bg-[#262935] hover:translate-y-1 hover:shadow-[0_8px_0_-2px_#374151,0_8px_0_0_#4b5563,0_16px_10px_-5px_rgba(0,0,0,0.5)]",
-      "active:bg-[#262935] active:translate-y-3 active:shadow-[0_0px_0_-2px_#374151,0_0px_0_0_#4b5563,0_0px_0_0_rgba(0,0,0,0)]"
+      "text-[#2b201a] bg-[#f5eeee] border-2 border-[#b18597]",
+      "shadow-[0_8px_0_-2px_#e8dede,0_8px_0_0_#b18597]",
+      "hover:bg-[#faf6f6] hover:translate-y-0.5"
     ),
     // Pop Blue
     blue: cn(
-      "text-[#1e1b4b] bg-[#e0e7ff] border-2 border-[#6366f1]",
-      "shadow-[0_8px_0_-2px_#a5b4fc,0_8px_0_0_#6366f1,0_14px_8px_-3px_rgba(0,0,0,0.3)]",
-      "hover:bg-[#c7d2fe] hover:translate-y-0.5 active:translate-y-2"
+      "text-[#1e40af] bg-[#eff6ff] border-2 border-[#93c5fd]",
+      "shadow-[0_6px_0_0_#93c5fd]",
+      "hover:bg-[#dbeafe] hover:translate-y-0.5 active:translate-y-1"
     ),
     // Pop Green
     green: cn(
-      "text-[#064e3b] bg-[#ecfdf5] border-2 border-[#10b981]",
-      "shadow-[0_8px_0_-2px_#6ee7b7,0_8px_0_0_#10b981,0_14px_8px_-3px_rgba(0,0,0,0.3)]",
-      "hover:bg-[#d1fae5] hover:translate-y-0.5 active:translate-y-2"
+      "text-[#065f46] bg-[#ecfdf5] border-2 border-[#a7f3d0]",
+      "shadow-[0_6px_0_0_#a7f3d0]",
+      "hover:bg-[#d1fae5] hover:translate-y-0.5 active:translate-y-1"
     ),
     success: cn(
-      "text-[#064e3b] bg-[#ecfdf5] border-2 border-[#10b981]",
-      "shadow-[0_8px_0_-2px_#6ee7b7,0_8px_0_0_#10b981,0_14px_8px_-3px_rgba(0,0,0,0.3)]",
-      "hover:bg-[#d1fae5] hover:translate-y-0.5 active:translate-y-2"
+      "text-[#065f46] bg-[#ecfdf5] border-2 border-[#a7f3d0]",
+      "shadow-[0_6px_0_0_#a7f3d0]",
+      "hover:bg-[#d1fae5] hover:translate-y-0.5 active:translate-y-1"
     ),
     // Pop Purple
     purple: cn(
-      "text-[#4c1d95] bg-[#f5f3ff] border-2 border-[#8b5cf6]",
-      "shadow-[0_8px_0_-2px_#c4b5fd,0_8px_0_0_#8b5cf6,0_14px_8px_-3px_rgba(0,0,0,0.3)]",
-      "hover:bg-[#ede9fe] hover:translate-y-0.5 active:translate-y-2"
+      "text-[#5b21b6] bg-[#f5f3ff] border-2 border-[#ddd6fe]",
+      "shadow-[0_6px_0_0_#ddd6fe]",
+      "hover:bg-[#ede9fe] hover:translate-y-0.5 active:translate-y-1"
     ),
     // Pop Danger / Red
     danger: cn(
-      "text-[#7f1d1d] bg-[#fee2e2] border-2 border-[#ef4444]",
-      "shadow-[0_8px_0_-2px_#fca5a5,0_8px_0_0_#ef4444,0_14px_8px_-3px_rgba(0,0,0,0.3)]",
-      "hover:bg-[#fecaca] hover:translate-y-0.5 active:translate-y-2"
+      "text-[#991b1b] bg-[#fef2f2] border-2 border-[#fecaca]",
+      "shadow-[0_6px_0_0_#fecaca]",
+      "hover:bg-[#fee2e2] hover:translate-y-0.5 active:translate-y-1"
     ),
     // Pop Orange
     orange: cn(
-      "text-[#7c2d12] bg-[#ffedd5] border-2 border-[#f97316]",
-      "shadow-[0_8px_0_-2px_#fdba74,0_8px_0_0_#f97316,0_14px_8px_-3px_rgba(0,0,0,0.3)]",
-      "hover:bg-[#fed7aa] hover:translate-y-0.5 active:translate-y-2"
+      "text-[#9a3412] bg-[#fff7ed] border-2 border-[#fed7aa]",
+      "shadow-[0_6px_0_0_#fed7aa]",
+      "hover:bg-[#ffedd5] hover:translate-y-0.5 active:translate-y-1"
     ),
     // Pop Outline
     outline: cn(
-      "text-[#f9c4d2] bg-[#1b1c24] border-2 border-[#b18597]",
-      "shadow-[0_8px_0_-2px_#59424e,0_8px_0_0_#b18597,0_14px_8px_-3px_rgba(0,0,0,0.3)]",
-      "hover:bg-[#252732] hover:translate-y-0.5 active:translate-y-2"
+      "text-[#2b201a] bg-[#ffffff] border-2 border-[#e8dede]",
+      "shadow-[0_4px_0_0_#e8dede]",
+      "hover:border-[#b18597] hover:bg-[#fff0f0] hover:translate-y-0.5 hover:shadow-[0_2px_0_0_#b18597]",
+      "active:translate-y-1"
     ),
     // Pop Ghost
     ghost: cn(
-      "text-[#f9c4d2] hover:bg-white/[0.08] border-2 border-transparent",
-      "hover:border-[#b18597]/40 hover:shadow-[0_4px_0_0_#b18597/60]"
+      "text-[#5e4d46] hover:text-[#2b201a] hover:bg-[#fff0f0] border-2 border-transparent",
+      "hover:border-[#b18597]/40"
     ),
   };
 
   const sizeStyles = {
-    sm: "px-3.5 py-1.5 text-[11px] rounded-lg gap-1.5",
-    md: "px-5 py-2.5 text-xs rounded-xl gap-2",
-    lg: "px-7 py-3.5 text-sm rounded-xl gap-2.5",
-    pop: "px-8 py-5 text-sm rounded-xl gap-3",
+    sm: "px-3.5 py-1.5 text-[11px] rounded-xl gap-1.5",
+    md: "px-5 py-2.5 text-xs rounded-2xl gap-2",
+    lg: "px-7 py-3.5 text-sm rounded-2xl gap-2.5",
+    pop: "px-8 py-4 text-xs font-bold rounded-2xl gap-3",
   };
 
   return (
     <button
       className={cn(
-        "group relative inline-flex items-center justify-center font-semibold uppercase tracking-wider select-none cursor-pointer",
+        "group relative inline-flex items-center justify-center font-bold uppercase tracking-wider select-none cursor-pointer",
         "transition-all duration-150 ease-[cubic-bezier(0,0,0.58,1)]",
-        "focus:outline-none focus:ring-2 focus:ring-[#b18597] focus:ring-offset-2 focus:ring-offset-black",
+        "focus:outline-none focus:ring-2 focus:ring-[#b18597] focus:ring-offset-2",
         "disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none",
         variantStyles[variant] || variantStyles.primary,
         sizeStyles[size],
