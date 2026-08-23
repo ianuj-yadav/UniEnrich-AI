@@ -128,18 +128,18 @@ export const TargoHeroSection: React.FC = () => {
                 letterSpacing: "0.01em",
               }}
             >
-              <div>SCALING</div>
+              <div>ENRICHING</div>
               <div>THE</div>
-              <div>PLATFORM</div>
+              <div>CATALOG</div>
               <div style={{ marginLeft: "min(238px, 28vw)" }}>FOR</div>
-              <div style={{ marginLeft: "min(238px, 28vw)" }}>YOUR</div>
+              <div style={{ marginLeft: "min(238px, 28vw)" }}>MODERN</div>
               <div style={{ marginLeft: "min(238px, 28vw)", color: "#15BCDF" }}>
-                BUSINESS
+                INDUSTRY
               </div>
             </h1>
           </div>
 
-          {/* CTA Button "GET STARTED" */}
+          {/* CTA Button "EXPLORE WORKSPACE" */}
           <div
             className="flex items-center"
             style={{
@@ -158,7 +158,7 @@ export const TargoHeroSection: React.FC = () => {
                 letterSpacing: "0.14em",
               }}
             >
-              <span>GET STARTED</span>
+              <span>EXPLORE WORKSPACE</span>
               {/* Trailing 22x1px dark line */}
               <span className="w-[22px] h-[1px] bg-[#1a1c1e] block" />
             </Link>
