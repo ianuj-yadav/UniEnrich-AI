@@ -7,9 +7,6 @@ import {
   ChevronUp, 
   ChevronDown, 
   Check, 
-  ExternalLink, 
-  Sparkles,
-  Sliders,
   Eye
 } from "lucide-react";
 import { useTheme, ThemeStyle } from "@/context/ThemeContext";
@@ -18,6 +15,8 @@ export const ThemeSwitcherDock: React.FC = () => {
   const { theme, setTheme, config, allThemes } = useTheme();
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
   const [showToast, setShowToast] = useState<boolean>(false);
+
+  const isDark = theme === "matrix" || theme === "luxury";
 
   const handleSelect = (tId: ThemeStyle) => {
     setTheme(tId);
@@ -31,23 +30,24 @@ export const ThemeSwitcherDock: React.FC = () => {
       {showToast && (
         <div className="px-4 py-2 rounded-full bg-[#2b201a] text-white text-xs font-mono font-bold shadow-2xl flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2">
           <Check className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Active Theme Switched: {config.name} ({config.tag})</span>
+          <span>Active Theme: {config.name} ({config.tag})</span>
         </div>
       )}
 
       {/* Main Dock Container */}
       <div 
-        className="flex items-center gap-2 p-2 rounded-3xl border-2 backdrop-blur-2xl shadow-[0_16px_48px_rgba(0,0,0,0.15)] transition-all"
+        className="flex items-center gap-2 p-2 rounded-3xl border-2 backdrop-blur-2xl shadow-[0_16px_48px_rgba(0,0,0,0.25)] transition-all"
         style={{
-          backgroundColor: theme === "linear" ? "rgba(16, 18, 20, 0.92)" : "rgba(255, 255, 255, 0.95)",
+          backgroundColor: isDark ? "rgba(12, 14, 18, 0.95)" : "rgba(255, 255, 255, 0.95)",
           borderColor: config.colors.borderHover,
+          color: config.colors.textPrimary,
         }}
       >
         {/* Dock Header / Toggle */}
-        <div className="flex items-center gap-2 px-3 py-1.5 border-r border-current/10">
-          <Palette className="w-4 h-4 text-rose-500 animate-pulse" />
+        <div className="flex items-center gap-2 px-3 py-1.5 border-r border-current/15">
+          <Palette className="w-4 h-4 text-amber-500 animate-pulse" />
           <div className="hidden sm:block text-left">
-            <span className="text-[10px] uppercase font-mono font-bold block opacity-60">Design Style</span>
+            <span className="text-[10px] uppercase font-mono font-bold block opacity-60">Design Archetype</span>
             <span className="text-xs font-bold font-mono tracking-tight block">{config.name}</span>
           </div>
         </div>
@@ -70,7 +70,7 @@ export const ThemeSwitcherDock: React.FC = () => {
                   style={{
                     backgroundColor: isActive 
                       ? t.colors.surface 
-                      : (theme === "linear" ? "#1f2228" : "#faf6f6"),
+                      : (isDark ? "#1a1f26" : "#faf6f6"),
                     color: t.colors.textPrimary,
                     borderColor: isActive ? t.colors.accent : "transparent",
                     borderWidth: isActive ? "2px" : "1px",
@@ -89,7 +89,7 @@ export const ThemeSwitcherDock: React.FC = () => {
         {/* Showcase Link */}
         <Link
           href="/theme-showcase"
-          className="px-3 py-1.5 rounded-2xl text-xs font-mono font-bold flex items-center gap-1.5 transition-all opacity-80 hover:opacity-100 hover:bg-current/5"
+          className="px-3 py-1.5 rounded-2xl text-xs font-mono font-bold flex items-center gap-1.5 transition-all opacity-80 hover:opacity-100 hover:bg-current/10"
           title="Open Full Design Studio Gallery"
         >
           <Eye className="w-3.5 h-3.5" />

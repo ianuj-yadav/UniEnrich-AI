@@ -18,7 +18,10 @@ import {
   Box,
   Compass,
   Cpu,
-  Bookmark
+  Bookmark,
+  Terminal,
+  Activity,
+  Award
 } from "lucide-react";
 import { useTheme, THEME_CONFIGS, ThemeStyle, ThemeConfig } from "@/context/ThemeContext";
 import { Badge } from "@/components/ui/Badge";
@@ -31,7 +34,7 @@ export default function ThemeShowcasePage() {
   const [copiedToken, setCopiedToken] = useState<string | null>(null);
   const [savedSuccess, setSavedSuccess] = useState<string | null>(null);
 
-  const activeConfig = THEME_CONFIGS[selectedPreviewTab] || THEME_CONFIGS.vantage;
+  const activeConfig = THEME_CONFIGS[selectedPreviewTab] || THEME_CONFIGS.brutalist;
 
   const handleSetGlobalTheme = (tId: ThemeStyle) => {
     setTheme(tId);
@@ -47,28 +50,32 @@ export default function ThemeShowcasePage() {
   };
 
   return (
-    <div className="space-y-12 max-w-7xl mx-auto pb-24">
+    <div className="space-y-12 max-w-7xl mx-auto pb-28">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-current/10 pb-6">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <Badge variant="purple">Design Studio</Badge>
+            <Badge variant="purple">Creative Design Engine</Badge>
             <span className="text-xs font-mono font-bold uppercase tracking-wider opacity-70">
-              Interactive Multi-Theme Architecture
+              6 Curated Visual Archetypes
             </span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
             Design Systems &amp; Visual Archetype Gallery
           </h1>
           <p className="text-xs sm:text-sm opacity-80 max-w-2xl leading-relaxed">
-            Test 5 curated industrial design directions in real time. Switch themes instantly to preview how typography, 3D emblems, buttons, and catalog matrices adapt.
+            Test 6 distinct design aesthetics crafted specifically for Araxyss &amp; UniEnrich AI. Switch styles on the fly to inspect typography, 3D WebGL emblems, buttons, and catalog matrix formatting.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <button
             onClick={() => handleSetGlobalTheme(selectedPreviewTab)}
-            className="px-5 py-2.5 rounded-2xl bg-[#2b201a] text-white text-xs font-mono font-bold uppercase tracking-wider shadow-lg hover:opacity-90 active:scale-95 transition flex items-center gap-2 cursor-pointer"
+            className="px-5 py-3 rounded-2xl bg-current text-white text-xs font-mono font-bold uppercase tracking-wider shadow-xl hover:opacity-90 active:scale-95 transition flex items-center gap-2 cursor-pointer"
+            style={{
+              backgroundColor: activeConfig.colors.accent,
+              color: activeConfig.id === "brutalist" ? "#000" : "#fff",
+            }}
           >
             <Check className="w-4 h-4 text-emerald-400" />
             <span>Set "{activeConfig.name}" as Site Default</span>
@@ -83,8 +90,8 @@ export default function ThemeShowcasePage() {
         </div>
       )}
 
-      {/* 5 Theme Selection Tabs */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+      {/* 6 Theme Selection Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {Object.values(THEME_CONFIGS).map((t) => {
           const isSelected = t.id === selectedPreviewTab;
           const isGlobal = t.id === theme;
@@ -95,7 +102,7 @@ export default function ThemeShowcasePage() {
               onClick={() => setSelectedPreviewTab(t.id)}
               className={`p-4 rounded-3xl border-2 text-left transition-all relative flex flex-col justify-between space-y-3 cursor-pointer ${
                 isSelected
-                  ? "ring-2 scale-[1.02] shadow-xl"
+                  ? "ring-2 scale-[1.03] shadow-2xl"
                   : "opacity-75 hover:opacity-100 hover:scale-[1.01]"
               }`}
               style={{
@@ -115,17 +122,17 @@ export default function ThemeShowcasePage() {
               </div>
 
               <div>
-                <span className="text-[10px] font-mono font-bold uppercase opacity-60 block">{t.tag}</span>
-                <h3 className="font-bold text-sm tracking-tight">{t.name}</h3>
-                <p className="text-[11px] opacity-70 mt-0.5 line-clamp-1">{t.subtitle}</p>
+                <span className="text-[9px] font-mono font-bold uppercase opacity-60 block">{t.tag}</span>
+                <h3 className="font-bold text-xs sm:text-sm tracking-tight">{t.name}</h3>
+                <p className="text-[10px] opacity-70 mt-0.5 line-clamp-1">{t.subtitle}</p>
               </div>
 
               {/* Color Swatch Dots */}
               <div className="flex items-center gap-1.5 pt-1 border-t border-current/10">
-                <span className="w-3.5 h-3.5 rounded-full border border-black/10" style={{ backgroundColor: t.colors.background }} title="Background" />
-                <span className="w-3.5 h-3.5 rounded-full border border-black/10" style={{ backgroundColor: t.colors.surface }} title="Surface" />
-                <span className="w-3.5 h-3.5 rounded-full border border-black/10" style={{ backgroundColor: t.colors.accent }} title="Accent" />
-                <span className="w-3.5 h-3.5 rounded-full border border-black/10" style={{ backgroundColor: t.colors.textPrimary }} title="Text" />
+                <span className="w-3 h-3 rounded-full border border-black/10" style={{ backgroundColor: t.colors.background }} title="Background" />
+                <span className="w-3 h-3 rounded-full border border-black/10" style={{ backgroundColor: t.colors.surface }} title="Surface" />
+                <span className="w-3 h-3 rounded-full border border-black/10" style={{ backgroundColor: t.colors.accent }} title="Accent" />
+                <span className="w-3 h-3 rounded-full border border-black/10" style={{ backgroundColor: t.colors.textPrimary }} title="Text" />
               </div>
             </button>
           );
@@ -146,32 +153,32 @@ export default function ThemeShowcasePage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-current/10 pb-6">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-xl">{activeConfig.icon}</span>
-              <h2 className="text-2xl font-extrabold tracking-tight">{activeConfig.name} Showcase Sandbox</h2>
+              <span className="text-2xl">{activeConfig.icon}</span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">{activeConfig.name} Sandbox</h2>
               <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold border border-current/20">
                 {activeConfig.tag}
               </span>
             </div>
-            <p className="text-xs opacity-75">{activeConfig.subtitle}</p>
+            <p className="text-xs opacity-75">{activeConfig.subtitle} &bull; {activeConfig.typography.tagline}</p>
           </div>
 
           <div className="flex items-center gap-2">
             <button
               onClick={() => handleCopyJson(activeConfig)}
-              className="px-3.5 py-1.5 rounded-xl border border-current/20 text-xs font-mono font-semibold hover:bg-current/5 transition flex items-center gap-1.5 cursor-pointer"
+              className="px-3.5 py-2 rounded-xl border border-current/20 text-xs font-mono font-semibold hover:bg-current/5 transition flex items-center gap-1.5 cursor-pointer"
             >
               {copiedToken === activeConfig.id ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copiedToken === activeConfig.id ? "Copied JSON" : "Copy Design Tokens"}</span>
             </button>
             <button
               onClick={() => handleSetGlobalTheme(activeConfig.id)}
-              className="px-4 py-1.5 rounded-xl bg-current text-white text-xs font-mono font-bold uppercase transition hover:opacity-90 active:scale-95 cursor-pointer"
+              className="px-5 py-2 rounded-xl bg-current text-white text-xs font-mono font-bold uppercase transition hover:opacity-90 active:scale-95 cursor-pointer"
               style={{
                 backgroundColor: activeConfig.colors.accent,
                 color: activeConfig.id === "brutalist" ? "#000" : "#fff",
               }}
             >
-              Apply Theme
+              Apply Theme Globally
             </button>
           </div>
         </div>
@@ -205,7 +212,7 @@ export default function ThemeShowcasePage() {
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-3 pt-2">
-                <button className={`px-5 py-3 text-xs font-bold uppercase cursor-pointer ${activeConfig.buttonClass}`}>
+                <button className={`px-5 py-3 text-xs font-bold uppercase ${activeConfig.buttonClass}`}>
                   Get Started Now &rarr;
                 </button>
                 <button className="px-5 py-3 text-xs font-mono font-bold uppercase rounded-xl border border-current/20 hover:bg-current/5 transition cursor-pointer">
@@ -248,13 +255,13 @@ export default function ThemeShowcasePage() {
                 <button className={`px-5 py-2.5 text-xs font-bold uppercase ${activeConfig.buttonClass}`}>
                   Primary Action
                 </button>
-                <button className="px-5 py-2.5 text-xs font-mono font-bold uppercase rounded-xl border-2 border-current/30 hover:bg-current/5 transition">
+                <button className="px-5 py-2.5 text-xs font-mono font-bold uppercase rounded-xl border-2 border-current/30 hover:bg-current/5 transition cursor-pointer">
                   Secondary Action
                 </button>
-                <button className="px-5 py-2.5 text-xs font-mono font-bold uppercase rounded-xl bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 hover:bg-emerald-500/20 transition">
+                <button className="px-5 py-2.5 text-xs font-mono font-bold uppercase rounded-xl bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 hover:bg-emerald-500/20 transition cursor-pointer">
                   ✓ Verified Approval
                 </button>
-                <button className="px-5 py-2.5 text-xs font-mono font-bold uppercase rounded-xl bg-rose-500/10 text-rose-600 border border-rose-500/30 hover:bg-rose-500/20 transition">
+                <button className="px-5 py-2.5 text-xs font-mono font-bold uppercase rounded-xl bg-rose-500/10 text-rose-600 border border-rose-500/30 hover:bg-rose-500/20 transition cursor-pointer">
                   ✕ Reject SKU
                 </button>
               </div>
@@ -296,12 +303,12 @@ export default function ThemeShowcasePage() {
             <table className="w-full text-left text-xs">
               <thead className="border-b border-current/10 bg-current/[0.03] uppercase font-mono font-bold text-[10px] opacity-70">
                 <tr>
-                  <th className="py-3 px-4">Canonical SKU</th>
-                  <th className="py-3 px-4">Raw Supplier Feed</th>
-                  <th className="py-3 px-4">AI Standardized Record</th>
-                  <th className="py-3 px-4">Extracted Attributes</th>
-                  <th className="py-3 px-4">Confidence</th>
-                  <th className="py-3 px-4 text-right">Actions</th>
+                  <th className="py-3.5 px-4">Canonical SKU</th>
+                  <th className="py-3.5 px-4">Raw Supplier Feed</th>
+                  <th className="py-3.5 px-4">AI Standardized Record</th>
+                  <th className="py-3.5 px-4">Extracted Attributes</th>
+                  <th className="py-3.5 px-4">Confidence</th>
+                  <th className="py-3.5 px-4 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-current/10">
@@ -312,7 +319,6 @@ export default function ThemeShowcasePage() {
                     standard: 'NIBCO 3/4" Brass Coupling 150 PSI Threaded (Pack of 50)',
                     attrs: { Material: "Brass", Size: '3/4"', Pressure: "150 PSI" },
                     score: "98%",
-                    badge: "green" as const,
                   },
                   {
                     sku: "SKU-20841-HYD",
@@ -320,7 +326,6 @@ export default function ThemeShowcasePage() {
                     standard: "Fabory Grade 316 Stainless Steel Hex Head Bolt 1/2-13 UNC x 2.00in",
                     attrs: { Material: "316 SS", Pitch: "1/2-13 UNC", Standard: "DIN 933" },
                     score: "96%",
-                    badge: "green" as const,
                   },
                   {
                     sku: "SKU-30914-VLV",
@@ -328,7 +333,6 @@ export default function ThemeShowcasePage() {
                     standard: "Swagelok 1/4in Stainless Steel Ball Valve 1000 PSI",
                     attrs: { Material: "SS", Port: '1/4"', Pressure: "1000 PSI" },
                     score: "99%",
-                    badge: "green" as const,
                   },
                 ].map((row) => (
                   <tr key={row.sku} className="hover:bg-current/[0.02] transition-colors">
