@@ -18,6 +18,7 @@ const NAV_LINKS = [
   { name: "METHODOLOGY", href: "/rules" },
   { name: "DOCUMENTATION", href: "/datasheet" },
   { name: "REPORTS", href: "/analytics" },
+  { name: "DESIGN STUDIO", href: "/theme-showcase" },
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {

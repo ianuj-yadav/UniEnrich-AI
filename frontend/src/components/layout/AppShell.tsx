@@ -2,10 +2,11 @@
 
 import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { AuthProvider } from "@/context/AuthContext";
-import { useAuth } from "@/context/AuthContext";
+import { AuthProvider, useAuth } from "@/context/AuthContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import { Navbar } from "./Navbar";
 import { Sidebar } from "./Sidebar";
+import { ThemeSwitcherDock } from "./ThemeSwitcherDock";
 import { CopilotDrawer } from "@/components/copilot/CopilotDrawer";
 
 function AppShellContent({ children }: { children: React.ReactNode }) {
@@ -13,7 +14,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
-  const isLandingOrLogin = pathname === "/" || pathname === "/login";
+  const isLandingOrLogin = pathname === "/" || pathname === "/login" || pathname === "/theme-showcase";
 
   React.useEffect(() => {
     if (!isLoading && !isAuthenticated && !isLandingOrLogin) {
@@ -23,8 +24,8 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
 
   if (!isLandingOrLogin && (isLoading || !isAuthenticated)) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f6f6f6] text-[#363636]">
-        <div className="rounded-2xl border border-[#cedaee] bg-[#faf9f7] px-5 py-4 text-xs font-mono uppercase tracking-wider shadow-sm">
+      <div className="min-h-screen flex items-center justify-center bg-[#fdfbfb] text-[#2b201a]">
+        <div className="rounded-2xl border-2 border-[#e8dede] bg-[#ffffff] px-6 py-4 text-xs font-mono font-bold uppercase tracking-wider shadow-md">
           Securing workspace…
         </div>
       </div>
@@ -32,7 +33,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col antialiased bg-[#f6f6f6] text-[#161616] relative">
+    <div className="min-h-screen flex flex-col antialiased relative selection:bg-[#f9c4d2] selection:text-[#382b22]">
       {/* Light Ambient Background */}
       <div className="light-ambient-bg" />
       <div className="light-vignette" />
@@ -50,6 +51,9 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
       </div>
 
       <CopilotDrawer isOpen={isCopilotOpen} onClose={() => setIsCopilotOpen(false)} />
+      
+      {/* Floating Interactive Theme Switcher Dock */}
+      <ThemeSwitcherDock />
     </div>
   );
 }
@@ -57,7 +61,9 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
 export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <AuthProvider>
-      <AppShellContent>{children}</AppShellContent>
+      <ThemeProvider>
+        <AppShellContent>{children}</AppShellContent>
+      </ThemeProvider>
     </AuthProvider>
   );
 };
