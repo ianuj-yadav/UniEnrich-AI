@@ -26,6 +26,7 @@ import {
   getEnrichedProducts, 
   listBatches, 
   getComparisonData, 
+  downloadCatalogExport,
   BatchItem, 
   EnrichedProduct, 
   ComparisonData 
@@ -77,6 +78,7 @@ function ProductsContent() {
   const [selectedBatchId, setSelectedBatchId] = useState<string | null>(batchIdFromUrl);
   const [products, setProducts] = useState<EnrichedProduct[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   // Filters & Search
   const [searchQuery, setSearchQuery] = useState("");
@@ -88,6 +90,18 @@ function ProductsContent() {
   const [comparisonData, setComparisonData] = useState<ComparisonData | null>(null);
   const [isLoadingComparison, setIsLoadingComparison] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const handleExportCsv = async () => {
+    if (!selectedBatchId) return;
+    setIsExporting(true);
+    try {
+      await downloadCatalogExport(selectedBatchId, "csv", statusFilter, "standard");
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   // Load Batches
   useEffect(() => {
@@ -258,6 +272,16 @@ function ProductsContent() {
               className="w-full bg-[#faf6f6] border border-[#e8dede] rounded-xl pl-8 pr-3 py-1.5 text-xs font-semibold text-[#2b201a] focus:outline-none focus:border-[#b18597]"
             />
           </div>
+
+          <button
+            onClick={handleExportCsv}
+            disabled={isExporting}
+            className="px-3.5 py-1.5 rounded-xl bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-xs cursor-pointer shrink-0"
+            title="Download current filtered catalog as CSV"
+          >
+            <Download className="w-3.5 h-3.5 text-[#15BCDF]" />
+            <span>{isExporting ? "Exporting..." : "Export CSV"}</span>
+          </button>
         </div>
       </div>
 
