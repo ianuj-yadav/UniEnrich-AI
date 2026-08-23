@@ -100,9 +100,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
         ) : (
           <Link
             href="/login"
-            className="px-3.5 py-1 rounded-lg bg-black text-[#f7f4ed] text-xs font-mono font-bold uppercase tracking-wider hover:bg-stone-800 transition cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#111111] hover:bg-stone-800 text-white text-xs font-mono font-bold uppercase tracking-wider shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
           >
-            SIGN IN
+            <LogIn className="w-3.5 h-3.5" />
+            <span>SIGN IN</span>
           </Link>
         )}
       </div>

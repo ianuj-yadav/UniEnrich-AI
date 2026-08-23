@@ -173,7 +173,7 @@ export default function LoginPage() {
 
           <div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-[#2b201a] tracking-tight">
-              {mode === "signin" ? "Sign In to Vantage" : "Create Reviewer Account"}
+              {mode === "signin" ? "Sign In to UniHack" : "Create Reviewer Account"}
             </h1>
             <p className="text-xs text-[#5e4d46] mt-1">
               Industrial Catalog Intelligence &amp; Master Enrichment Platform
