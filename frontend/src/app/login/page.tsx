@@ -23,6 +23,7 @@ import {
   LogOut,
   UserPlus
 } from "lucide-react";
+import { UniEnrichLogo } from "@/components/ui/UniEnrichLogo";
 import { useAuth } from "@/context/AuthContext";
 import { PopButton } from "@/components/ui/PopButton";
 import { Button } from "@/components/ui/Button";
@@ -152,23 +153,8 @@ export default function LoginPage() {
       <div className="w-full max-w-md space-y-6">
         {/* Top Brand Header */}
         <div className="text-center space-y-3">
-          <Link href="/" className="inline-flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-2xl bg-[#fff0f0] border-2 border-[#b18597] shadow-[0_3px_0_0_#b18597] flex items-center justify-center mx-auto">
-              <svg width="24" height="24" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <clipPath id="login-brand-disc">
-                    <circle cx="12.5" cy="12.5" r="12.5" />
-                  </clipPath>
-                </defs>
-                <g clipPath="url(#login-brand-disc)">
-                  <rect width="25" height="25" fill="#fdfafb" />
-                  <path d="M12.5 2.5L22.5 12.5L12.5 22.5L2.5 12.5Z" fill="#382b22" />
-                  <path d="M12.5 5L20 12.5L12.5 20L5 12.5Z" fill="#b18597" />
-                  <path d="M12.5 7.5L17.5 12.5L12.5 17.5L7.5 12.5Z" fill="#fff0f0" />
-                  <path d="M12.5 9.5L15.5 12.5L12.5 15.5L9.5 12.5Z" fill="#382b22" />
-                </g>
-              </svg>
-            </div>
+          <Link href="/" className="inline-flex items-center justify-center group">
+            <UniEnrichLogo size={44} showText={false} />
           </Link>
 
           <div>

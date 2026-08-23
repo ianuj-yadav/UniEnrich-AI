@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bot, LogIn, LogOut, ArrowUpRight, Menu, X, Mail } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { UniEnrichLogo } from "@/components/ui/UniEnrichLogo";
 
 interface NavbarProps {
   onOpenCopilot?: () => void;
@@ -32,24 +33,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
   return (
     <header className="h-16 bg-[#F2F1F0]/95 border-b border-stone-300 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-50 backdrop-blur-xl transition-all font-quantico">
       
-      {/* Left: Targo-Style Logo + How It Works */}
+      {/* Left: UniEnrich Custom Logo + How It Works */}
       <div className="flex items-center gap-6">
-        <Link href="/" className="flex items-center gap-3 group" aria-label="UniEnrich home">
-          {/* 38px dark (#111) circle with white 20x8px ellipse rotated -25° */}
-          <div className="w-[36px] h-[36px] rounded-full bg-[#111111] flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
-            <div 
-              className="w-[18px] h-[7px] rounded-full bg-white"
-              style={{ transform: "rotate(-25deg)" }}
-            />
-          </div>
-          <div className="flex items-baseline gap-1.5">
-            <span className="font-bold text-xl tracking-tight text-[#111111] lowercase">
-              unienrich
-            </span>
-            <span className="text-[11px] font-bold text-[#15BCDF] uppercase tracking-widest hidden sm:inline">
-              AI
-            </span>
-          </div>
+        <Link href="/" className="group" aria-label="UniEnrich home">
+          <UniEnrichLogo size={36} showText={true} />
         </Link>
 
         <Link 
@@ -59,12 +46,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
           <span>HOW IT WORKS</span>
           <ArrowUpRight className="w-3 h-3 text-[#15BCDF]" />
         </Link>
-      </div>
-
-      {/* Center Status: Sentinel Telemetry */}
-      <div className="hidden xl:flex items-center gap-2 text-[10px] font-bold text-stone-500 uppercase tracking-wider bg-white/70 px-3 py-1 rounded-full border border-stone-300 shadow-2xs">
-        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-        <span>SPECIFICATION SIGNALS — REVIEWER JUDGMENT REQUIRED</span>
       </div>
 
       {/* Right Controls & Nav Links */}
