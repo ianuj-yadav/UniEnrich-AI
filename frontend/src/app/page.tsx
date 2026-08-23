@@ -41,6 +41,7 @@ import { listBatches, BatchItem } from "@/lib/api";
 import { Interactive3DCore } from "@/components/ui/Interactive3DCore";
 import { LiveEnrichmentWorkbench } from "@/components/ui/LiveEnrichmentWorkbench";
 import { SpecCompletenessVisualizer } from "@/components/ui/SpecCompletenessVisualizer";
+import { TargoHeroSection } from "@/components/home/TargoHeroSection";
 
 const REVIEWER_DIALOGUES = [
   {
@@ -111,70 +112,17 @@ export default function DashboardPage() {
   const activeDialogue = REVIEWER_DIALOGUES[activeReviewerIdx];
 
   return (
-    <div className="w-full space-y-0 bg-[#f7f4ed] text-[#111111] selection:bg-[#bae6fd] selection:text-[#0369a1]">
+    <div className="w-full space-y-0 bg-[#F2F1F0] text-[#2b3033]">
       
       {/* ====================================================================
-          ACT 1: FULL-BLEED HERO SECTION (WARM IVORY CANVAS #f7f4ed)
+          FRONT SECTION: TARGO HERO + ABOUT SECTIONS
           ==================================================================== */}
-      <section className="w-full bg-[#f7f4ed] border-b border-stone-300 pt-10 pb-16 px-6 sm:px-12 md:px-20">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Left Column */}
-          <div className="lg:col-span-7 space-y-8">
-            <div className="space-y-3">
-              <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-stone-600 border-b border-stone-400 pb-0.5 inline-block">
-                A BETTER WAY TO ENRICH CATALOGS
-              </span>
-
-              <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[#111111] leading-[1.04]">
-                Not a verdict.<br />
-                A trail of<br />
-                evidence.
-              </h1>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-4">
-              <Link 
-                href="/upload" 
-                className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-black border-b-2 border-black pb-1 hover:text-blue-600 hover:border-blue-600 transition-colors"
-              >
-                <span>EXPLORE THE WORKSPACE</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </Link>
-              <Link 
-                href="/products" 
-                className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-stone-600 border-b border-stone-400 pb-1 hover:text-black hover:border-black transition-colors"
-              >
-                <span>VIEW MASTER CATALOG (1,472 SKUs)</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Column: Editorial Mission */}
-          <div className="lg:col-span-5 space-y-6 flex flex-col items-center sm:items-start text-center sm:text-left">
-            <div className="space-y-4 max-w-lg">
-              <p className="text-lg sm:text-xl font-bold text-stone-900 leading-snug tracking-tight font-sans">
-                UniHack is an AI-powered industrial catalog standardization engine. Built to bridge the gap between noisy supplier feeds and search-ready master records.
-              </p>
-              <p className="text-xs sm:text-sm font-semibold text-stone-700 leading-relaxed font-mono">
-                Extracts 15+ mechanical specs, resolves duplicate vendor listings, and guarantees audit-ready accuracy using deterministic RapidFuzz matching &amp; Gemini intelligence.
-              </p>
-              <div className="pt-2">
-                <span className="inline-block px-3.5 py-1.5 rounded-lg bg-sky-100 text-sky-900 border border-sky-300 text-xs font-mono font-extrabold uppercase tracking-widest shadow-2xs">
-                  LESS COMPLEXITY. LESS REPETITION. MORE ACCOUNTABLE REVISION.
-                </span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
+      <TargoHeroSection />
 
       {/* ====================================================================
           ACT 2: FULL-WIDTH 3-CARD EVIDENCE RIBBON (CLEAN LIGHT PORCELAIN)
           ==================================================================== */}
-      <section className="w-full grid grid-cols-1 md:grid-cols-3 border-b border-stone-300">
+      <section id="unihack-suite" className="w-full grid grid-cols-1 md:grid-cols-3 border-b border-stone-300">
         
         {/* Card 1: Light Warm Silver (matching Card 3) */}
         <div className="bg-[#f0ece1] p-8 sm:p-12 border-b md:border-b-0 md:border-r border-stone-300 flex flex-col justify-between space-y-8">

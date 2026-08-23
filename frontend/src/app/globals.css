@@ -1,16 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: #f7f4ed;
-    --foreground: #111111;
-    --canvas-ivory: #f7f4ed;
+    --background: #F2F1F0;
+    --foreground: #2b3033;
+    --accent-targo: #15BCDF;
+    --accent-hover: #3fd0ef;
+    --accent-border: #0fa3c2;
+    --canvas-ivory: #F2F1F0;
     --canvas-ice: #e2f1f5;
     --canvas-dark: #111111;
-    --cyan-accent: #38bdf8;
-    --cyan-glow: #0284c7;
+    --cyan-accent: #15BCDF;
     color-scheme: light;
   }
 
@@ -21,25 +25,58 @@
   }
 
   html {
-    background-color: #f7f4ed;
-    color: #111111;
+    background-color: #F2F1F0;
+    color: #2b3033;
+    scroll-behavior: smooth;
   }
 
   body {
-    background-color: #f7f4ed;
-    color: #111111;
+    margin: 0;
+    background-color: #F2F1F0;
+    color: #2b3033;
     min-height: 100vh;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    selection-background-color: #bae6fd;
-    selection-color: #0369a1;
+    font-family: 'Quantico', 'Arial Narrow', sans-serif;
+    selection-background-color: #15BCDF;
+    selection-color: #111111;
   }
+
+  a {
+    color: #3a3a3a;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #000000;
+  }
+}
+
+.font-quantico {
+  font-family: 'Quantico', 'Arial Narrow', sans-serif;
+}
+
+/* Chamfered corners for Targo buttons */
+.chamfer-btn {
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+}
+
+.chamfer-contact-btn {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+
+/* Targo cyan CTA glow */
+.targo-btn-glow {
+  box-shadow: 0 0 0 1px rgba(21, 188, 223, 0.35), 0 10px 30px -12px rgba(15, 163, 194, 0.6);
+}
+
+.targo-btn-glow:hover {
+  box-shadow: 0 0 0 1px rgba(63, 208, 239, 0.6), 0 14px 36px -10px rgba(21, 188, 223, 0.8);
 }
 
 /* ==========================================================================
    UNIHACK EDITORIAL FULL-BLEED SECTIONS & ANIMATIONS
    ========================================================================== */
 
-/* Animated Cyan Signal Pulse in Pitch Black Card */
+/* Animated Cyan Signal Pulse in Card 2 */
 @keyframes cyan-signal-pulse {
   0%, 100% {
     opacity: 0.85;
@@ -48,7 +85,7 @@
   50% {
     opacity: 1;
     transform: scaleX(1.02);
-    box-shadow: 0 0 16px rgba(56, 189, 248, 0.8);
+    box-shadow: 0 0 16px rgba(21, 188, 223, 0.8);
   }
 }
 
@@ -61,63 +98,31 @@
 }
 
 .cyan-signal-bar-3 {
-  animation: cyan-signal-pulse 4s ease-in-out 0.8s infinite;
+  animation: cyan-signal-pulse 2.8s ease-in-out 0.8s infinite;
 }
 
 .cyan-signal-bar-4 {
-  animation: cyan-signal-pulse 4.5s ease-in-out 1.2s infinite;
+  animation: cyan-signal-pulse 3.2s ease-in-out 1.2s infinite;
 }
 
-/* Tilted Document Editor Window (Act 4) */
+/* Tilted Floating Workspace Document Card */
 .tilted-doc-card {
-  transform: rotate(-1.8deg);
+  transform: rotate(-1.5deg) translateY(0px);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
 }
 
 .tilted-doc-card:hover {
   transform: rotate(0deg) translateY(-4px);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 24px 64px -12px rgba(0, 0, 0, 0.15);
 }
 
-/* Cyan Highlighter Text Boxes */
+/* Cyan Highlighter Text Boxes in Document */
 .cyan-highlight-box {
-  background-color: #c8ebf5;
-  color: #111111;
-  padding: 2px 8px;
+  background-color: #c4f1fa;
+  color: #034b5c;
+  padding: 2px 6px;
   border-radius: 4px;
-  display: inline-block;
-  box-shadow: 0 1px 3px rgba(56, 189, 248, 0.2);
-}
-
-/* Custom Clean Scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f7f4ed;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #d4cfc3;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #111111;
-}
-
-/* Button Global Typography & Tactile Defaults */
-button, .btn {
-  font-family: inherit;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition: all 150ms cubic-bezier(0, 0, 0.58, 1);
-}
-
-:focus-visible {
-  outline: 2px solid #38bdf8;
-  outline-offset: 3px;
+  display: inline;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
