@@ -182,10 +182,10 @@ export default function DashboardPage() {
           ==================================================================== */}
       <section className="w-full grid grid-cols-1 md:grid-cols-3 border-b border-stone-300">
         
-        {/* Card 1: Warm Off-White */}
-        <div className="bg-[#f7f4ed] p-8 sm:p-12 border-b md:border-b-0 md:border-r border-stone-300 flex flex-col justify-between space-y-8">
+        {/* Card 1: Light Warm Silver (matching Card 3) */}
+        <div className="bg-[#f0ece1] p-8 sm:p-12 border-b md:border-b-0 md:border-r border-stone-300 flex flex-col justify-between space-y-8">
           <div className="space-y-4">
-            <div className="w-8 h-8 rounded-lg bg-stone-200 flex items-center justify-center text-black shadow-xs">
+            <div className="w-8 h-8 rounded-lg bg-stone-300 flex items-center justify-center text-black shadow-xs">
               <Search className="w-4 h-4" />
             </div>
             <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-stone-500">
