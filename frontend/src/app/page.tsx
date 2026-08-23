@@ -3,29 +3,20 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { 
-  UploadCloud, 
-  Cpu, 
-  CheckCircle2, 
-  AlertTriangle, 
-  Copy, 
-  ArrowRight, 
   Sparkles, 
+  ArrowRight, 
+  UploadCloud, 
   Layers, 
-  BarChart3,
-  FileSpreadsheet,
-  Bot,
-  FileText,
-  GitMerge,
+  CheckSquare, 
+  BarChart3, 
+  Download, 
+  FileText, 
+  GitMerge, 
   BookOpen,
-  Download,
-  ShieldCheck,
-  Zap,
   TrendingUp,
-  Activity,
-  Check,
-  Timer,
-  Award,
-  Database
+  Cpu,
+  Clock,
+  Play
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -60,321 +51,377 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
-      {/* Hackathon Showcase Hero Banner */}
-      <div className="bg-black-800 border border-black-600 rounded-2xl p-6 md:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative overflow-hidden shadow-2xl">
-        <div className="space-y-3 max-w-2xl">
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="blue" dot>UniEnrich AI v2.0</Badge>
-            <Badge variant="purple">Gemini 2.5 Flash Multimodal</Badge>
-            <Badge variant="green">RapidFuzz Entity Resolution</Badge>
-            <span className="text-[11px] font-mono text-grey-300 bg-black-900 px-2 py-0.5 rounded border border-black-700">
-              Universal Stack (HTML + TSX + Python)
-            </span>
-          </div>
-          <h1 className="text-2xl md:text-4xl font-extrabold text-white-50 tracking-tight">
-            Autonomous Product Data Intelligence Platform
-          </h1>
-          <p className="text-sm text-grey-200 leading-relaxed">
-            &ldquo;Transform messy, abbreviated industrial catalogs into structured, classified, search-ready records in seconds with deterministic cleaning, fuzzy brand resolution, and human-in-the-loop verification.&rdquo;
-          </p>
+      {/* ====================================================================
+          VANTAGE CINEMATIC HERO & GLASS DEMO COMPONENT
+          ==================================================================== */}
+      <div className="relative rounded-2xl border border-white/10 p-6 md:p-10 overflow-hidden backdrop-blur-xl bg-gradient-to-br from-white/[0.06] via-black/40 to-black/80 shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
+        {/* Subtle radial ambient glow */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
 
-          {/* Quick Value Proof Chips */}
-          <div className="flex flex-wrap items-center gap-4 pt-1 text-xs text-grey-300 font-mono">
-            <span className="flex items-center gap-1.5 text-green-300">
-              <Check className="w-3.5 h-3.5" /> 96.4% Avg Accuracy
-            </span>
-            <span className="flex items-center gap-1.5 text-blue-400">
-              <Timer className="w-3.5 h-3.5" /> &lt; 25ms / SKU Ingestion
-            </span>
-            <span className="flex items-center gap-1.5 text-purple-300">
-              <ShieldCheck className="w-3.5 h-3.5" /> 0% Formula Injection
-            </span>
-          </div>
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+          {/* Left Hero Stack */}
+          <div className="lg:col-span-8 space-y-6">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="px-2.5 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-semibold">
+                Vantage Catalog Intelligence
+              </span>
+              <span className="px-2.5 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 text-xs font-semibold">
+                Gemini 2.5 Flash
+              </span>
+              <span className="px-2.5 py-1 rounded-full bg-green-500/20 border border-green-400/30 text-green-300 text-xs font-semibold">
+                RapidFuzz Resolver
+              </span>
+            </div>
 
-        <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
-          <Link href="/upload">
-            <Button variant="primary" size="lg" className="w-full" icon={<UploadCloud className="w-4 h-4" />}>
-              Upload Catalog Feed
-            </Button>
-          </Link>
-          {activeBatch ? (
-            <Link href={`/process?batch_id=${activeBatch.id}`}>
-              <Button variant="purple" size="lg" className="w-full" icon={<Cpu className="w-4 h-4" />}>
-                Monitor Active Pipeline
-              </Button>
-            </Link>
-          ) : (
-            <Link href="/datasheet">
-              <Button variant="secondary" size="lg" className="w-full" icon={<FileText className="w-4 h-4 text-purple-400" />}>
-                Datasheet OCR Lab
-              </Button>
-            </Link>
-          )}
+            {/* Exact Headline Typography */}
+            <h1 className="hero-headline text-4xl sm:text-5xl md:text-6xl font-medium tracking-tight leading-[1.08] text-white">
+              <span className="block line-scale-1 text-white">Stop Digging</span>
+              <span className="block line-scale-2 text-[#d3cfcf]/80">Through Dashboards.</span>
+            </h1>
+
+            {/* Exact Body Copy */}
+            <p className="text-sm sm:text-base text-white/80 font-normal leading-relaxed max-w-xl">
+              Your metrics are scattered across a dozen dashboards.<br className="hidden sm:inline" />
+              Vantage bring them into one clear signal, so every<br className="hidden sm:inline" />
+              decision is backed by data you actually trust.
+            </p>
+
+            {/* Primary Action Controls */}
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              {/* White Primary CTA with dark arrow box */}
+              <Link href="/upload">
+                <button className="h-11 px-5 rounded-[7px] bg-white text-black font-medium text-sm flex items-center gap-3 shadow-[0_1px_5px_rgba(0,0,0,0.38)] hover:bg-white/90 transition-all hover:scale-[1.02] active:scale-[0.98]">
+                  <span>Get Started</span>
+                  <span className="w-6 h-6 rounded-[5px] bg-[#070909] flex items-center justify-center">
+                    <ArrowRight className="w-3.5 h-3.5 text-white" />
+                  </span>
+                </button>
+              </Link>
+
+              {activeBatch && (
+                <Link href={`/products?batch_id=${activeBatch.id}`}>
+                  <button className="h-11 px-4 rounded-[7px] border border-white/20 bg-white/[0.06] hover:bg-white/[0.12] text-white font-medium text-sm transition-all backdrop-blur-md">
+                    Explore Active Catalog &rarr;
+                  </button>
+                </Link>
+              )}
+            </div>
+          </div>
+
+          {/* Right Glass Demo Card */}
+          <div className="lg:col-span-4 flex justify-center lg:justify-end">
+            <article className="w-full max-w-[215px] aspect-[201/265] rounded-[16px] border border-white/15 p-3.5 flex flex-col justify-between backdrop-blur-xl bg-gradient-to-br from-[#181614]/80 to-[#050c0e]/85 shadow-[0_2px_10px_rgba(0,0,0,0.44),inset_0_0_0_1px_rgba(255,255,255,0.06)] hover:border-white/25 transition-all">
+              {/* Visual Thumbnail with Play Button */}
+              <div className="relative w-full aspect-square rounded-[10px] overflow-hidden bg-[#101a1e] flex items-center justify-center">
+                <svg className="w-full h-full object-cover" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
+                  <defs>
+                    <radialGradient id="dashSmokeRed" cx="35%" cy="35%" r="65%">
+                      <stop offset="0%" stopColor="#ea3943" stopOpacity="0.95"/>
+                      <stop offset="50%" stopColor="#b01f35" stopOpacity="0.7"/>
+                      <stop offset="100%" stopColor="#120508" stopOpacity="0"/>
+                    </radialGradient>
+                    <radialGradient id="dashSmokeBlue" cx="70%" cy="65%" r="60%">
+                      <stop offset="0%" stopColor="#3874e0" stopOpacity="0.9"/>
+                      <stop offset="45%" stopColor="#193a8c" stopOpacity="0.6"/>
+                      <stop offset="100%" stopColor="#050a18" stopOpacity="0"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="100%" height="100%" fill="#0a1215" />
+                  <circle cx="150" cy="150" r="140" fill="url(#dashSmokeRed)" />
+                  <circle cx="260" cy="240" r="150" fill="url(#dashSmokeBlue)" />
+                </svg>
+
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full border border-white/40 bg-black/50 backdrop-blur-sm flex items-center justify-center pl-0.5 shadow-lg">
+                    <Play className="w-4 h-4 text-white fill-white" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Watch Demo Button */}
+              <button 
+                onClick={() => window.open("/upload", "_self")}
+                className="w-full py-2 rounded-[8px] border border-white/20 bg-gradient-to-r from-[#1a2224]/90 to-[#101d21]/90 text-white font-medium text-xs tracking-tight shadow-md hover:brightness-110 transition-all text-center"
+              >
+                Watch Demo
+              </button>
+            </article>
+          </div>
         </div>
       </div>
 
-      {/* 5 Core Metric Bento Grid */}
+      {/* ====================================================================
+          5-KPI METRIC CARDS (GLASS BENTO GRID)
+          ==================================================================== */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        <div className="p-5 bg-black-800 border border-black-600 rounded-xl flex flex-col justify-between transition-all hover:border-grey-400 hover:-translate-y-0.5 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-grey-300 uppercase tracking-wider">Products Ingested</span>
-            <div className="p-1.5 rounded-md bg-blue-600/20 text-blue-400 border border-blue-500/30">
-              <FileSpreadsheet className="w-4 h-4" />
-            </div>
+        <Card className="p-4">
+          <div className="flex items-center justify-between text-xs font-medium text-grey-300">
+            <span>Products Ingested</span>
+            <UploadCloud className="w-4 h-4 text-blue-400" />
           </div>
-          <div className="text-3xl font-extrabold font-mono text-white-50 mt-3">
-            {totalUploaded.toLocaleString()}
-          </div>
-          <div className="text-[11px] text-grey-400 mt-1">Across all supplier feeds</div>
-        </div>
+          <div className="text-2xl font-bold text-white mt-2 font-mono">{totalUploaded}</div>
+          <p className="text-[11px] text-grey-400 mt-1">Across all supplier feeds</p>
+        </Card>
 
-        <div className="p-5 bg-black-800 border border-black-600 rounded-xl flex flex-col justify-between transition-all hover:border-green-500 hover:-translate-y-0.5 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-grey-300 uppercase tracking-wider">Standardized</span>
-            <div className="p-1.5 rounded-md bg-green-900/40 text-green-400 border border-green-700/50">
-              <CheckCircle2 className="w-4 h-4" />
-            </div>
+        <Card className="p-4">
+          <div className="flex items-center justify-between text-xs font-medium text-grey-300">
+            <span>Standardized Records</span>
+            <Sparkles className="w-4 h-4 text-green-400" />
           </div>
-          <div className="text-3xl font-extrabold font-mono text-green-300 mt-3">
-            {totalProcessed.toLocaleString()}
-          </div>
-          <div className="text-[11px] text-green-400/90 mt-1">100% enriched with 15+ specs</div>
-        </div>
+          <div className="text-2xl font-bold text-green-400 mt-2 font-mono">{totalProcessed}</div>
+          <p className="text-[11px] text-green-500/80 mt-1">Enriched with 15+ specs</p>
+        </Card>
 
-        <div className="p-5 bg-black-800 border border-black-600 rounded-xl flex flex-col justify-between transition-all hover:border-purple-500 hover:-translate-y-0.5 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-grey-300 uppercase tracking-wider">Avg Accuracy</span>
-            <div className="p-1.5 rounded-md bg-purple-900/40 text-purple-300 border border-purple-600/50">
-              <Sparkles className="w-4 h-4" />
-            </div>
+        <Card className="p-4">
+          <div className="flex items-center justify-between text-xs font-medium text-grey-300">
+            <span>Average Accuracy</span>
+            <TrendingUp className="w-4 h-4 text-purple-400" />
           </div>
-          <div className="text-3xl font-extrabold font-mono text-purple-300 mt-3">
-            96.4%
-          </div>
-          <div className="text-[11px] text-purple-300 mt-1">Dual confidence engine</div>
-        </div>
+          <div className="text-2xl font-bold text-purple-300 mt-2 font-mono">96.4%</div>
+          <p className="text-[11px] text-purple-400/80 mt-1">Dual confidence engine</p>
+        </Card>
 
-        <div className="p-5 bg-black-800 border border-black-600 rounded-xl flex flex-col justify-between transition-all hover:border-yellow-400 hover:-translate-y-0.5 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-grey-300 uppercase tracking-wider">Needs Review (&lt;70%)</span>
-            <div className="p-1.5 rounded-md bg-yellow-600/20 text-yellow-400 border border-yellow-500/40">
-              <AlertTriangle className="w-4 h-4" />
-            </div>
+        <Card className="p-4">
+          <div className="flex items-center justify-between text-xs font-medium text-grey-300">
+            <span>Needs Review (&lt;70%)</span>
+            <CheckSquare className="w-4 h-4 text-yellow-400" />
           </div>
-          <div className="text-3xl font-extrabold font-mono text-yellow-400 mt-3">
-            {totalMissingBrands}
-          </div>
-          <div className="text-[11px] text-yellow-500/90 mt-1">Flagged for human check</div>
-        </div>
+          <div className="text-2xl font-bold text-yellow-400 mt-2 font-mono">{totalErrors}</div>
+          <p className="text-[11px] text-yellow-500/80 mt-1">Routed to Human Review</p>
+        </Card>
 
-        <div className="p-5 bg-black-800 border border-black-600 rounded-xl flex flex-col justify-between transition-all hover:border-red-500 hover:-translate-y-0.5 shadow-sm">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-grey-300 uppercase tracking-wider">Duplicate SKUs</span>
-            <div className="p-1.5 rounded-md bg-red-900/40 text-red-400 border border-red-700/50">
-              <Copy className="w-4 h-4" />
-            </div>
+        <Card className="p-4">
+          <div className="flex items-center justify-between text-xs font-medium text-grey-300">
+            <span>Duplicate SKUs</span>
+            <GitMerge className="w-4 h-4 text-red-400" />
           </div>
-          <div className="text-3xl font-extrabold font-mono text-red-500 mt-3">
-            {totalDuplicates}
-          </div>
-          <div className="text-[11px] text-red-400/90 mt-1">Vector clusters quarantined</div>
-        </div>
+          <div className="text-2xl font-bold text-red-400 mt-2 font-mono">{totalDuplicates}</div>
+          <p className="text-[11px] text-red-500/80 mt-1">Vector cosine clusters</p>
+        </Card>
       </div>
 
-      {/* ROI & Competitive Edge Cards */}
+      {/* ====================================================================
+          3-CARD BUSINESS ROI & TAXONOMY DELTA
+          ==================================================================== */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-5 bg-black-800 border border-black-600 rounded-xl space-y-2">
-          <div className="flex items-center gap-2 text-xs font-bold text-green-300 uppercase">
-            <TrendingUp className="w-4 h-4" /> Business ROI Impact
+        <Card className="p-5">
+          <div className="flex items-center gap-2 text-xs font-bold text-green-400 uppercase tracking-wider mb-2">
+            📈 Business ROI Impact
           </div>
-          <div className="text-2xl font-bold text-white-50">84.2 Man-Hours Saved</div>
-          <p className="text-xs text-grey-300">Replaces manual catalog data entry with automated batch AI processing.</p>
-        </div>
+          <div className="text-3xl font-extrabold text-white font-mono">84.2 Man-Hours</div>
+          <p className="text-xs text-grey-300 mt-1.5">
+            Saved through automated batch cleaning, attribute extraction, and taxonomy classification.
+          </p>
+        </Card>
 
-        <div className="p-5 bg-black-800 border border-black-600 rounded-xl space-y-2">
-          <div className="flex items-center gap-2 text-xs font-bold text-blue-400 uppercase">
-            <Activity className="w-4 h-4" /> Taxonomy Completeness
+        <Card className="p-5">
+          <div className="flex items-center gap-2 text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">
+            ⚡ Taxonomy Completeness
           </div>
-          <div className="text-2xl font-bold text-white-50">+42.0% Brand Resolution</div>
-          <p className="text-xs text-grey-300">Resolves unbranded or misspelled manufacturer records into canonical aliases.</p>
-        </div>
+          <div className="text-3xl font-extrabold text-green-400 font-mono">+42.0% Resolution</div>
+          <p className="text-xs text-grey-300 mt-1.5">
+            Increase in canonical brand and manufacturer coverage using RapidFuzz entity matching.
+          </p>
+        </Card>
 
-        <div className="p-5 bg-black-800 border border-black-600 rounded-xl space-y-2">
-          <div className="flex items-center gap-2 text-xs font-bold text-purple-300 uppercase">
-            <ShieldCheck className="w-4 h-4" /> Quality Gate Assurance
+        <Card className="p-5">
+          <div className="flex items-center gap-2 text-xs font-bold text-purple-400 uppercase tracking-wider mb-2">
+            🛡️ Quality & Security Gate
           </div>
-          <div className="text-2xl font-bold text-white-50">100% Formula Sanitized</div>
-          <p className="text-xs text-grey-300">Escapes CSV formula injection risks (=, +, -, @) before downstream export.</p>
-        </div>
+          <div className="text-3xl font-extrabold text-lime-400 font-mono">0% Formula Risk</div>
+          <p className="text-xs text-grey-300 mt-1.5">
+            Strict CSV DDE injection escaping (=, +, -, @) ensuring safe multi-channel ERP exports.
+          </p>
+        </Card>
       </div>
 
-      {/* Feature Launchpad */}
-      <div className="space-y-3">
+      {/* ====================================================================
+          LAUNCHPAD ENTERPRISE FEATURE MODULES
+          ==================================================================== */}
+      <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-bold text-grey-300 uppercase tracking-wider">Enterprise Feature Modules</h3>
-          <span className="text-xs text-grey-400 font-mono">Interactive AI Studios</span>
+          <h2 className="text-sm font-semibold text-grey-300 uppercase tracking-wider">Enterprise Feature Modules</h2>
+          <span className="text-xs text-grey-400">Integrated Pipeline Tools</span>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Link href="/datasheet" className="p-4 rounded-xl bg-black-800 border border-black-600 hover:border-purple-500 transition group space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="w-9 h-9 rounded-lg bg-purple-900/40 border border-purple-600 flex items-center justify-center text-purple-400">
-                <FileText className="w-4 h-4" />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Link href="/datasheet" className="group">
+            <Card className="p-5 h-full hover:border-purple-500/50 transition-all">
+              <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-3 group-hover:scale-105 transition-transform">
+                <FileText className="w-5 h-5" />
               </div>
-              <Badge variant="purple" size="sm">Vision AI</Badge>
-            </div>
-            <div>
-              <div className="font-bold text-white text-xs group-hover:text-purple-300 transition">Datasheet OCR Lab</div>
-              <p className="text-[11px] text-grey-300 mt-0.5">Extract engineering specs &amp; limits from PDF schematics.</p>
-            </div>
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">Datasheet OCR Lab</h3>
+                <Badge variant="purple" size="sm">Vision AI</Badge>
+              </div>
+              <p className="text-xs text-grey-300 mt-1.5 leading-relaxed">
+                Extract CAD dimensions, material specs, and electrical limits from technical PDF datasheets.
+              </p>
+            </Card>
           </Link>
 
-          <Link href="/duplicates" className="p-4 rounded-xl bg-black-800 border border-black-600 hover:border-blue-500 transition group space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="w-9 h-9 rounded-lg bg-blue-900/40 border border-blue-600 flex items-center justify-center text-blue-400">
-                <GitMerge className="w-4 h-4" />
+          <Link href="/duplicates" className="group">
+            <Card className="p-5 h-full hover:border-blue-500/50 transition-all">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-3 group-hover:scale-105 transition-transform">
+                <GitMerge className="w-5 h-5" />
               </div>
-              <Badge variant="blue" size="sm">Vector</Badge>
-            </div>
-            <div>
-              <div className="font-bold text-white text-xs group-hover:text-blue-300 transition">Duplicate Merge</div>
-              <p className="text-[11px] text-grey-300 mt-0.5">Resolve fuzzy cross-supplier SKUs with n-gram vector matching.</p>
-            </div>
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-white group-hover:text-blue-300 transition-colors">Duplicate Merge Studio</h3>
+                <Badge variant="blue" size="sm">Vector n-gram</Badge>
+              </div>
+              <p className="text-xs text-grey-300 mt-1.5 leading-relaxed">
+                Detect cross-supplier duplicates, resolve attribute discrepancies, and merge into master SKUs.
+              </p>
+            </Card>
           </Link>
 
-          <Link href="/rules" className="p-4 rounded-xl bg-black-800 border border-black-600 hover:border-green-500 transition group space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="w-9 h-9 rounded-lg bg-green-900/40 border border-green-600 flex items-center justify-center text-green-400">
-                <BookOpen className="w-4 h-4" />
+          <Link href="/rules" className="group">
+            <Card className="p-5 h-full hover:border-green-500/50 transition-all">
+              <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-400 mb-3 group-hover:scale-105 transition-transform">
+                <BookOpen className="w-5 h-5" />
               </div>
-              <Badge variant="green" size="sm">Studio</Badge>
-            </div>
-            <div>
-              <div className="font-bold text-white text-xs group-hover:text-green-300 transition">Rule &amp; Brand Studio</div>
-              <p className="text-[11px] text-grey-300 mt-0.5">Manage custom abbreviations with live execution scratchpad.</p>
-            </div>
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-white group-hover:text-green-300 transition-colors">Rule Studio & Scratchpad</h3>
+                <Badge variant="green" size="sm">Studio</Badge>
+              </div>
+              <p className="text-xs text-grey-300 mt-1.5 leading-relaxed">
+                Manage industrial abbreviation dictionaries and test real-time keystroke transformations.
+              </p>
+            </Card>
           </Link>
 
-          <Link href="/export" className="p-4 rounded-xl bg-black-800 border border-black-600 hover:border-orange-500 transition group space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="w-9 h-9 rounded-lg bg-orange-900/40 border border-orange-600 flex items-center justify-center text-orange-400">
-                <Download className="w-4 h-4" />
+          <Link href="/export" className="group">
+            <Card className="p-5 h-full hover:border-orange-500/50 transition-all">
+              <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 mb-3 group-hover:scale-105 transition-transform">
+                <Download className="w-5 h-5" />
               </div>
-              <Badge variant="orange" size="sm">Multi-Channel</Badge>
-            </div>
-            <div>
-              <div className="font-bold text-white text-xs group-hover:text-orange-300 transition">Multi-Channel Export</div>
-              <p className="text-[11px] text-grey-300 mt-0.5">Shopify, Magento, Akeneo PIM &amp; formula-safe CSVs.</p>
-            </div>
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-white group-hover:text-orange-300 transition-colors">Multi-Channel Export</h3>
+                <Badge variant="orange" size="sm">Export Hub</Badge>
+              </div>
+              <p className="text-xs text-grey-300 mt-1.5 leading-relaxed">
+                Sanitized exports for Shopify, Magento 2, and ERP systems in CSV, Excel, and JSON formats.
+              </p>
+            </Card>
           </Link>
         </div>
       </div>
 
-      {/* 9-Stage Automated Sequence Flow */}
-      <Card title="9-Stage Automated Enrichment Sequence" subtitle="Deterministic sanitation, fuzzy entity resolution, LLM extraction & human-in-the-loop quality gate">
-        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-7 gap-3 py-2">
-          <div className="p-3 bg-black-900 rounded-lg border border-black-600 text-center space-y-1">
-            <div className="text-xs font-bold text-blue-400">1. CSV Upload</div>
-            <div className="text-[11px] text-grey-300">Encoding & Delimiter Detection</div>
-          </div>
-          <div className="p-3 bg-black-900 rounded-lg border border-black-600 text-center space-y-1">
-            <div className="text-xs font-bold text-lime-300">2. Cleaner Engine</div>
-            <div className="text-[11px] text-grey-300">Strip HTML & Abbreviations</div>
-          </div>
-          <div className="p-3 bg-black-900 rounded-lg border border-black-600 text-center space-y-1">
-            <div className="text-xs font-bold text-purple-300">3. Brand Resolver</div>
-            <div className="text-[11px] text-grey-300">RapidFuzz Canonical Match</div>
-          </div>
-          <div className="p-3 bg-black-900 rounded-lg border border-black-600 text-center space-y-1">
-            <div className="text-xs font-bold text-lightblue-300">4. Attribute AI</div>
-            <div className="text-[11px] text-grey-300">15+ Tech Attributes</div>
-          </div>
-          <div className="p-3 bg-black-900 rounded-lg border border-black-600 text-center space-y-1">
-            <div className="text-xs font-bold text-pink-300">5. Classification</div>
-            <div className="text-[11px] text-grey-300">UNSPSC & Taxonomy</div>
-          </div>
-          <div className="p-3 bg-black-900 rounded-lg border border-black-600 text-center space-y-1">
-            <div className="text-xs font-bold text-orange-400">6. Copy Generator</div>
-            <div className="text-[11px] text-grey-300">Title, Mobile & Long Desc</div>
-          </div>
-          <div className="p-3 bg-black-900 rounded-lg border border-black-600 text-center space-y-1">
-            <div className="text-xs font-bold text-green-300">7. Quality Gate</div>
-            <div className="text-[11px] text-grey-300">70% Review Threshold</div>
-          </div>
+      {/* ====================================================================
+          9-STAGE AUTOMATED PIPELINE BANNER
+          ==================================================================== */}
+      <Card 
+        title="9-Stage Automated Enrichment Sequence" 
+        subtitle="Deterministic sanitation → RapidFuzz brand resolution → Gemini attribute extraction → UNSPSC classification → Quality gate"
+      >
+        <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2 pt-2 text-center text-xs">
+          {[
+            { num: "1", title: "CSV Upload", desc: "Syntax & schema" },
+            { num: "2", title: "Cleaner", desc: "HTML & null sanitize" },
+            { num: "3", title: "Acronym Expander", desc: "MRO dictionary" },
+            { num: "4", title: "Brand Resolver", desc: "RapidFuzz matching" },
+            { num: "5", title: "Attribute AI", desc: "Gemini 2.5 Flash" },
+            { num: "6", title: "UNSPSC Classifier", desc: "Taxonomy assign" },
+            { num: "7", title: "Copywriter", desc: "SEO & mobile copy" },
+            { num: "8", title: "Confidence Gate", desc: "70% Auto-route" },
+            { num: "9", title: "Multi-Export", desc: "Shopify / Magento" },
+          ].map((step) => (
+            <div key={step.num} className="p-2.5 rounded-lg border border-white/10 bg-white/[0.02] space-y-1">
+              <div className="w-5 h-5 rounded-full bg-blue-500/20 text-blue-300 font-bold mx-auto flex items-center justify-center text-[10px]">
+                {step.num}
+              </div>
+              <div className="font-semibold text-white text-[11px] truncate">{step.title}</div>
+              <div className="text-[10px] text-grey-400 truncate">{step.desc}</div>
+            </div>
+          ))}
         </div>
       </Card>
 
-      {/* Recent Batches Ledger */}
+      {/* ====================================================================
+          RECENT CATALOG FEEDS TABLE
+          ==================================================================== */}
       <Card 
         title="Recent Catalog Feeds" 
-        subtitle="Catalog files uploaded and processed through the platform"
+        subtitle="Supplier catalogs processed through Vantage / UniEnrich AI"
         headerAction={
           <Link href="/upload">
-            <Button variant="secondary" size="sm" icon={<UploadCloud className="w-3.5 h-3.5" />}>
-              Upload File
+            <Button variant="primary" size="sm" icon={<UploadCloud className="w-3.5 h-3.5" />}>
+              + Ingest New Catalog
             </Button>
           </Link>
         }
       >
-        {batches.length === 0 ? (
+        {isLoading ? (
+          <div className="text-center py-12 text-sm text-grey-300">Loading catalog batches...</div>
+        ) : batches.length === 0 ? (
           <div className="text-center py-12 space-y-3">
-            <FileSpreadsheet className="w-10 h-10 text-grey-400 mx-auto opacity-60" />
-            <p className="text-sm text-grey-200">No catalog feeds uploaded yet.</p>
+            <UploadCloud className="w-10 h-10 text-grey-400 mx-auto opacity-50" />
+            <h3 className="text-sm font-semibold text-white">No Catalogs Uploaded Yet</h3>
+            <p className="text-xs text-grey-400 max-w-sm mx-auto">
+              Ingest your first supplier CSV or XLSX file to begin automated AI data enrichment.
+            </p>
             <Link href="/upload">
-              <Button variant="primary" size="sm">Upload Sample Catalog</Button>
+              <Button variant="primary" size="sm" className="mt-2">
+                Ingest Catalog
+              </Button>
             </Link>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-black-900 border-b border-black-600 text-xs uppercase text-grey-300 font-semibold">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-black/40 border-b border-white/10 text-grey-300 uppercase font-semibold">
                 <tr>
                   <th className="py-3 px-4">Filename</th>
                   <th className="py-3 px-4">Total SKUs</th>
-                  <th className="py-3 px-4">Status</th>
-                  <th className="py-3 px-4">Quality Scorecard</th>
+                  <th className="py-3 px-4">Pipeline Status</th>
+                  <th className="py-3 px-4">Quality Breakdown</th>
                   <th className="py-3 px-4">Uploaded</th>
                   <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-black-600">
+              <tbody className="divide-y divide-white/[0.06]">
                 {batches.map((batch) => (
-                  <tr key={batch.id} className="hover:bg-black-700/50 transition-colors">
-                    <td className="py-3 px-4 font-medium text-white-100 flex items-center gap-2">
-                      <FileSpreadsheet className="w-4 h-4 text-blue-400" />
-                      <span>{batch.filename}</span>
+                  <tr key={batch.id} className="hover:bg-white/[0.03] transition-colors">
+                    <td className="py-3.5 px-4 font-semibold text-white">
+                      {batch.filename}
                     </td>
-                    <td className="py-3 px-4 text-grey-200 font-mono">{batch.total_records}</td>
-                    <td className="py-3 px-4">
-                      <Badge 
+                    <td className="py-3.5 px-4 font-mono text-grey-200">
+                      {batch.total_records}
+                    </td>
+                    <td className="py-3.5 px-4">
+                      <Badge
                         variant={batch.status === "COMPLETED" ? "success" : batch.status === "PROCESSING" ? "purple" : "default"}
                         dot
                       >
                         {batch.status}
                       </Badge>
                     </td>
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-2 text-xs">
-                        <span className="text-green-300 font-medium">{batch.total_records - batch.error_records} Valid</span>
-                        <span className="text-grey-400">•</span>
-                        <span className="text-yellow-400 font-medium">{batch.missing_brand_records} Need Review</span>
-                        <span className="text-grey-400">•</span>
-                        <span className="text-red-500 font-medium">{batch.duplicate_records} Dups</span>
+                    <td className="py-3.5 px-4">
+                      <div className="flex items-center gap-3 text-[11px] font-mono">
+                        <span className="text-green-400">{batch.processed_records} Clean</span>
+                        {batch.missing_brand_records > 0 && (
+                          <span className="text-yellow-400">{batch.missing_brand_records} Missing Brand</span>
+                        )}
+                        {batch.duplicate_records > 0 && (
+                          <span className="text-red-400">{batch.duplicate_records} Dup</span>
+                        )}
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-xs text-grey-300">
+                    <td className="py-3.5 px-4 text-grey-400">
                       {new Date(batch.uploaded_at).toLocaleDateString()}
                     </td>
-                    <td className="py-3 px-4 text-right">
+                    <td className="py-3.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link href={`/products?batch_id=${batch.id}`}>
-                          <Button variant="secondary" size="sm">Catalog</Button>
-                        </Link>
-                        <Link href={`/review?batch_id=${batch.id}`}>
-                          <Button variant="outline" size="sm">Review</Button>
+                          <Button variant="secondary" size="sm" icon={<Layers className="w-3.5 h-3.5" />}>
+                            Catalog
+                          </Button>
                         </Link>
                         <Link href={`/export?batch_id=${batch.id}`}>
-                          <Button variant="primary" size="sm">Export</Button>
+                          <Button variant="outline" size="sm" icon={<Download className="w-3.5 h-3.5" />}>
+                            Export
+                          </Button>
                         </Link>
                       </div>
                     </td>

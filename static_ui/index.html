@@ -10,24 +10,48 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Cinematic Background Video -->
+  <video class="cinematic-bg" autoplay muted loop playsinline disablepictureinpicture aria-hidden="true">
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260808_064556_051587f1-74a1-4336-8c05-4dde3594ed05.mp4" type="video/mp4">
+  </video>
+  <div class="cinematic-vignette"></div>
+
   <!-- Top Navigation Bar -->
   <header class="navbar">
     <div class="nav-left">
-      <div class="brand-logo">UE</div>
+      <div class="brand-disc-logo">
+        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="static-brand-disc">
+              <circle cx="12.5" cy="12.5" r="12.5" />
+            </clipPath>
+          </defs>
+          <g clip-path="url(#static-brand-disc)">
+            <rect width="25" height="25" fill="#ededed" />
+            <path d="M12.5 2.5L22.5 12.5L12.5 22.5L2.5 12.5Z" fill="#050606" />
+            <path d="M12.5 5L20 12.5L12.5 20L5 12.5Z" fill="#737778" />
+            <path d="M12.5 7.5L17.5 12.5L12.5 17.5L7.5 12.5Z" fill="#fafafa" />
+            <path d="M12.5 9.5L15.5 12.5L12.5 15.5L9.5 12.5Z" fill="#0a0b0b" />
+          </g>
+        </svg>
+      </div>
       <div class="brand-info">
-        <div class="brand-name">UniEnrich AI <span class="badge badge-blue">v2.0</span></div>
-        <div class="brand-tagline">Industrial Product Data Enrichment Platform</div>
+        <div class="brand-name">Vantage <span class="brand-sep">/</span> <span class="brand-sub">UniEnrich AI</span></div>
       </div>
     </div>
 
     <div class="nav-right">
+      <div class="time-panel-widget">
+        <span class="time-panel-label">Timezone</span>
+        <span class="time-panel-val" id="headerTimezoneVal">9:47 PM • 14 July 2026</span>
+      </div>
       <button class="copilot-btn" id="openCopilotBtn">
         <span class="pulse-dot"></span>
         🤖 AI Copilot
       </button>
       <div class="engine-badge">
         <span class="engine-label">Engine:</span>
-        <span class="engine-val">Gemini 2.5 + RapidFuzz</span>
+        <span class="engine-val">Gemini 2.5 Flash</span>
       </div>
       <div class="status-badge">
         <span class="status-dot"></span>
@@ -88,18 +112,55 @@
 
       <!-- TAB 1: DASHBOARD -->
       <section id="tab-dashboard" class="tab-pane active">
-        <div class="hero-banner">
-          <div class="hero-text">
+        <!-- Vantage Cinematic Hero & Glass Demo Component -->
+        <div class="hero-vantage-glass">
+          <div class="hero-text-stack">
             <div class="hero-tags">
-              <span class="badge badge-blue">Catalog Intelligence Engine</span>
-              <span class="badge badge-lime">Universal Stack: HTML/CSS/JS + TSX + Python</span>
+              <span class="badge badge-blue">Vantage Catalog Intelligence</span>
+              <span class="badge badge-purple">Gemini 2.5 Flash</span>
+              <span class="badge badge-green">RapidFuzz Entity Matcher</span>
             </div>
-            <h1>UniEnrich AI – Industrial Catalog Transformation</h1>
-            <p>Transform messy, abbreviated industrial product catalogs into structured, classified, search-ready records.</p>
+            <h1 class="hero-vantage-title">
+              <span class="vantage-line-1">Stop Digging</span>
+              <span class="vantage-line-2">Through Dashboards.</span>
+            </h1>
+            <p class="hero-vantage-copy">
+              Your metrics are scattered across a dozen dashboards.<br>
+              Vantage bring them into one clear signal, so every<br>
+              decision is backed by data you actually trust.
+            </p>
+            <div class="hero-actions">
+              <button class="btn-vantage-primary" onclick="switchTab('upload')">
+                <span>Get Started</span>
+                <span class="btn-arrow-box">&rarr;</span>
+              </button>
+              <button class="btn btn-secondary" onclick="switchTab('products')">Explore Catalog</button>
+            </div>
           </div>
-          <div class="hero-actions">
-            <button class="btn btn-primary" onclick="switchTab('upload')">☁️ Upload Catalog Feed</button>
-            <button class="btn btn-purple" onclick="openCopilot()">🤖 Launch Copilot</button>
+
+          <!-- Glass Demo Card -->
+          <div class="vantage-demo-card">
+            <div class="vantage-visual-thumb">
+              <svg viewBox="0 0 400 400" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                  <radialGradient id="vantageRed" cx="35%" cy="35%" r="65%">
+                    <stop offset="0%" stop-color="#ea3943" stop-opacity="0.95"/>
+                    <stop offset="50%" stop-color="#b01f35" stop-opacity="0.7"/>
+                    <stop offset="100%" stop-color="#120508" stop-opacity="0"/>
+                  </radialGradient>
+                  <radialGradient id="vantageBlue" cx="70%" cy="65%" r="60%">
+                    <stop offset="0%" stop-color="#3874e0" stop-opacity="0.9"/>
+                    <stop offset="45%" stop-color="#193a8c" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="#050a18" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="#0a1215" />
+                <circle cx="150" cy="150" r="140" fill="url(#vantageRed)" />
+                <circle cx="260" cy="240" r="150" fill="url(#vantageBlue)" />
+              </svg>
+              <div class="vantage-play-btn">▶</div>
+            </div>
+            <button class="vantage-watch-btn" onclick="switchTab('upload')">Watch Demo</button>
           </div>
         </div>
 
