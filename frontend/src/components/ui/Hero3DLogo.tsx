@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Sparkles, ShieldCheck, Cpu, RefreshCw, Layers } from "lucide-react";
+import { Sparkles, ShieldCheck, Cpu, RefreshCw, Layers, Zap } from "lucide-react";
 
 interface Point3D {
   x: number;
@@ -38,8 +38,8 @@ export function Hero3DLogo() {
 
     window.addEventListener("resize", handleResize);
 
-    // 3D Geometry: Concentric Layered Octahedral Diamonds (Araxyss 3D Brand Emblem)
-    // Layer 1: Outer Faceted Diamond
+    // 3D Geometry: Concentric Layered Iridescent Multi-Color Octahedral Diamonds
+    // Layer 1: Outer Iridescent Faceted Prism (Rich Chromatic Palette)
     const scale1 = 95;
     const vertices1: Point3D[] = [
       { x: 0, y: -scale1 * 1.3, z: 0 },   // Top
@@ -51,17 +51,17 @@ export function Hero3DLogo() {
     ];
 
     const faces1: Face3D[] = [
-      { indices: [0, 1, 2], color: "rgba(56, 43, 34, 0.88)", borderColor: "#b18597" },
-      { indices: [0, 2, 3], color: "rgba(43, 32, 26, 0.92)", borderColor: "#b18597" },
-      { indices: [0, 3, 4], color: "rgba(65, 50, 40, 0.85)", borderColor: "#b18597" },
-      { indices: [0, 4, 1], color: "rgba(75, 58, 48, 0.80)", borderColor: "#b18597" },
-      { indices: [5, 2, 1], color: "rgba(43, 32, 26, 0.90)", borderColor: "#b18597" },
-      { indices: [5, 3, 2], color: "rgba(56, 43, 34, 0.85)", borderColor: "#b18597" },
-      { indices: [5, 4, 3], color: "rgba(65, 50, 40, 0.92)", borderColor: "#b18597" },
-      { indices: [5, 1, 4], color: "rgba(50, 38, 30, 0.88)", borderColor: "#b18597" },
+      { indices: [0, 1, 2], color: "rgba(37, 99, 235, 0.82)", borderColor: "#38bdf8" },   // Sapphire Blue
+      { indices: [0, 2, 3], color: "rgba(124, 58, 237, 0.85)", borderColor: "#c084fc" },  // Amethyst Violet
+      { indices: [0, 3, 4], color: "rgba(5, 150, 105, 0.82)", borderColor: "#34d399" },   // Emerald Green
+      { indices: [0, 4, 1], color: "rgba(225, 29, 72, 0.80)", borderColor: "#fb7185" },   // Ruby Coral
+      { indices: [5, 2, 1], color: "rgba(217, 119, 6, 0.85)", borderColor: "#fcd34d" },   // Amber Gold
+      { indices: [5, 3, 2], color: "rgba(13, 148, 136, 0.85)", borderColor: "#2dd4bf" },  // Teal Cyan
+      { indices: [5, 4, 3], color: "rgba(192, 38, 211, 0.85)", borderColor: "#f472b6" },  // Fuchsia Pink
+      { indices: [5, 1, 4], color: "rgba(79, 70, 229, 0.82)", borderColor: "#818cf8" },   // Indigo
     ];
 
-    // Layer 2: Middle Rose Core Diamond
+    // Layer 2: Middle Vibrant Luminous Core
     const scale2 = 60;
     const vertices2: Point3D[] = [
       { x: 0, y: -scale2 * 1.25, z: 0 },
@@ -73,17 +73,17 @@ export function Hero3DLogo() {
     ];
 
     const faces2: Face3D[] = [
-      { indices: [0, 1, 2], color: "rgba(177, 133, 151, 0.85)", borderColor: "#fff0f0" },
-      { indices: [0, 2, 3], color: "rgba(195, 150, 168, 0.90)", borderColor: "#fff0f0" },
-      { indices: [0, 3, 4], color: "rgba(160, 118, 135, 0.80)", borderColor: "#fff0f0" },
-      { indices: [0, 4, 1], color: "rgba(180, 135, 153, 0.85)", borderColor: "#fff0f0" },
-      { indices: [5, 2, 1], color: "rgba(160, 118, 135, 0.88)", borderColor: "#fff0f0" },
-      { indices: [5, 3, 2], color: "rgba(177, 133, 151, 0.92)", borderColor: "#fff0f0" },
-      { indices: [5, 4, 3], color: "rgba(195, 150, 168, 0.85)", borderColor: "#fff0f0" },
-      { indices: [5, 1, 4], color: "rgba(170, 126, 144, 0.88)", borderColor: "#fff0f0" },
+      { indices: [0, 1, 2], color: "rgba(244, 63, 94, 0.88)", borderColor: "#ffffff" },
+      { indices: [0, 2, 3], color: "rgba(59, 130, 246, 0.90)", borderColor: "#ffffff" },
+      { indices: [0, 3, 4], color: "rgba(16, 185, 129, 0.88)", borderColor: "#ffffff" },
+      { indices: [0, 4, 1], color: "rgba(245, 158, 11, 0.88)", borderColor: "#ffffff" },
+      { indices: [5, 2, 1], color: "rgba(139, 92, 246, 0.90)", borderColor: "#ffffff" },
+      { indices: [5, 3, 2], color: "rgba(6, 182, 212, 0.90)", borderColor: "#ffffff" },
+      { indices: [5, 4, 3], color: "rgba(236, 72, 153, 0.88)", borderColor: "#ffffff" },
+      { indices: [5, 1, 4], color: "rgba(249, 115, 22, 0.88)", borderColor: "#ffffff" },
     ];
 
-    // Layer 3: Inner Luminous Core
+    // Layer 3: Inner Radiant Core
     const scale3 = 30;
     const vertices3: Point3D[] = [
       { x: 0, y: -scale3 * 1.2, z: 0 },
@@ -95,27 +95,28 @@ export function Hero3DLogo() {
     ];
 
     const faces3: Face3D[] = [
-      { indices: [0, 1, 2], color: "rgba(255, 240, 240, 0.95)", borderColor: "#382b22" },
-      { indices: [0, 2, 3], color: "rgba(249, 196, 210, 0.95)", borderColor: "#382b22" },
-      { indices: [0, 3, 4], color: "rgba(255, 240, 240, 0.95)", borderColor: "#382b22" },
-      { indices: [0, 4, 1], color: "rgba(249, 196, 210, 0.95)", borderColor: "#382b22" },
-      { indices: [5, 2, 1], color: "rgba(249, 196, 210, 0.95)", borderColor: "#382b22" },
-      { indices: [5, 3, 2], color: "rgba(255, 240, 240, 0.95)", borderColor: "#382b22" },
-      { indices: [5, 4, 3], color: "rgba(249, 196, 210, 0.95)", borderColor: "#382b22" },
-      { indices: [5, 1, 4], color: "rgba(255, 240, 240, 0.95)", borderColor: "#382b22" },
+      { indices: [0, 1, 2], color: "rgba(255, 255, 255, 0.96)", borderColor: "#2563eb" },
+      { indices: [0, 2, 3], color: "rgba(254, 240, 138, 0.96)", borderColor: "#7c3aed" },
+      { indices: [0, 3, 4], color: "rgba(255, 255, 255, 0.96)", borderColor: "#059669" },
+      { indices: [0, 4, 1], color: "rgba(254, 205, 211, 0.96)", borderColor: "#e11d48" },
+      { indices: [5, 2, 1], color: "rgba(254, 205, 211, 0.96)", borderColor: "#d97706" },
+      { indices: [5, 3, 2], color: "rgba(255, 255, 255, 0.96)", borderColor: "#0d9488" },
+      { indices: [5, 4, 3], color: "rgba(254, 240, 138, 0.96)", borderColor: "#c026d3" },
+      { indices: [5, 1, 4], color: "rgba(255, 255, 255, 0.96)", borderColor: "#4f46e5" },
     ];
 
-    // Orbiting Sparkles
-    const sparkleCount = 28;
+    // Orbiting Multi-Color Sparkles
+    const sparkleCount = 36;
+    const sparkleColors = ["#38bdf8", "#818cf8", "#c084fc", "#f472b6", "#fb7185", "#fcd34d", "#34d399", "#2dd4bf"];
     const sparkles: { angle: number; speed: number; distance: number; yOffset: number; size: number; color: string }[] = [];
     for (let i = 0; i < sparkleCount; i++) {
       sparkles.push({
         angle: (i / sparkleCount) * Math.PI * 2,
-        speed: 0.008 + (i % 3) * 0.004,
-        distance: 120 + (i % 5) * 12,
-        yOffset: (Math.sin(i * 1.5) * 35),
-        size: 1.5 + (i % 3) * 1.2,
-        color: i % 2 === 0 ? "#b18597" : i % 3 === 0 ? "#10b981" : "#382b22",
+        speed: 0.008 + (i % 4) * 0.003,
+        distance: 115 + (i % 6) * 14,
+        yOffset: (Math.sin(i * 1.5) * 40),
+        size: 1.8 + (i % 3) * 1.4,
+        color: sparkleColors[i % sparkleColors.length],
       });
     }
 
@@ -211,31 +212,38 @@ export function Hero3DLogo() {
 
       const floatY = Math.sin(time * 2) * 8 * dpr;
 
-      // Outer Holographic Gyroscope Orbit Rings
+      // Outer Multi-Color Holographic Gyroscope Orbit Rings
       ctx.save();
       const ringRadius = 145 * dpr;
       
-      // Ring 1 (Equatorial Gyro)
+      // Ring 1 (Cyan/Blue Gyro)
       ctx.beginPath();
       ctx.ellipse(centerX, centerY + floatY, ringRadius, ringRadius * 0.35, rotX + 0.1, 0, Math.PI * 2);
-      ctx.strokeStyle = shockwave > 0 ? "rgba(177, 133, 151, 0.9)" : "rgba(177, 133, 151, 0.4)";
-      ctx.lineWidth = (shockwave > 0 ? 2.5 : 1.4) * dpr;
+      ctx.strokeStyle = shockwave > 0 ? "rgba(6, 182, 212, 0.9)" : "rgba(6, 182, 212, 0.45)";
+      ctx.lineWidth = (shockwave > 0 ? 3 : 1.8) * dpr;
       ctx.stroke();
 
-      // Ring 2 (Polar Gyro)
+      // Ring 2 (Violet/Magenta Gyro)
       ctx.beginPath();
       ctx.ellipse(centerX, centerY + floatY, ringRadius * 0.38, ringRadius, rotY * 0.5, 0, Math.PI * 2);
-      ctx.strokeStyle = "rgba(177, 133, 151, 0.25)";
+      ctx.strokeStyle = "rgba(168, 85, 247, 0.45)";
+      ctx.lineWidth = 1.6 * dpr;
+      ctx.stroke();
+
+      // Ring 3 (Emerald/Amber Tilted Orbit)
+      ctx.beginPath();
+      ctx.ellipse(centerX, centerY + floatY, ringRadius * 0.85, ringRadius * 0.85, rotY * 0.3 + 0.4, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(16, 185, 129, 0.3)";
       ctx.lineWidth = 1.2 * dpr;
       ctx.stroke();
 
       // Shockwave ring
       if (shockwave > 0) {
-        const shockRadius = (1 - shockwave) * 180 * dpr + 40 * dpr;
+        const shockRadius = (1 - shockwave) * 190 * dpr + 40 * dpr;
         ctx.beginPath();
         ctx.arc(centerX, centerY + floatY, shockRadius, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(177, 133, 151, ${shockwave * 0.7})`;
-        ctx.lineWidth = 2 * dpr;
+        ctx.strokeStyle = `rgba(236, 72, 153, ${shockwave * 0.8})`;
+        ctx.lineWidth = 2.5 * dpr;
         ctx.stroke();
       }
       ctx.restore();
@@ -245,7 +253,7 @@ export function Hero3DLogo() {
         s.angle += s.speed;
         const sx = Math.cos(s.angle) * s.distance;
         const sz = Math.sin(s.angle) * s.distance;
-        const sy = s.yOffset + Math.sin(time * 3 + s.angle) * 10;
+        const sy = s.yOffset + Math.sin(time * 3 + s.angle) * 12;
 
         const proj = project({ x: sx, y: sy, z: sz }, rotX, rotY, 0, fov, centerX, centerY + floatY, dpr);
 
@@ -254,7 +262,7 @@ export function Hero3DLogo() {
         ctx.arc(proj.x, proj.y, s.size * proj.scale * dpr, 0, Math.PI * 2);
         ctx.fillStyle = s.color;
         ctx.shadowColor = s.color;
-        ctx.shadowBlur = 6 * proj.scale;
+        ctx.shadowBlur = 8 * proj.scale;
         ctx.fill();
         ctx.restore();
       });
@@ -301,10 +309,10 @@ export function Hero3DLogo() {
         });
       };
 
-      // Render concentric diamond layers
-      renderLayer(vertices1, faces1, 0, 1.8);
-      renderLayer(vertices2, faces2, time * 0.4, 1.4);
-      renderLayer(vertices3, faces3, -time * 0.6, 1.2);
+      // Render iridescent multi-color concentric diamond layers
+      renderLayer(vertices1, faces1, 0, 2.0);
+      renderLayer(vertices2, faces2, time * 0.4, 1.6);
+      renderLayer(vertices3, faces3, -time * 0.6, 1.4);
 
       animationFrameId = requestAnimationFrame(render);
     };
@@ -325,10 +333,10 @@ export function Hero3DLogo() {
   return (
     <div 
       ref={containerRef}
-      className="relative w-full h-[360px] sm:h-[420px] rounded-3xl border-2 border-[#b18597] bg-[#ffffff] p-6 shadow-[0_16px_48px_rgba(177,133,151,0.18)] flex items-center justify-center select-none overflow-hidden group"
+      className="relative w-full h-[360px] sm:h-[420px] rounded-3xl border-2 border-indigo-200 bg-gradient-to-br from-white via-[#fbfcfe] to-[#f8faff] p-6 shadow-[0_16px_48px_rgba(59,130,246,0.12)] flex items-center justify-center select-none overflow-hidden group hover:border-indigo-400 transition-all"
     >
-      {/* Subtle radial blush backdrop */}
-      <div className="absolute inset-0 bg-radial from-[#fff0f0] via-transparent to-transparent opacity-80 pointer-events-none" />
+      {/* Radiant Multi-Color Ambient Glow Backdrop */}
+      <div className="absolute inset-0 bg-radial from-cyan-500/10 via-purple-500/10 to-rose-500/5 opacity-90 pointer-events-none" />
 
       {/* 3D Canvas */}
       <canvas 
@@ -337,24 +345,24 @@ export function Hero3DLogo() {
       />
 
       {/* Top Floating Badge */}
-      <div className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1 rounded-full bg-[#ffffff]/90 border-2 border-[#b18597] shadow-sm text-[10px] font-mono font-bold text-[#382b22] backdrop-blur-md">
+      <div className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-blue-200 shadow-md text-[10px] font-mono font-bold text-blue-900 backdrop-blur-md">
         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
         <span>ARAXYSS 3D EMBLEM</span>
       </div>
 
       {/* Top Right Specs Badge */}
-      <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fff0f0] border border-[#b18597] text-[10px] font-mono font-bold text-[#703d52] shadow-sm">
-        <Sparkles className="w-3 h-3 text-[#b18597]" />
-        <span>CONCENTRIC CORE</span>
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 text-[10px] font-mono font-bold text-purple-900 shadow-sm">
+        <Sparkles className="w-3 h-3 text-purple-500" />
+        <span>IRIDESCENT CORE</span>
       </div>
 
       {/* Bottom Hint Floating HUD */}
-      <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between text-[10px] font-mono text-[#5e4d46] bg-[#faf6f6]/90 border border-[#e8dede] px-4 py-2 rounded-2xl shadow-sm backdrop-blur-md pointer-events-none font-semibold">
+      <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between text-[10px] font-mono text-slate-600 bg-white/90 border border-slate-200 px-4 py-2 rounded-2xl shadow-sm backdrop-blur-md pointer-events-none font-semibold">
         <span className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-[#b18597]" />
+          <span className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
           <span>Interactive 3D Vector Core</span>
         </span>
-        <span className="text-[#2b201a] font-bold">Drag to Orbit 360°</span>
+        <span className="text-slate-900 font-bold">Drag to Orbit 360°</span>
       </div>
     </div>
   );
