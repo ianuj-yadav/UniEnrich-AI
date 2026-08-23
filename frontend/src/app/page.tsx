@@ -62,10 +62,8 @@ export default function DashboardPage() {
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-          {/* Left Hero Stack */}
-          <div className="lg:col-span-8 space-y-6">
-            <div className="flex flex-wrap items-center gap-2">
+        <div className="space-y-6 relative z-10 max-w-3xl">
+          <div className="flex flex-wrap items-center gap-2">
               <span className="px-2.5 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-semibold">
                 Vantage Catalog Intelligence
               </span>
@@ -111,48 +109,7 @@ export default function DashboardPage() {
               )}
             </div>
           </div>
-
-          {/* Right Glass Demo Card */}
-          <div className="lg:col-span-4 flex justify-center lg:justify-end">
-            <article className="w-full max-w-[215px] aspect-[201/265] rounded-[16px] border border-white/15 p-3.5 flex flex-col justify-between backdrop-blur-xl bg-gradient-to-br from-[#181614]/80 to-[#050c0e]/85 shadow-[0_2px_10px_rgba(0,0,0,0.44),inset_0_0_0_1px_rgba(255,255,255,0.06)] hover:border-white/25 transition-all">
-              {/* Visual Thumbnail with Play Button */}
-              <div className="relative w-full aspect-square rounded-[10px] overflow-hidden bg-[#101a1e] flex items-center justify-center">
-                <svg className="w-full h-full object-cover" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
-                  <defs>
-                    <radialGradient id="dashSmokeRed" cx="35%" cy="35%" r="65%">
-                      <stop offset="0%" stopColor="#ea3943" stopOpacity="0.95"/>
-                      <stop offset="50%" stopColor="#b01f35" stopOpacity="0.7"/>
-                      <stop offset="100%" stopColor="#120508" stopOpacity="0"/>
-                    </radialGradient>
-                    <radialGradient id="dashSmokeBlue" cx="70%" cy="65%" r="60%">
-                      <stop offset="0%" stopColor="#3874e0" stopOpacity="0.9"/>
-                      <stop offset="45%" stopColor="#193a8c" stopOpacity="0.6"/>
-                      <stop offset="100%" stopColor="#050a18" stopOpacity="0"/>
-                    </radialGradient>
-                  </defs>
-                  <rect width="100%" height="100%" fill="#0a1215" />
-                  <circle cx="150" cy="150" r="140" fill="url(#dashSmokeRed)" />
-                  <circle cx="260" cy="240" r="150" fill="url(#dashSmokeBlue)" />
-                </svg>
-
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-10 h-10 rounded-full border border-white/40 bg-black/50 backdrop-blur-sm flex items-center justify-center pl-0.5 shadow-lg">
-                    <Play className="w-4 h-4 text-white fill-white" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Watch Demo Button */}
-              <button 
-                onClick={() => window.open("/upload", "_self")}
-                className="w-full py-2 rounded-[8px] border border-white/20 bg-gradient-to-r from-[#1a2224]/90 to-[#101d21]/90 text-white font-medium text-xs tracking-tight shadow-md hover:brightness-110 transition-all text-center"
-              >
-                Watch Demo
-              </button>
-            </article>
-          </div>
         </div>
-      </div>
 
       {/* ====================================================================
           3D INTERACTIVE VECTOR GRAPH & 5-KPI BENTO SECTION
