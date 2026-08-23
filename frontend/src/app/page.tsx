@@ -22,7 +22,8 @@ import {
   Terminal, 
   CheckCircle2, 
   Activity,
-  Zap
+  Zap,
+  Check
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -130,24 +131,18 @@ export default function DashboardPage() {
       {/* ====================================================================
           VANTAGE LIGHT EDITORIAL 2-COLUMN HERO SECTION
           ==================================================================== */}
-      <div className="relative rounded-3xl border-2 border-[#e8dede] p-6 sm:p-10 md:p-12 overflow-hidden bg-[#ffffff] shadow-[0_12px_40px_rgba(177,133,151,0.08)]">
-        {/* Soft Ambient Radial Reflections */}
-        <div className="absolute top-0 right-1/4 w-[480px] h-[480px] bg-[#fff0f0] rounded-full blur-3xl pointer-events-none opacity-85" />
-        <div className="absolute -bottom-10 left-1/4 w-96 h-96 bg-[#f9c4d2]/35 rounded-full blur-3xl pointer-events-none opacity-75" />
+      <div className="relative rounded-3xl border-2 border-[#e8dede] p-6 sm:p-10 md:p-12 overflow-hidden bg-[#ffffff] shadow-[0_16px_48px_rgba(177,133,151,0.1)]">
+        {/* Soft Ambient Radial Lighting */}
+        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#fff0f0] rounded-full blur-3xl pointer-events-none opacity-90" />
+        <div className="absolute -bottom-10 left-1/4 w-[400px] h-[400px] bg-[#f9c4d2]/35 rounded-full blur-3xl pointer-events-none opacity-80" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10">
           {/* Left Hero Stack */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="px-3 py-1 rounded-full bg-[#eff6ff] border border-[#bfdbfe] text-[#1e40af] text-xs font-semibold tracking-wide font-mono">
-                Vantage Catalog Intelligence
-              </span>
-              <span className="px-3 py-1 rounded-full bg-[#f5f3ff] border border-[#ddd6fe] text-[#5b21b6] text-xs font-semibold tracking-wide font-mono">
-                Gemini 2.5 Flash
-              </span>
-              <span className="px-3 py-1 rounded-full bg-[#ecfdf5] border border-[#a7f3d0] text-[#065f46] text-xs font-semibold tracking-wide font-mono">
-                RapidFuzz Resolver
-              </span>
+            {/* Top Live Release Pill */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fff0f0] border-2 border-[#b18597] shadow-[0_2px_0_0_#b18597] text-[11px] font-mono font-bold text-[#382b22]">
+              <span className="w-2 h-2 rounded-full bg-[#10b981] animate-ping" />
+              <span>VANTAGE 2.5 • AI-POWERED CATALOG ENRICHMENT</span>
             </div>
 
             {/* Exact Headline Typography (Light High Contrast) */}
@@ -156,51 +151,77 @@ export default function DashboardPage() {
               <span className="block line-scale-2 text-[#7a6860]">Through Dashboards.</span>
             </h1>
 
-            {/* Exact Body Copy */}
+            {/* Exact Body Copy & Value Props */}
             <p className="text-sm sm:text-base text-[#5e4d46] font-normal leading-relaxed max-w-xl">
-              Your metrics are scattered across a dozen dashboards.<br className="hidden sm:inline" />
-              Vantage brings them into one clear signal, so every<br className="hidden sm:inline" />
-              decision is backed by data you actually trust.
+              Your metrics are scattered across a dozen supplier feeds. 
+              Vantage standardizes messy vendor abbreviations into one certified master signal, 
+              so every procurement decision is backed by data you actually trust.
             </p>
+
+            {/* Core Capability Badges */}
+            <div className="flex flex-wrap items-center gap-2 pt-1 font-mono text-[11px]">
+              <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#eff6ff] text-[#1e40af] border border-[#bfdbfe] font-semibold">
+                <Check className="w-3 h-3" /> RapidFuzz Normalizer
+              </span>
+              <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#f5f3ff] text-[#5b21b6] border border-[#ddd6fe] font-semibold">
+                <Check className="w-3 h-3" /> Gemini 2.5 Spec AI
+              </span>
+              <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#ecfdf5] text-[#065f46] border border-[#a7f3d0] font-semibold">
+                <Check className="w-3 h-3" /> UNSPSC Taxonomy
+              </span>
+            </div>
 
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link href="/upload">
                 <PopButton className="px-8 py-4 text-xs font-bold tracking-wider cursor-pointer">
                   <span className="flex items-center gap-2">
-                    <span>GET STARTED</span>
+                    <span>GET STARTED NOW</span>
                     <ArrowRight className="w-4 h-4" />
                   </span>
                 </PopButton>
               </Link>
 
-              {activeBatch && (
+              {activeBatch ? (
                 <Link href={`/products?batch_id=${activeBatch.id}`}>
                   <Button variant="secondary" size="md" className="px-6 py-4 text-xs cursor-pointer">
                     <span>EXPLORE ACTIVE CATALOG</span>
                     <ArrowRight className="w-3.5 h-3.5 ml-2" />
                   </Button>
                 </Link>
+              ) : (
+                <Link href="/upload">
+                  <Button variant="secondary" size="md" className="px-6 py-4 text-xs cursor-pointer">
+                    <span>UPLOAD SUPPLIER FEED</span>
+                    <UploadCloud className="w-3.5 h-3.5 ml-2" />
+                  </Button>
+                </Link>
               )}
             </div>
 
-            {/* Mini Social Proof Statistics Ribbon */}
-            <div className="pt-4 border-t border-[#e8dede] grid grid-cols-3 gap-3 text-xs font-mono text-[#5e4d46]">
-              <div>
-                <div className="text-lg font-bold text-[#2b201a]">
+            {/* 4-Stat Trust Strip */}
+            <div className="pt-4 border-t border-[#e8dede] grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
+              <div className="p-2.5 rounded-xl bg-[#faf6f6] border border-[#e8dede]">
+                <div className="text-base font-extrabold text-[#065f46]">
                   <AnimatedCounter value={98.4} decimals={1} suffix="%" />
                 </div>
-                <div className="text-[10px] text-[#8c7770]">Extraction Accuracy</div>
+                <div className="text-[10px] text-[#8c7770] font-sans">Accuracy Gate</div>
               </div>
-              <div>
-                <div className="text-lg font-bold text-[#065f46]">
+              <div className="p-2.5 rounded-xl bg-[#faf6f6] border border-[#e8dede]">
+                <div className="text-base font-extrabold text-[#5b21b6]">
                   <AnimatedCounter value={15} suffix="+" />
                 </div>
-                <div className="text-[10px] text-[#8c7770]">Specs per SKU</div>
+                <div className="text-[10px] text-[#8c7770] font-sans">Specs per SKU</div>
               </div>
-              <div>
-                <div className="text-lg font-bold text-[#1e40af]">0%</div>
-                <div className="text-[10px] text-[#8c7770]">Formula Risk</div>
+              <div className="p-2.5 rounded-xl bg-[#faf6f6] border border-[#e8dede]">
+                <div className="text-base font-extrabold text-[#1e40af]">
+                  <AnimatedCounter value={42} suffix="ms" />
+                </div>
+                <div className="text-[10px] text-[#8c7770] font-sans">Parsing Speed</div>
+              </div>
+              <div className="p-2.5 rounded-xl bg-[#faf6f6] border border-[#e8dede]">
+                <div className="text-base font-extrabold text-[#2b201a]">0% Risk</div>
+                <div className="text-[10px] text-[#8c7770] font-sans">DDE Escaping</div>
               </div>
             </div>
           </div>
