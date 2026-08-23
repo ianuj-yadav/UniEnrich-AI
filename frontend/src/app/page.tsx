@@ -105,9 +105,10 @@ export default function DashboardPage() {
 
             {activeBatch && (
               <Link href={`/products?batch_id=${activeBatch.id}`}>
-                <button className="h-12 px-5 rounded-xl border border-white/20 bg-white/[0.06] hover:bg-white/[0.14] text-white font-semibold text-xs uppercase tracking-wider transition-all backdrop-blur-md cursor-pointer hover:scale-105 active:scale-95">
-                  Explore Active Catalog &rarr;
-                </button>
+                <Button variant="secondary" size="md" className="px-6 py-4 text-xs">
+                  <span>EXPLORE ACTIVE CATALOG</span>
+                  <ArrowRight className="w-3.5 h-3.5 ml-2" />
+                </Button>
               </Link>
             )}
           </div>
@@ -131,9 +132,9 @@ export default function DashboardPage() {
               <span className="text-grey-300">A trail of evidence.</span>
             </h2>
 
-            <Link href="/upload" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white hover:text-blue-400 border-b border-white/30 pb-1 hover:border-blue-400 transition-colors">
-              <span>Explore The Workspace</span>
-              <span>&nearr;</span>
+            <Link href="/upload" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#f9c4d2] hover:text-white border-b-2 border-[#b18597] pb-1 hover:border-white transition-colors">
+              <span>EXPLORE THE WORKSPACE</span>
+              <span className="text-sm">↗</span>
             </Link>
           </div>
 
@@ -326,9 +327,9 @@ export default function DashboardPage() {
             </div>
 
             <div className="pt-2">
-              <Link href="/datasheet" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white hover:text-blue-400 border-b border-white/30 pb-1 hover:border-blue-400 transition-colors">
-                <span>Read The Documentation</span>
-                <span>&nearr;</span>
+              <Link href="/datasheet" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#f9c4d2] hover:text-white border-b-2 border-[#b18597] pb-1 hover:border-white transition-colors">
+                <span>READ THE DOCUMENTATION</span>
+                <span className="text-sm">↗</span>
               </Link>
             </div>
           </div>

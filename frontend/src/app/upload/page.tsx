@@ -146,15 +146,15 @@ export default function WorkspacePage() {
             <span className="text-grey-400">🛡️ ESL Safe Guard (&ge; 70% = 0.20)</span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setInputText(SAMPLE_TEXT)}
-              className="px-3 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] text-grey-200 text-xs font-mono font-semibold transition border border-white/10"
+              className="px-4 py-2.5 rounded-xl bg-[#1a1c23] hover:bg-[#252732] text-[#f9c4d2] text-xs font-semibold uppercase tracking-wider transition-all border-2 border-[#b18597] shadow-[0_4px_0_0_#b18597] hover:translate-y-0.5 active:translate-y-1.5 cursor-pointer"
             >
               LOAD SAMPLE INDUSTRIAL RECORD
             </button>
-            <label className="px-3 py-1.5 rounded-lg bg-white text-black font-semibold text-xs transition cursor-pointer hover:bg-white/90 shadow-sm flex items-center gap-1.5">
-              <UploadCloud className="w-3.5 h-3.5" />
+            <label className="px-5 py-2.5 rounded-xl bg-[#fff0f0] hover:bg-[#ffe9e9] text-[#382b22] font-semibold text-xs uppercase tracking-wider transition-all cursor-pointer border-2 border-[#b18597] shadow-[0_4px_0_-1px_#f9c4d2,0_4px_0_0_#b18597] hover:translate-y-0.5 active:translate-y-1.5 flex items-center gap-2">
+              <UploadCloud className="w-4 h-4 text-[#382b22]" />
               <span>UPLOAD DOCUMENT</span>
               <input 
                 type="file" 
@@ -215,18 +215,18 @@ export default function WorkspacePage() {
           <button
             onClick={handleRunAudit}
             disabled={isAuditing || !inputText.trim()}
-            className="w-full py-4 rounded-xl bg-white hover:bg-white/90 active:scale-[0.99] text-black font-mono font-bold text-sm tracking-wide transition shadow-[0_0_24px_rgba(255,255,255,0.25)] flex items-center justify-center gap-3 disabled:opacity-50"
+            className="w-full py-4 rounded-xl bg-[#fff0f0] hover:bg-[#ffe9e9] active:translate-y-2 text-[#382b22] font-semibold uppercase tracking-wider text-xs transition-all border-2 border-[#b18597] shadow-[0_8px_0_-2px_#f9c4d2,0_8px_0_0_#b18597,0_16px_8px_-3px_rgba(0,0,0,0.3)] flex items-center justify-center gap-3 disabled:opacity-50 cursor-pointer"
           >
             {isAuditing ? (
               <>
-                <Cpu className="w-4 h-4 text-black animate-spin" />
+                <Cpu className="w-4 h-4 text-[#382b22] animate-spin" />
                 <span>COMPUTING DETERMINISTIC LOGITS &amp; TOKEN RIBBON...</span>
               </>
             ) : (
               <>
-                <Sparkles className="w-4 h-4 text-black" />
+                <Sparkles className="w-4 h-4 text-[#382b22]" />
                 <span>RUN EXPLAINABLE CATALOG AUDIT</span>
-                <span>&rarr;</span>
+                <span className="text-sm font-bold">&rarr;</span>
               </>
             )}
           </button>
@@ -265,20 +265,24 @@ export default function WorkspacePage() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <button
+              <Button
+                variant="primary"
+                size="sm"
                 onClick={() => setIsSaved(true)}
-                className="w-full py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs font-mono font-bold text-white flex items-center justify-center gap-2 transition"
+                className="w-full justify-center"
+                icon={isSaved ? <Check className="w-3.5 h-3.5" /> : <Bookmark className="w-3.5 h-3.5" />}
               >
-                {isSaved ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Bookmark className="w-3.5 h-3.5" />}
                 <span>{isSaved ? "Dossier Saved" : "Save Report"}</span>
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="secondary"
+                size="sm"
                 onClick={() => navigator.clipboard.writeText(window.location.href)}
-                className="w-full py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs font-mono font-bold text-grey-300 flex items-center justify-center gap-2 transition"
+                className="w-full justify-center"
+                icon={<Share2 className="w-3.5 h-3.5" />}
               >
-                <Share2 className="w-3.5 h-3.5" />
                 <span>Share Link</span>
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -380,12 +384,15 @@ export default function WorkspacePage() {
                   </label>
                 </div>
 
-                <button
+                <Button
+                  variant="green"
+                  size="md"
                   onClick={() => alert("Committee certification recorded in master audit ledger.")}
-                  className="w-full py-2.5 rounded-lg bg-green-500 hover:bg-green-400 text-black font-bold text-xs transition"
+                  className="w-full justify-center"
                 >
-                  Certify Master Record &rarr;
-                </button>
+                  <span>Certify Master Record</span>
+                  <span className="ml-1 font-bold">&rarr;</span>
+                </Button>
               </div>
 
               {/* Multi-Channel Export Trigger */}

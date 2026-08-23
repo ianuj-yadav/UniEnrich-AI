@@ -101,14 +101,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
         {/* Copilot Assistant Trigger */}
         <button
           onClick={onOpenCopilot}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-purple-950/60 hover:bg-purple-900/70 border border-purple-500/40 text-purple-200 text-xs font-medium shadow-sm transition hover:scale-[1.02] active:scale-[0.98] backdrop-blur-md"
+          className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#2e1065]/70 hover:bg-[#3b0764] border-2 border-[#8b5cf6] text-[#e9d5ff] text-xs font-semibold uppercase tracking-wider shadow-[0_4px_0_0_#8b5cf6] transition-all hover:translate-y-0.5 active:translate-y-1.5 backdrop-blur-md cursor-pointer"
         >
-          <Bot className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
-          <span className="hidden sm:inline">AI Copilot</span>
+          <Bot className="w-3.5 h-3.5 text-[#c084fc] animate-pulse" />
+          <span className="hidden sm:inline">AI COPILOT</span>
         </button>
 
         {/* User / Analyst Status Pill */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.06] border border-white/15 text-xs text-white font-mono font-semibold">
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#1a1c23] border-2 border-[#b18597]/50 shadow-[0_4px_0_0_#b18597/60] text-xs text-white font-mono font-semibold">
           <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
           <span>ANUJ</span>
         </div>
