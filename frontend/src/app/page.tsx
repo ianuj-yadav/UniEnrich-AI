@@ -280,16 +280,16 @@ export default function DashboardPage() {
               UniHack gives catalog teams a shared language for discussing a SKU: what changed, which signal was observed, and what context belongs in the final master record.
             </p>
 
-            {/* Persona Switcher Tabs - Classy Light / Active Indigo Pills */}
+            {/* Persona Switcher Tabs - White bg and Black text when active */}
             <div className="flex flex-wrap gap-2 pt-2">
               {REVIEWER_DIALOGUES.map((d, idx) => (
                 <button
                   key={d.author}
                   onClick={() => setActiveReviewerIdx(idx)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-bold transition-all cursor-pointer ${
+                  className={`px-4 py-1.5 rounded-full text-xs font-mono font-bold transition-all cursor-pointer ${
                     activeReviewerIdx === idx
-                      ? "bg-sky-900 text-white shadow-sm border border-sky-900"
-                      : "bg-white/80 hover:bg-white text-sky-950 border border-sky-300 shadow-2xs"
+                      ? "bg-white text-black border-2 border-black shadow-md"
+                      : "bg-white/40 hover:bg-white text-stone-700 border border-sky-300 shadow-2xs"
                   }`}
                 >
                   {d.author}
