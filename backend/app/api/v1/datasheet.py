@@ -1,3 +1,4 @@
+import json
 from typing import Dict, Any, Optional
 from pydantic import BaseModel
 from fastapi import APIRouter, UploadFile, File, Form, Depends, HTTPException
@@ -54,7 +55,7 @@ async def import_parsed_datasheet_to_batch(
         row_index=batch.total_records + 1,
         raw_sku=sku,
         raw_brand=brand,
-        raw_description=f"Datasheet Import: {spec.get('document_name', '')} {json_str(attrs)}",
+        raw_description=f"Datasheet Import: {spec.get('document_name', '')} {json.dumps(attrs)}",
         raw_category=spec.get("category"),
         raw_data=attrs
     )
