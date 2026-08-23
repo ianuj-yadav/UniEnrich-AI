@@ -34,7 +34,7 @@ import { listBatches, BatchItem } from "@/lib/api";
 import { Interactive3DCore } from "@/components/ui/Interactive3DCore";
 import { LiveEnrichmentWorkbench } from "@/components/ui/LiveEnrichmentWorkbench";
 import { SpecCompletenessVisualizer } from "@/components/ui/SpecCompletenessVisualizer";
-import { HeroSignalMonitor } from "@/components/ui/HeroSignalMonitor";
+import { Hero3DLogo } from "@/components/ui/Hero3DLogo";
 
 const REVIEWER_DIALOGUES = [
   {
@@ -226,9 +226,9 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Right Floating Signal Monitor Card */}
-          <div className="lg:col-span-5">
-            <HeroSignalMonitor />
+          {/* Right 3D Interactive Brand Logo Canvas */}
+          <div className="lg:col-span-5 flex items-center justify-center">
+            <Hero3DLogo />
           </div>
         </div>
       </div>
