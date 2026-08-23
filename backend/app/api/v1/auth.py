@@ -25,7 +25,7 @@ class SignupRequest(BaseModel):
     name: str
     email: EmailStr
     password: str
-    organization: Optional[str] = "UniHack Industrial AI"
+    organization: Optional[str] = "UniEnrich Industrial AI"
 
 class GoogleAuthRequest(BaseModel):
     credential: str
@@ -98,7 +98,7 @@ async def ensure_demo_account(db: AsyncSession) -> None:
     db.add(User(
         id="usr_anuj_01", name="Anuj Yadav", email=email,
         password_hash=_hash_password("Password123!"),
-        role="Lead Catalog Reviewer", organization="UniHack / UniEnrich Industrial AI",
+        role="Lead Catalog Reviewer", organization="UniEnrich Industrial AI",
         tier="Enterprise Vault", avatar="https://api.dicebear.com/7.x/bottts/svg?seed=Anuj",
         provider="email",
     ))
@@ -125,7 +125,7 @@ async def signup(req: SignupRequest, db: AsyncSession = Depends(get_db)):
 
     new_user = User(
         name=req.name.strip(), email=email_lower, password_hash=_hash_password(req.password),
-        organization=req.organization or "UniHack Industrial AI",
+        organization=req.organization or "UniEnrich Industrial AI",
         avatar=f"https://api.dicebear.com/7.x/bottts/svg?seed={req.name}", provider="email",
     )
     db.add(new_user)
@@ -158,7 +158,7 @@ async def google_auth(req: GoogleAuthRequest, db: AsyncSession = Depends(get_db)
             email=email,
             password_hash="",
             role="Catalog Reviewer",
-            organization="UniHack Industrial AI",
+            organization="UniEnrich Industrial AI",
             tier="Enterprise Vault",
             avatar=identity.get("picture"),
             provider="google",

@@ -171,7 +171,7 @@ export default function ProfilePage() {
 
   const userName = user?.name || "Anuj Yadav";
   const userEmail = user?.email || "anuj.yadav@unienrich.ai";
-  const userOrg = user?.organization || "UniHack / UniEnrich Industrial AI";
+  const userOrg = user?.organization || "UniEnrich Industrial AI";
   const userRole = user?.role || "Lead Catalog Reviewer";
   const userTier = user?.tier || "Enterprise Vault";
   const userProvider = user?.provider === "google" ? "Google OAuth" : "Email & Password";

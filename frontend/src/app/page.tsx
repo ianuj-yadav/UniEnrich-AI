@@ -219,7 +219,7 @@ export default function DashboardPage() {
             </div>
 
             <p className="text-xs sm:text-sm font-mono text-sky-950/80 leading-relaxed max-w-md">
-              UniHack gives catalog teams a shared language for discussing a SKU: what changed, which signal was observed, and what context belongs in the final master record.
+              UniEnrich gives catalog teams a shared language for discussing a SKU: what changed, which signal was observed, and what context belongs in the final master record.
             </p>
 
             {/* Persona Switcher Tabs - White bg and Black text when active */}
@@ -293,7 +293,7 @@ export default function DashboardPage() {
                   <span className="w-2 h-2 rounded-full bg-stone-700"></span>
                   <span className="w-2 h-2 rounded-full bg-stone-400"></span>
                   <span className="w-2 h-2 rounded-full bg-stone-400"></span>
-                  <span className="font-bold ml-2">UNIHACK 3155 / CATALOG ENRICHMENT WORKSPACE</span>
+                  <span className="font-bold ml-2">UNIENRICH 3155 / CATALOG ENRICHMENT WORKSPACE</span>
                 </div>
                 <span className="text-emerald-700 font-bold">CONFIDENCE: 98.4%</span>
               </div>

@@ -144,7 +144,7 @@ export default function WorkspacePage() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-[#2b201a] text-sm">UniHack</span>
+              <span className="font-bold text-[#2b201a] text-sm">UniEnrich</span>
               <span className="text-[#b18597] text-xs font-light">/</span>
               <span className="text-xs text-[#5e4d46] font-semibold uppercase tracking-wider">EXPLAINABLE CATALOG ENRICHMENT AUDITOR</span>
             </div>

@@ -7,7 +7,6 @@ const HERO_VIDEO_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJO
 
 export const TargoHeroSection: React.FC = () => {
   const heroVideoRef = useRef<HTMLVideoElement>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   // Resize listener for breakpoint <= 700px
@@ -58,7 +57,7 @@ export const TargoHeroSection: React.FC = () => {
           ==================================================================== */}
       <section 
         className="relative w-full overflow-hidden bg-[#F2F1F0]"
-        style={{ minHeight: "100svh" }}
+        style={{ minHeight: "calc(100svh - 64px)" }}
       >
         {/* Background Video */}
         <video
@@ -90,112 +89,19 @@ export const TargoHeroSection: React.FC = () => {
         )}
 
         {/* Content Container */}
-        <div className="relative z-10 flex flex-col justify-between" style={{ minHeight: "100svh" }}>
+        <div className="relative z-10 flex flex-col justify-between" style={{ minHeight: "calc(100svh - 64px)" }}>
           
-          {/* Navbar */}
-          <header
-            className="relative flex items-center justify-between flex-wrap z-20"
+          {/* Top Spacing / Subheader Badge */}
+          <div 
+            className="flex items-center gap-3 pt-6"
             style={{
-              gap: "clamp(20px, 5vw, 56px)",
-              padding: "clamp(20px, 3vw, 38px) clamp(20px, 4vw, 48px) 0",
+              paddingLeft: isMobile ? "20px" : "clamp(20px, 9vw, 118px)",
             }}
           >
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              {/* 38px dark (#111) circle with white 20x8px ellipse rotated -25° */}
-              <div 
-                className="w-[38px] h-[38px] rounded-full bg-[#111111] flex items-center justify-center shrink-0 shadow-xs"
-              >
-                <div 
-                  className="w-[20px] h-[8px] rounded-full bg-white"
-                  style={{ transform: "rotate(-25deg)" }}
-                />
-              </div>
-              <span
-                className="font-normal text-[#111111] leading-none"
-                style={{
-                  fontSize: "clamp(22px, 5vw, 30px)",
-                  letterSpacing: "-0.5px",
-                }}
-              >
-                targo
-              </span>
-            </div>
-
-            {/* Desktop Links HOME / ABOUT / CONTACT US */}
-            <nav className="hidden md:flex items-center gap-[34px]">
-              <a
-                href="#hero"
-                className="font-bold text-[#3a3a3a] hover:text-black transition-colors uppercase whitespace-nowrap"
-                style={{ fontSize: "clamp(12px, 2.4vw, 15px)", letterSpacing: "0.06em" }}
-              >
-                HOME
-              </a>
-              <a
-                href="#about"
-                className="font-bold text-[#3a3a3a] hover:text-black transition-colors uppercase whitespace-nowrap"
-                style={{ fontSize: "clamp(12px, 2.4vw, 15px)", letterSpacing: "0.06em" }}
-              >
-                ABOUT
-              </a>
-              <a
-                href="#unihack-suite"
-                className="font-bold text-[#3a3a3a] hover:text-black transition-colors uppercase whitespace-nowrap"
-                style={{ fontSize: "clamp(12px, 2.4vw, 15px)", letterSpacing: "0.06em" }}
-              >
-                WORKSPACE
-              </a>
-            </nav>
-
-            {/* Desktop "Contact us" chamfered button */}
-            <div className="hidden md:flex items-center">
-              <a
-                href="#about"
-                className="chamfer-contact-btn flex items-center gap-2.5 bg-transparent hover:bg-white/20 text-white uppercase transition-all duration-200 cursor-pointer shadow-xs"
-                style={{
-                  padding: "14px 26px",
-                  letterSpacing: "0.14em",
-                  fontSize: "clamp(12px, 2vw, 14px)",
-                }}
-              >
-                {/* White stroked mail-envelope SVG (17x13, stroke-width 1.4) */}
-                <svg
-                  width="17"
-                  height="13"
-                  viewBox="0 0 17 13"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="stroke-white"
-                  style={{ strokeWidth: 1.4 }}
-                >
-                  <rect x="0.7" y="0.7" width="15.6" height="11.6" rx="1.3" stroke="currentColor" />
-                  <path d="M1 2L8.5 7.5L16 2" stroke="currentColor" />
-                </svg>
-                <span className="font-bold text-white">Contact us</span>
-              </a>
-            </div>
-
-            {/* Mobile Hamburger button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden flex flex-col items-center justify-center gap-[5px] w-10 h-10 p-2 cursor-pointer rounded-lg bg-[#111111]/80 shadow-md"
-              aria-label="Toggle navigation"
-            >
-              <span className="w-[22px] h-[2px] bg-white rounded-full block" />
-              <span className="w-[22px] h-[2px] bg-white rounded-full block" />
-              <span className="w-[22px] h-[2px] bg-white rounded-full block" />
-            </button>
-
-            {/* Mobile Stacked Menu */}
-            {mobileMenuOpen && (
-              <div className="w-full md:hidden flex flex-col gap-[18px] bg-white/95 p-6 rounded-2xl shadow-xl border border-stone-300 mt-3 font-bold text-[#1a1c1e] text-sm">
-                <a href="#hero" onClick={() => setMobileMenuOpen(false)}>HOME</a>
-                <a href="#about" onClick={() => setMobileMenuOpen(false)}>ABOUT</a>
-                <a href="#unihack-suite" onClick={() => setMobileMenuOpen(false)}>WORKSPACE</a>
-                <Link href="/upload" onClick={() => setMobileMenuOpen(false)} className="text-[#15BCDF]">OPEN WORKSPACE &rarr;</Link>
-              </div>
-            )}
-          </header>
+            <span className="text-[11px] font-bold uppercase tracking-widest text-stone-500 bg-white/60 px-3 py-1 rounded-full border border-stone-300">
+              INDUSTRIAL CATALOG STANDARDIZATION &amp; ENRICHMENT
+            </span>
+          </div>
 
           {/* Headline (H1 Staircase Lines) */}
           <div
@@ -203,12 +109,12 @@ export const TargoHeroSection: React.FC = () => {
             style={
               isMobile
                 ? {
-                    marginTop: "360px",
-                    padding: "0 20px 28px 20px",
+                    marginTop: "300px",
+                    padding: "0 20px 24px 20px",
                   }
                 : {
                     padding:
-                      "min(clamp(40px, 9vw, 120px), 9vh) 20px min(clamp(24px, 4vw, 44px), 5vh) clamp(20px, 9vw, 118px)",
+                      "min(clamp(30px, 6vw, 80px), 6vh) 20px min(clamp(20px, 3vw, 36px), 4vh) clamp(20px, 9vw, 118px)",
                   }
             }
           >
