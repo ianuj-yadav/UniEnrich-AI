@@ -34,7 +34,7 @@ export const Sidebar: React.FC = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 bg-[#faf6f6]/95 border-r border-[#e8dede] min-h-screen flex flex-col justify-between shrink-0 backdrop-blur-xl shadow-[1px_0_10px_rgba(177,133,151,0.03)]">
+    <aside className="w-64 bg-[#faf6f6]/95 border-r border-[#e8dede] sticky top-16 h-[calc(100vh-4rem)] flex flex-col justify-between shrink-0 backdrop-blur-xl shadow-[1px_0_10px_rgba(177,133,151,0.03)] overflow-y-auto">
       <div>
         {/* Navigation Items */}
         <nav className="p-3.5 space-y-1.5 mt-2">
