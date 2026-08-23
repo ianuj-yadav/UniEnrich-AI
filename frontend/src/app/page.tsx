@@ -578,30 +578,35 @@ export default function DashboardPage() {
       </section>
 
       {/* ====================================================================
-          ACT 6: FINALE ELEGANT STATEMENT BANNER (CLEAN WARM IVORY #f7f4ed)
+          ACT 6: FINALE ELEGANT STATEMENT BANNER (WARM IVORY & SOFT ICE BLUE)
           ==================================================================== */}
-      <section className="w-full bg-[#f7f4ed] border-t border-stone-300 py-24 px-6 sm:px-12 md:px-20 text-center relative overflow-hidden">
-        <div className="max-w-4xl mx-auto space-y-8">
+      <section className="w-full bg-gradient-to-b from-[#f7f4ed] via-[#edf7fa] to-[#f7f4ed] border-t border-stone-300 py-24 px-6 sm:px-12 md:px-20 text-center relative overflow-hidden">
+        <div className="max-w-4xl mx-auto space-y-8 relative z-10">
           
           {/* Top Cyan Icon Badge */}
-          <div className="w-10 h-10 rounded-xl bg-sky-100 border border-sky-300 flex items-center justify-center mx-auto text-sky-800 shadow-xs">
-            <FileCheck2 className="w-5 h-5 text-sky-700" />
+          <div className="w-12 h-12 rounded-2xl bg-white border-2 border-sky-300 flex items-center justify-center mx-auto text-sky-700 shadow-[0_4px_20px_rgba(56,189,248,0.25)]">
+            <FileCheck2 className="w-6 h-6 text-sky-600" />
           </div>
 
           {/* Giant Centered Headline */}
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#111111] leading-tight">
-            Evidence should make decisions clearer, not make them for you.
-          </h2>
+          <div className="space-y-4">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[#111111] leading-tight">
+              Evidence should make decisions clearer, not make them for you.
+            </h2>
+            <p className="text-xs sm:text-sm font-mono text-stone-600 max-w-xl mx-auto leading-relaxed">
+              Every catalog signal is logged with SHA-256 cryptographic audit integrity and complete explainable confidence for human sign-off.
+            </p>
+          </div>
 
           {/* Signature Pill + Cyan Circle CTA Button */}
           <div className="pt-4 flex items-center justify-center">
             <Link 
               href="/upload"
-              className="inline-flex items-center gap-3 bg-[#111111] hover:bg-black text-[#f7f4ed] pl-6 pr-2 py-2 rounded-full font-mono text-xs font-bold uppercase tracking-wider shadow-xl hover:scale-105 transition-all group cursor-pointer"
+              className="inline-flex items-center gap-3.5 bg-[#111111] hover:bg-stone-900 text-white pl-7 pr-2.5 py-2.5 rounded-full font-mono text-xs font-bold uppercase tracking-wider shadow-2xl hover:scale-105 transition-all group cursor-pointer"
             >
               <span>Open the Review Workspace</span>
-              <div className="w-9 h-9 rounded-full bg-[#38bdf8] group-hover:bg-[#0ea5e9] text-black flex items-center justify-center transition-colors shadow-sm">
-                <ArrowUpRight className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-full bg-[#38bdf8] group-hover:bg-[#0ea5e9] text-[#111111] flex items-center justify-center transition-colors shadow-md">
+                <ArrowUpRight className="w-5 h-5 stroke-[2.5]" />
               </div>
             </Link>
           </div>
