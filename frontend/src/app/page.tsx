@@ -22,6 +22,9 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { listBatches, BatchItem } from "@/lib/api";
+import { Interactive3DCore } from "@/components/ui/Interactive3DCore";
+import { LiveEnrichmentWorkbench } from "@/components/ui/LiveEnrichmentWorkbench";
+import { SpecCompletenessVisualizer } from "@/components/ui/SpecCompletenessVisualizer";
 
 export default function DashboardPage() {
   const [batches, setBatches] = useState<BatchItem[]>([]);
@@ -152,54 +155,63 @@ export default function DashboardPage() {
       </div>
 
       {/* ====================================================================
-          5-KPI METRIC CARDS (GLASS BENTO GRID)
+          3D INTERACTIVE VECTOR GRAPH & 5-KPI BENTO SECTION
           ==================================================================== */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        <Card className="p-4">
-          <div className="flex items-center justify-between text-xs font-medium text-grey-300">
-            <span>Products Ingested</span>
-            <UploadCloud className="w-4 h-4 text-blue-400" />
-          </div>
-          <div className="text-2xl font-bold text-white mt-2 font-mono">{totalUploaded}</div>
-          <p className="text-[11px] text-grey-400 mt-1">Across all supplier feeds</p>
-        </Card>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        {/* 3D Particle Cloud Canvas */}
+        <div className="lg:col-span-5">
+          <Interactive3DCore />
+        </div>
 
-        <Card className="p-4">
-          <div className="flex items-center justify-between text-xs font-medium text-grey-300">
-            <span>Standardized Records</span>
-            <Sparkles className="w-4 h-4 text-green-400" />
-          </div>
-          <div className="text-2xl font-bold text-green-400 mt-2 font-mono">{totalProcessed}</div>
-          <p className="text-[11px] text-green-500/80 mt-1">Enriched with 15+ specs</p>
-        </Card>
+        {/* 5-KPI Metric Cards Grid */}
+        <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 sm:grid-rows-3 gap-3.5">
+          <Card className="p-4 sm:col-span-2">
+            <div className="flex items-center justify-between text-xs font-medium text-grey-300">
+              <span>Standardized Master Catalog SKUs</span>
+              <Sparkles className="w-4 h-4 text-green-400" />
+            </div>
+            <div className="text-3xl font-extrabold text-green-400 mt-2 font-mono">{totalProcessed} / {totalUploaded}</div>
+            <p className="text-[11px] text-green-500/80 mt-1">Enriched with 15+ engineering specifications</p>
+          </Card>
 
-        <Card className="p-4">
-          <div className="flex items-center justify-between text-xs font-medium text-grey-300">
-            <span>Average Accuracy</span>
-            <TrendingUp className="w-4 h-4 text-purple-400" />
-          </div>
-          <div className="text-2xl font-bold text-purple-300 mt-2 font-mono">96.4%</div>
-          <p className="text-[11px] text-purple-400/80 mt-1">Dual confidence engine</p>
-        </Card>
+          <Card className="p-4">
+            <div className="flex items-center justify-between text-xs font-medium text-grey-300">
+              <span>Average Accuracy</span>
+              <TrendingUp className="w-4 h-4 text-purple-400" />
+            </div>
+            <div className="text-2xl font-bold text-purple-300 mt-2 font-mono">96.4%</div>
+            <p className="text-[11px] text-purple-400/80 mt-1">Dual confidence engine</p>
+          </Card>
 
-        <Card className="p-4">
-          <div className="flex items-center justify-between text-xs font-medium text-grey-300">
-            <span>Needs Review (&lt;70%)</span>
-            <CheckSquare className="w-4 h-4 text-yellow-400" />
-          </div>
-          <div className="text-2xl font-bold text-yellow-400 mt-2 font-mono">{totalErrors}</div>
-          <p className="text-[11px] text-yellow-500/80 mt-1">Routed to Human Review</p>
-        </Card>
+          <Card className="p-4">
+            <div className="flex items-center justify-between text-xs font-medium text-grey-300">
+              <span>Needs Review (&lt;70%)</span>
+              <CheckSquare className="w-4 h-4 text-yellow-400" />
+            </div>
+            <div className="text-2xl font-bold text-yellow-400 mt-2 font-mono">{totalErrors}</div>
+            <p className="text-[11px] text-yellow-500/80 mt-1">Routed to Human Review</p>
+          </Card>
 
-        <Card className="p-4">
-          <div className="flex items-center justify-between text-xs font-medium text-grey-300">
-            <span>Duplicate SKUs</span>
-            <GitMerge className="w-4 h-4 text-red-400" />
-          </div>
-          <div className="text-2xl font-bold text-red-400 mt-2 font-mono">{totalDuplicates}</div>
-          <p className="text-[11px] text-red-500/80 mt-1">Vector cosine clusters</p>
-        </Card>
+          <Card className="p-4 sm:col-span-2">
+            <div className="flex items-center justify-between text-xs font-medium text-grey-300">
+              <span>Cross-Supplier Duplicate SKUs</span>
+              <GitMerge className="w-4 h-4 text-red-400" />
+            </div>
+            <div className="text-2xl font-bold text-red-400 mt-1.5 font-mono">{totalDuplicates} Clusters</div>
+            <p className="text-[11px] text-red-500/80 mt-0.5">Resolved via n-gram cosine similarity</p>
+          </Card>
+        </div>
       </div>
+
+      {/* ====================================================================
+          LIVE ENRICHMENT WORKBENCH (INTERACTIVE TESTER)
+          ==================================================================== */}
+      <LiveEnrichmentWorkbench />
+
+      {/* ====================================================================
+          D3 ATTRIBUTE DENSITY & SPEC COMPLETENESS ANALYZER
+          ==================================================================== */}
+      <SpecCompletenessVisualizer />
 
       {/* ====================================================================
           3-CARD BUSINESS ROI & TAXONOMY DELTA
