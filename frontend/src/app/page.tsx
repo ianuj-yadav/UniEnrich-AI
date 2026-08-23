@@ -41,7 +41,6 @@ import { listBatches, BatchItem } from "@/lib/api";
 import { Interactive3DCore } from "@/components/ui/Interactive3DCore";
 import { LiveEnrichmentWorkbench } from "@/components/ui/LiveEnrichmentWorkbench";
 import { SpecCompletenessVisualizer } from "@/components/ui/SpecCompletenessVisualizer";
-import { Hero3DLogo } from "@/components/ui/Hero3DLogo";
 
 const REVIEWER_DIALOGUES = [
   {
@@ -152,25 +151,20 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Right Column: Editorial Mission & 3D Emblem */}
+          {/* Right Column: Editorial Mission */}
           <div className="lg:col-span-5 space-y-6 flex flex-col items-center sm:items-start text-center sm:text-left">
-            <div className="space-y-3.5 max-w-lg">
-              <p className="text-base sm:text-lg font-bold text-stone-900 leading-snug tracking-tight font-sans">
+            <div className="space-y-4 max-w-lg">
+              <p className="text-lg sm:text-xl font-bold text-stone-900 leading-snug tracking-tight font-sans">
                 UniHack is an AI-powered industrial catalog standardization engine. Built to bridge the gap between noisy supplier feeds and search-ready master records.
               </p>
               <p className="text-xs sm:text-sm font-semibold text-stone-700 leading-relaxed font-mono">
                 Extracts 15+ mechanical specs, resolves duplicate vendor listings, and guarantees audit-ready accuracy using deterministic RapidFuzz matching &amp; Gemini intelligence.
               </p>
-              <div className="pt-1">
-                <span className="inline-block px-3 py-1 rounded-md bg-sky-100 text-sky-900 border border-sky-300 text-[11px] font-mono font-extrabold uppercase tracking-widest">
+              <div className="pt-2">
+                <span className="inline-block px-3.5 py-1.5 rounded-lg bg-sky-100 text-sky-900 border border-sky-300 text-xs font-mono font-extrabold uppercase tracking-widest shadow-2xs">
                   LESS COMPLEXITY. LESS REPETITION. MORE ACCOUNTABLE REVISION.
                 </span>
               </div>
-            </div>
-
-            {/* 3D WebGL Vector Core */}
-            <div className="w-full pt-2">
-              <Hero3DLogo />
             </div>
           </div>
 
