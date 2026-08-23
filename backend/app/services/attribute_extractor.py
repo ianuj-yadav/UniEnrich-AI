@@ -98,41 +98,21 @@ class AttributeExtractor:
 
     async def extract_attributes(self, raw_description: str, cleaned_description: str, brand: Optional[str] = None) -> Tuple[Dict[str, Any], float]:
         """
-        Extracts structured attributes using Gemini 2.5 Flash if configured, with rule-based fallback.
+        Extracts structured attributes using NVIDIA Nemotron 30B / LLM if configured, with rule-based fallback.
         """
         input_text = cleaned_description or raw_description or ""
         
-        # If Gemini API Key is present, attempt LLM extraction
-        if self.api_key:
-            try:
-                from google import genai
-                from google.genai import types
+        # 1. Attempt LLM Extraction via NVIDIA Nemotron
+        from app.services.llm_client import llm_client
+        if llm_client.is_available():
+            nemotron_result = llm_client.extract_attributes(input_text, brand)
+            if nemotron_result and isinstance(nemotron_result, dict) and len(nemotron_result) > 0:
+                # Merge with any detected rule-based attributes to ensure maximum recall
+                rule_attrs, _ = self.rule_based_extract(input_text)
+                merged = {**rule_attrs, **nemotron_result}
+                return merged, 0.98
 
-                client = genai.Client(api_key=self.api_key)
-                prompt = f"""
-                Extract all technical industrial specifications and attributes from this product string:
-                Product: "{input_text}"
-                Brand: "{brand or 'Unknown'}"
-
-                Return ONLY a valid JSON object with extracted key-value pairs (e.g. Material, Size, Pressure, Voltage, Connection Type, Finish, Series).
-                Normalize units (e.g., '150 psi', '3/4 in', '120V').
-                """
-                response = client.models.generate_content(
-                    model=settings.GEMINI_MODEL,
-                    contents=prompt,
-                    config=types.GenerateContentConfig(
-                        response_mime_type="application/json",
-                        temperature=0.1
-                    )
-                )
-                if response and response.text:
-                    parsed = json.loads(response.text)
-                    if isinstance(parsed, dict) and len(parsed) > 0:
-                        return parsed, 0.98
-            except Exception as e:
-                print(f"LLM extraction error, falling back to rule-based: {e}")
-
-        # Fallback to high-speed deterministic extractor
+        # 2. Fallback to high-speed deterministic extractor
         return self.rule_based_extract(input_text)
 
 attribute_extractor = AttributeExtractor()

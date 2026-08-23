@@ -73,44 +73,42 @@ class DatasheetParser:
         """
         Parses technical PDF or image datasheets using Gemini Document/Vision AI with deterministic fallback.
         """
-        # If Gemini API Key configured, attempt LLM multimodal vision extraction
-        if self.api_key:
+        # 1. Attempt LLM extraction via NVIDIA Nemotron
+        raw_text = content_bytes.decode("utf-8", errors="ignore")
+        from app.services.llm_client import llm_client
+        if llm_client.is_available() and len(raw_text.strip()) > 10:
             try:
-                from google import genai
-                from google.genai import types
+                prompt = f"""You are an expert industrial engineering document analyst.
+Extract all technical specifications, dimensions, materials, pressure limits, voltage, thread standards, and certifications from this datasheet: {filename}.
+Document excerpt:
+\"\"\"{raw_text[:3000]}\"\"\"
 
-                client = genai.Client(api_key=self.api_key)
-                prompt = f"""
-                You are an expert industrial engineering document analyst.
-                Extract all technical specifications, dimensions, materials, pressure limits, voltage, thread standards, and certifications from this datasheet: {filename}.
-                Return a JSON object with:
-                - "detected_sku": string
-                - "detected_brand": string
-                - "category": string
-                - "subcategory": string
-                - "unspsc": string
-                - "technical_specs": key-value dictionary of all extracted dimensions, materials, tolerances, ratings
-                - "compliance": string list of standards (e.g. ANSI, ASME, UL, ISO)
-                - "confidence_score": float (0.0 to 1.0)
-                """
-                response = client.models.generate_content(
-                    model=settings.GEMINI_MODEL,
-                    contents=prompt,
-                    config=types.GenerateContentConfig(
-                        response_mime_type="application/json",
-                        temperature=0.1
-                    )
+Output ONLY a JSON object wrapped in ```json ... ``` with:
+- "detected_sku": string
+- "detected_brand": string
+- "category": string
+- "subcategory": string
+- "unspsc": string
+- "technical_specs": key-value dictionary of all extracted dimensions, materials, tolerances, ratings
+- "compliance": string list of standards (e.g. ANSI, ASME, UL, ISO)
+- "confidence_score": float (0.0 to 1.0)"""
+
+                completion = llm_client.client.chat.completions.create(
+                    model=llm_client.model,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.1,
+                    max_tokens=1536
                 )
-                if response and response.text:
-                    parsed = json.loads(response.text)
+                content = completion.choices[0].message.content or ""
+                parsed = llm_client.extract_json(content)
+                if isinstance(parsed, dict) and "technical_specs" in parsed:
                     parsed["document_name"] = filename
-                    parsed["source_type"] = "GEMINI_DOC_VISION"
+                    parsed["source_type"] = "NVIDIA_NEMOTRON_DOC_AI"
                     return parsed
             except Exception as e:
-                print(f"Gemini Doc AI parse error, using fallback rule engine: {e}")
+                print(f"[Nemotron] Doc AI parse error, using fallback rule engine: {e}")
 
         # Fallback text/table parser
-        raw_text = content_bytes.decode("utf-8", errors="ignore")
         return self.rule_based_spec_parse(filename, raw_text)
 
 datasheet_parser = DatasheetParser()

@@ -45,37 +45,32 @@ class LocalizationService:
         mobile = product_data.get("mobile_description", "")
         long_d = product_data.get("long_description", "")
 
-        if self.api_key:
+        from app.services.llm_client import llm_client
+        if llm_client.is_available():
             try:
-                from google import genai
-                from google.genai import types
-                import json
+                prompt = f"""Translate and localize this industrial product description into {target_lang}:
+Title: {title}
+Mobile Summary: {mobile}
+Long Description: {long_d}
 
-                client = genai.Client(api_key=self.api_key)
-                prompt = f"""
-                Translate and localize this industrial product description into {target_lang}:
-                Title: {title}
-                Mobile Summary: {mobile}
-                Long Description: {long_d}
+Output ONLY a JSON object wrapped in ```json ... ``` with keys:
+- "language": "{target_lang}"
+- "product_title": string
+- "mobile_description": string
+- "long_description": string"""
 
-                Return a JSON object with keys:
-                - "language": "{target_lang}"
-                - "product_title": string
-                - "mobile_description": string
-                - "long_description": string
-                """
-                response = client.models.generate_content(
-                    model=settings.GEMINI_MODEL,
-                    contents=prompt,
-                    config=types.GenerateContentConfig(
-                        response_mime_type="application/json",
-                        temperature=0.2
-                    )
+                completion = llm_client.client.chat.completions.create(
+                    model=llm_client.model,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.1,
+                    max_tokens=1024
                 )
-                if response and response.text:
-                    return json.loads(response.text)
+                content = completion.choices[0].message.content or ""
+                parsed = llm_client.extract_json(content)
+                if isinstance(parsed, dict) and "product_title" in parsed:
+                    return parsed
             except Exception as e:
-                print(f"Localization LLM error: {e}")
+                print(f"[Nemotron] Localization LLM error: {e}")
 
         return self.translate_templated(title, mobile, long_d, target_lang)
 

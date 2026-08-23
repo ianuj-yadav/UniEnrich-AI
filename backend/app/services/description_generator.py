@@ -79,37 +79,32 @@ class DescriptionGenerator:
         """
         Generates (product_title, mobile_desc, long_desc, confidence)
         """
-        # If Gemini API Key configured, attempt LLM call
-        if self.api_key:
+        # 1. Attempt LLM generation via NVIDIA Nemotron
+        from app.services.llm_client import llm_client
+        if llm_client.is_available():
             try:
-                from google import genai
-                from google.genai import types
                 import json
+                prompt = f"""You are an expert industrial catalog copywriter.
+Generate 3 fields based on these product details:
+Brand: {brand or 'Generic'}
+Original Description: {cleaned_desc}
+Category: {category} > {subcategory}
+Attributes: {json.dumps(attributes)}
 
-                client = genai.Client(api_key=self.api_key)
-                prompt = f"""
-                You are an expert industrial catalog copywriter.
-                Generate 3 fields based on these product details:
-                Brand: {brand or 'Generic'}
-                Original Description: {cleaned_desc}
-                Category: {category} > {subcategory}
-                Attributes: {json.dumps(attributes)}
+Output ONLY a JSON object wrapped in ```json ... ``` with:
+1. "product_title": Concise, standardized SEO title ([Brand] + [Specs] + [Product Type]).
+2. "mobile_description": 1-2 sentence mobile summary.
+3. "long_description": Professional 1-paragraph e-commerce description incorporating the attributes."""
 
-                Return a JSON object with:
-                1. "product_title": Concise, standardized SEO title ([Brand] + [Specs] + [Product Type]).
-                2. "mobile_description": 1-2 sentence mobile summary.
-                3. "long_description": Professional 1-paragraph e-commerce description incorporating the attributes.
-                """
-                response = client.models.generate_content(
-                    model=settings.GEMINI_MODEL,
-                    contents=prompt,
-                    config=types.GenerateContentConfig(
-                        response_mime_type="application/json",
-                        temperature=0.2
-                    )
+                completion = llm_client.client.chat.completions.create(
+                    model=llm_client.model,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.2,
+                    max_tokens=1024
                 )
-                if response and response.text:
-                    parsed = json.loads(response.text)
+                content = completion.choices[0].message.content or ""
+                parsed = llm_client.extract_json(content)
+                if isinstance(parsed, dict) and "product_title" in parsed:
                     return (
                         parsed.get("product_title", ""),
                         parsed.get("mobile_description", ""),
@@ -117,7 +112,7 @@ class DescriptionGenerator:
                         0.97
                     )
             except Exception as e:
-                print(f"LLM Description Gen error, falling back to template engine: {e}")
+                print(f"[Nemotron] Description Gen error, falling back to template engine: {e}")
 
         # Deterministic generation
         title = self.generate_templated_title(brand, sku, attributes, cleaned_desc, product_family)
