@@ -10,10 +10,10 @@ import {
   Database, 
   CheckSquare, 
   BarChart3, 
-  Download,
-  GitMerge,
-  FileText,
-  BookOpen
+  Download, 
+  GitMerge, 
+  FileText, 
+  BookOpen 
 } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 
@@ -34,10 +34,10 @@ export const Sidebar: React.FC = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 bg-black/50 border-r border-white/[0.1] min-h-screen flex flex-col justify-between shrink-0 backdrop-blur-xl">
+    <aside className="w-64 bg-[#faf6f6]/95 border-r border-[#e8dede] min-h-screen flex flex-col justify-between shrink-0 backdrop-blur-xl shadow-[1px_0_10px_rgba(177,133,151,0.03)]">
       <div>
         {/* Navigation Items */}
-        <nav className="p-3.5 space-y-1 mt-2">
+        <nav className="p-3.5 space-y-1.5 mt-2">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -46,19 +46,19 @@ export const Sidebar: React.FC = () => {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all ${
+                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-all ${
                   isActive
-                    ? "bg-white/[0.12] text-white border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] font-semibold backdrop-blur-md"
-                    : "text-grey-300 hover:text-white hover:bg-white/[0.05]"
+                    ? "bg-[#fff0f0] text-[#382b22] border-2 border-[#b18597] shadow-[0_3px_0_0_#b18597] font-bold"
+                    : "text-[#6e5d56] hover:text-[#2b201a] hover:bg-[#ffffff] hover:border hover:border-[#e8dede]"
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-grey-400"}`} />
+                  <Icon className={`w-4 h-4 ${isActive ? "text-[#b18597]" : "text-[#8c7770]"}`} />
                   <span>{item.label}</span>
                 </div>
                 {item.badge && (
                   <Badge 
-                    variant={isActive ? "default" : (item.badge === "Vision" || item.badge === "Vector" ? "purple" : "warning")} 
+                    variant={isActive ? "pink" : (item.badge === "Vision" || item.badge === "Vector" ? "purple" : "warning")} 
                     size="sm"
                   >
                     {item.badge}
@@ -71,23 +71,23 @@ export const Sidebar: React.FC = () => {
       </div>
 
       {/* System Status Footer */}
-      <div className="p-4 m-3.5 rounded-xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/[0.08] text-xs backdrop-blur-md">
+      <div className="p-4 m-3.5 rounded-2xl bg-[#ffffff] border border-[#e8dede] text-xs shadow-[0_2px_12px_rgba(177,133,151,0.06)]">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-white/60 font-medium text-[11px]">Enrichment Engine</span>
-          <Badge variant="green" size="sm" dot>Operational</Badge>
+          <span className="text-[#5e4d46] font-semibold text-[11px] uppercase tracking-wider">Engine Status</span>
+          <Badge variant="green" size="sm" dot>Active</Badge>
         </div>
-        <div className="space-y-1.5 text-[11px] text-grey-400">
+        <div className="space-y-1.5 text-[11px] text-[#7a6860]">
           <div className="flex justify-between">
-            <span className="text-white/40">Model:</span>
-            <span className="text-white/90">Gemini 2.5 Flash</span>
+            <span className="text-[#8c7770]">Model:</span>
+            <span className="text-[#2b201a] font-semibold">Gemini 2.5 Flash</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-white/40">Confidence Gate:</span>
-            <span className="text-green-400 font-mono">70% Threshold</span>
+            <span className="text-[#8c7770]">Confidence Gate:</span>
+            <span className="text-[#065f46] font-mono font-semibold">70% Auto-Approved</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-white/40">DDE Escaping:</span>
-            <span className="text-blue-400 font-mono">Active</span>
+            <span className="text-[#8c7770]">DDE Escaping:</span>
+            <span className="text-[#1e40af] font-mono font-semibold">0% Risk</span>
           </div>
         </div>
       </div>

@@ -9,25 +9,10 @@ export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
   const [isCopilotOpen, setIsCopilotOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col antialiased bg-black text-white relative">
-      {/* Mandatory Edge-to-Edge Background Video */}
-      <video 
-        className="cinematic-bg" 
-        autoPlay 
-        muted 
-        loop 
-        playsInline 
-        disablePictureInPicture 
-        aria-hidden="true"
-      >
-        <source 
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260808_064556_051587f1-74a1-4336-8c05-4dde3594ed05.mp4" 
-          type="video/mp4" 
-        />
-      </video>
-
-      {/* Screen Vignette Overlay */}
-      <div className="cinematic-vignette" />
+    <div className="min-h-screen flex flex-col antialiased bg-[#fdfbfb] text-[#2b201a] relative">
+      {/* Light Ambient Background */}
+      <div className="light-ambient-bg" />
+      <div className="light-vignette" />
 
       {/* App Shell Content */}
       <Navbar onOpenCopilot={() => setIsCopilotOpen(true)} />

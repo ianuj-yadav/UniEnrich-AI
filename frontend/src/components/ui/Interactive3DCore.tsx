@@ -21,7 +21,6 @@ interface Particle {
 export function Interactive3DCore() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [activeCategory, setActiveCategory] = useState<string>("All Clusters");
   const [pulseCount, setPulseCount] = useState(0);
 
   useEffect(() => {
@@ -46,11 +45,11 @@ export function Interactive3DCore() {
     const radius = Math.min(width, height) * 0.28;
     const particles: Particle[] = [];
     const categories = [
-      { name: "DIN/ISO Fasteners", color: "#3874e0" },
-      { name: "SKF Bearings", color: "#ea3943" },
-      { name: "Fluke Multimeters", color: "#10b981" },
-      { name: "SMC Pneumatics", color: "#8b5cf6" },
-      { name: "Swagelok Valves", color: "#f59e0b" },
+      { name: "DIN/ISO Fasteners", color: "#2563eb" },
+      { name: "SKF Bearings", color: "#dc2626" },
+      { name: "Fluke Multimeters", color: "#059669" },
+      { name: "SMC Pneumatics", color: "#7c3aed" },
+      { name: "Swagelok Valves", color: "#d97706" },
     ];
 
     for (let i = 0; i < particleCount; i++) {
@@ -72,7 +71,7 @@ export function Interactive3DCore() {
         vx: 0,
         vy: 0,
         vz: 0,
-        radius: Math.random() * 2.4 + 1.2,
+        radius: Math.random() * 2.6 + 1.4,
         color: cat.color,
         category: cat.name,
       });
@@ -113,7 +112,7 @@ export function Interactive3DCore() {
       const rect = canvas.getBoundingClientRect();
       lastMouseX = e.clientX - rect.left;
       lastMouseY = e.clientY - rect.top;
-      shockwave = 1.0; // Trigger pulse ripple
+      shockwave = 1.0;
       setPulseCount((p) => p + 1);
     };
 
@@ -147,7 +146,6 @@ export function Interactive3DCore() {
 
       // Project and sort particles by depth
       const projected = particles.map((p) => {
-        // Shockwave expansion & contraction
         const pulseOffset = shockwave > 0 ? Math.sin(shockwave * Math.PI) * 25 : 0;
         const curX = p.baseX + (p.baseX / radius) * pulseOffset;
         const curY = p.baseY + (p.baseY / radius) * pulseOffset;
@@ -168,7 +166,7 @@ export function Interactive3DCore() {
         const scale = fov / (fov + z2 + 300);
         const px = centerX + x1 * scale;
         const py = centerY + y2 * scale;
-        const alpha = Math.max(0.2, Math.min(0.98, (z2 + radius) / (2 * radius) + 0.25));
+        const alpha = Math.max(0.3, Math.min(0.98, (z2 + radius) / (2 * radius) + 0.35));
 
         return {
           ...p,
@@ -182,8 +180,8 @@ export function Interactive3DCore() {
 
       projected.sort((a, b) => b.z2 - a.z2);
 
-      // Connecting nearest neighbour wireframes
-      ctx.lineWidth = 0.7 * window.devicePixelRatio;
+      // Connecting nearest neighbour wireframes (Soft taupe on light canvas)
+      ctx.lineWidth = 0.8 * window.devicePixelRatio;
       for (let i = 0; i < projected.length; i++) {
         for (let j = i + 1; j < projected.length; j++) {
           const dx = projected[i].px - projected[j].px;
@@ -191,8 +189,8 @@ export function Interactive3DCore() {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < 46 * window.devicePixelRatio) {
-            const lineAlpha = (1 - dist / (46 * window.devicePixelRatio)) * 0.28 * projected[i].alpha;
-            ctx.strokeStyle = `rgba(255, 255, 255, ${lineAlpha})`;
+            const lineAlpha = (1 - dist / (46 * window.devicePixelRatio)) * 0.35 * projected[i].alpha;
+            ctx.strokeStyle = `rgba(177, 133, 151, ${lineAlpha})`;
             ctx.beginPath();
             ctx.moveTo(projected[i].px, projected[i].py);
             ctx.lineTo(projected[j].px, projected[j].py);
@@ -209,7 +207,7 @@ export function Interactive3DCore() {
         ctx.fillStyle = p.color;
         ctx.globalAlpha = p.alpha;
         ctx.shadowColor = p.color;
-        ctx.shadowBlur = 10 * p.scale;
+        ctx.shadowBlur = 8 * p.scale;
         ctx.fill();
         ctx.restore();
       });
@@ -218,7 +216,7 @@ export function Interactive3DCore() {
       ctx.save();
       ctx.beginPath();
       ctx.ellipse(centerX, centerY, radius * 0.45 * Math.cos(rotY), radius * 0.45, rotX, 0, Math.PI * 2);
-      ctx.strokeStyle = shockwave > 0 ? "rgba(255, 255, 255, 0.7)" : "rgba(56, 116, 224, 0.35)";
+      ctx.strokeStyle = shockwave > 0 ? "rgba(177, 133, 151, 0.8)" : "rgba(177, 133, 151, 0.35)";
       ctx.lineWidth = (shockwave > 0 ? 2 : 1.2) * window.devicePixelRatio;
       ctx.stroke();
       ctx.restore();
@@ -242,7 +240,7 @@ export function Interactive3DCore() {
   return (
     <div 
       ref={containerRef}
-      className="relative w-full h-[280px] sm:h-[320px] rounded-2xl overflow-hidden border border-white/15 bg-black/50 backdrop-blur-xl flex items-center justify-center group select-none shadow-[0_8px_32px_rgba(0,0,0,0.6)]"
+      className="relative w-full h-[280px] sm:h-[320px] rounded-2xl overflow-hidden border-2 border-[#e8dede] bg-[#ffffff] backdrop-blur-xl flex items-center justify-center group select-none shadow-[0_4px_24px_rgba(177,133,151,0.08)]"
     >
       <canvas 
         ref={canvasRef} 
@@ -250,22 +248,22 @@ export function Interactive3DCore() {
       />
       
       {/* Top HUD */}
-      <div className="absolute top-3 left-3 flex items-center gap-2 bg-black/70 border border-white/15 px-3 py-1 rounded-full text-[10px] font-mono text-white/90 backdrop-blur-md">
-        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-        <span>110 Taxonomy Nodes · 98.4% Grounding</span>
+      <div className="absolute top-3 left-3 flex items-center gap-2 bg-[#ffffff]/90 border border-[#e8dede] px-3 py-1 rounded-full text-[10px] font-mono text-[#2b201a] shadow-sm">
+        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+        <span className="font-semibold">110 Taxonomy Nodes · 98.4% Grounding</span>
       </div>
 
       {/* Interactive Controls Overlay */}
       <div className="absolute top-3 right-3 flex items-center gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity">
-        <span className="text-[10px] font-mono bg-white/[0.08] px-2 py-0.5 rounded border border-white/10 text-grey-300">
+        <span className="text-[10px] font-mono bg-[#fff0f0] px-2.5 py-0.5 rounded-lg border border-[#b18597] text-[#382b22] font-semibold">
           Pulses: {pulseCount}
         </span>
       </div>
 
       {/* Bottom Hint HUD */}
-      <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[10px] font-mono text-grey-400 bg-black/60 border border-white/10 px-3 py-1.5 rounded-xl backdrop-blur-md pointer-events-none">
+      <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[10px] font-mono text-[#7a6860] bg-[#faf6f6]/95 border border-[#e8dede] px-3 py-1.5 rounded-xl shadow-sm pointer-events-none font-semibold">
         <span>Click to trigger vector pulse</span>
-        <span className="text-white/80">Drag to 3D Orbit</span>
+        <span className="text-[#2b201a]">Drag to 3D Orbit</span>
       </div>
     </div>
   );

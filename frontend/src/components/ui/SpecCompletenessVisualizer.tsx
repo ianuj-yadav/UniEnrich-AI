@@ -29,36 +29,36 @@ export function SpecCompletenessVisualizer() {
     : SPEC_DATA;
 
   return (
-    <div className="rounded-2xl border border-white/12 p-6 backdrop-blur-xl bg-gradient-to-br from-[#181614]/85 to-[#060c0f]/90 shadow-[0_4px_24px_rgba(0,0,0,0.4)] space-y-6">
+    <div className="rounded-3xl border-2 border-[#e8dede] p-6 md:p-8 bg-[#ffffff] shadow-[0_4px_24px_rgba(177,133,151,0.06)] space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#e8dede] pb-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-green-400 uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-xs font-bold text-[#b18597] uppercase tracking-wider font-mono">
             <BarChart3 className="w-3.5 h-3.5" />
             <span>D3 Attribute Density Analyzer</span>
           </div>
-          <h3 className="text-lg font-bold text-white mt-1">Catalog Specification Completeness</h3>
-          <p className="text-xs text-grey-300">Before (Raw Supplier Feed) vs. After (UniEnrich AI Extraction)</p>
+          <h3 className="text-lg font-bold text-[#2b201a] mt-1">Catalog Specification Completeness</h3>
+          <p className="text-xs text-[#5e4d46]">Before (Raw Supplier Feed) vs. After (UniEnrich AI Extraction)</p>
         </div>
 
         {/* Filter Toggle */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setActiveFilter("all")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
               activeFilter === "all"
-                ? "bg-white text-black font-semibold shadow-md"
-                : "bg-white/[0.05] hover:bg-white/[0.1] text-grey-300 border border-white/10"
+                ? "bg-[#fff0f0] text-[#382b22] border-2 border-[#b18597] shadow-[0_3px_0_0_#b18597] font-bold"
+                : "bg-[#faf6f6] hover:bg-[#fff5f7] text-[#6e5d56] border border-[#e8dede]"
             }`}
           >
-            All 8 Key Dimensions
+            All 8 Dimensions
           </button>
           <button
             onClick={() => setActiveFilter("high-delta")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
               activeFilter === "high-delta"
-                ? "bg-white text-black font-semibold shadow-md"
-                : "bg-white/[0.05] hover:bg-white/[0.1] text-grey-300 border border-white/10"
+                ? "bg-[#fff0f0] text-[#382b22] border-2 border-[#b18597] shadow-[0_3px_0_0_#b18597] font-bold"
+                : "bg-[#faf6f6] hover:bg-[#fff5f7] text-[#6e5d56] border border-[#e8dede]"
             }`}
           >
             Highest Delta (+70%+)
@@ -73,28 +73,30 @@ export function SpecCompletenessVisualizer() {
           return (
             <div key={item.attribute} className="space-y-1.5">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-semibold text-white">{item.attribute}</span>
+                <span className="font-bold text-[#2b201a]">{item.attribute}</span>
                 <div className="flex items-center gap-3 font-mono">
-                  <span className="text-grey-400">{item.before}% Raw</span>
-                  <span className="text-white font-bold">&rarr;</span>
-                  <span className="text-green-400 font-bold">{item.after}% Enriched</span>
-                  <span className="text-xs px-1.5 py-0.5 rounded bg-green-500/20 text-green-300 font-semibold">
+                  <span className="text-[#8c7770] font-medium">{item.before}% Raw</span>
+                  <span className="text-[#b18597] font-bold">&rarr;</span>
+                  <span className="text-[#065f46] font-bold">{item.after}% Enriched</span>
+                  <span className="text-[10px] text-[#065f46] bg-[#ecfdf5] border border-[#a7f3d0] px-2 py-0.5 rounded-md font-bold">
                     +{delta}%
                   </span>
                 </div>
               </div>
 
-              {/* Stacked Progress Bar */}
-              <div className="h-3 w-full bg-black/60 rounded-full overflow-hidden border border-white/10 p-0.5 flex relative">
-                {/* Before bar */}
+              {/* Progress track */}
+              <div className="w-full h-3.5 bg-[#f5eff1] rounded-full overflow-hidden flex relative border border-[#e0d0d5]">
+                {/* Raw Supplier baseline bar */}
                 <div 
-                  className="h-full bg-white/20 rounded-l-full transition-all duration-700" 
                   style={{ width: `${item.before}%` }}
+                  className="bg-[#d4c3c9] h-full"
+                  title={`Raw Baseline: ${item.before}%`}
                 />
-                {/* Delta bar */}
+                {/* AI Enriched gain delta */}
                 <div 
-                  className="h-full bg-gradient-to-r from-emerald-500 to-green-400 rounded-r-full transition-all duration-700 shadow-[0_0_8px_rgba(16,185,129,0.5)]" 
                   style={{ width: `${delta}%` }}
+                  className="bg-[#b18597] h-full"
+                  title={`AI Enrichment Gain: +${delta}%`}
                 />
               </div>
             </div>
@@ -102,15 +104,19 @@ export function SpecCompletenessVisualizer() {
         })}
       </div>
 
-      {/* Summary Footnote */}
-      <div className="p-3.5 rounded-xl border border-white/10 bg-white/[0.02] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-        <div className="flex items-center gap-2 text-grey-300">
-          <Layers className="w-4 h-4 text-blue-400 shrink-0" />
-          <span>Calculated across 1,000+ test records with zero manual intervention.</span>
+      {/* Key Legend Footer */}
+      <div className="flex items-center justify-between pt-2 border-t border-[#e8dede] text-[11px] text-[#7a6860] font-mono">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded-sm bg-[#d4c3c9]" />
+            <span>Raw Feed Baseline</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="w-3 h-3 rounded-sm bg-[#b18597]" />
+            <span className="text-[#382b22] font-bold">UniEnrich Attribute AI Gain</span>
+          </div>
         </div>
-        <span className="font-mono text-white font-bold text-xs bg-white/[0.08] px-2.5 py-1 rounded-md border border-white/10">
-          Global Quality Score: 96.4%
-        </span>
+        <span className="font-bold text-[#065f46]">Avg Delta: +72.4% Attribute Coverage</span>
       </div>
     </div>
   );

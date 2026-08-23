@@ -39,12 +39,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
   }, []);
 
   return (
-    <header className="h-16 bg-black/75 border-b border-white/[0.12] px-6 flex items-center justify-between sticky top-0 z-40 backdrop-blur-xl">
+    <header className="h-16 bg-[#ffffff]/90 border-b border-[#e8dede] px-6 flex items-center justify-between sticky top-0 z-40 backdrop-blur-xl shadow-[0_2px_12px_rgba(177,133,151,0.04)]">
       {/* Brand & Logo */}
       <div className="flex items-center gap-6">
         <Link href="/" className="flex items-center gap-3 group" aria-label="Araxyss home">
           {/* Exact 25x25 SVG Disc Brand Logo */}
-          <div className="w-[25px] h-[25px] shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+          <div className="w-[25px] h-[25px] shrink-0 drop-shadow-[0_1px_2px_rgba(177,133,151,0.3)]">
             <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <clipPath id="navbar-brand-disc">
@@ -52,19 +52,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
                 </clipPath>
               </defs>
               <g clipPath="url(#navbar-brand-disc)">
-                <rect width="25" height="25" fill="#ededed" />
-                <path d="M12.5 2.5L22.5 12.5L12.5 22.5L2.5 12.5Z" fill="#050606" />
-                <path d="M12.5 5L20 12.5L12.5 20L5 12.5Z" fill="#737778" />
-                <path d="M12.5 7.5L17.5 12.5L12.5 17.5L7.5 12.5Z" fill="#fafafa" />
-                <path d="M12.5 9.5L15.5 12.5L12.5 15.5L9.5 12.5Z" fill="#0a0b0b" />
+                <rect width="25" height="25" fill="#fdfafb" />
+                <path d="M12.5 2.5L22.5 12.5L12.5 22.5L2.5 12.5Z" fill="#382b22" />
+                <path d="M12.5 5L20 12.5L12.5 20L5 12.5Z" fill="#b18597" />
+                <path d="M12.5 7.5L17.5 12.5L12.5 17.5L7.5 12.5Z" fill="#fff0f0" />
+                <path d="M12.5 9.5L15.5 12.5L12.5 15.5L9.5 12.5Z" fill="#382b22" />
               </g>
             </svg>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="font-bold text-sm text-white tracking-tight">Araxyss</span>
-            <span className="text-white/40 text-xs font-light">/</span>
-            <span className="text-xs text-grey-300 font-medium hidden sm:inline">UniEnrich AI</span>
+            <span className="font-bold text-sm text-[#2b201a] tracking-tight">Araxyss</span>
+            <span className="text-[#b18597] text-xs font-light">/</span>
+            <span className="text-xs text-[#5e4d46] font-medium hidden sm:inline">UniEnrich AI</span>
           </div>
         </Link>
       </div>
@@ -78,12 +78,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
               key={link.name}
               href={link.href}
               className={`relative px-3.5 py-1.5 text-xs font-bold tracking-wider transition-colors uppercase ${
-                isActive ? "text-white" : "text-grey-400 hover:text-white"
+                isActive ? "text-[#2b201a]" : "text-[#7a6860] hover:text-[#2b201a]"
               }`}
             >
               <span>{link.name}</span>
               {isActive && (
-                <span className="absolute bottom-0 left-3.5 right-3.5 h-[2px] bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                <span className="absolute bottom-0 left-3.5 right-3.5 h-[2.5px] bg-[#b18597] rounded-full shadow-[0_0_8px_rgba(177,133,151,0.6)]" />
               )}
             </Link>
           );
@@ -93,27 +93,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
       {/* Right Controls & User Info */}
       <div className="flex items-center gap-3">
         {/* Time Panel */}
-        <div className="hidden xl:flex flex-col justify-center h-9 pl-3 border-l border-white/20 text-left mr-1">
-          <span className="text-[9px] uppercase font-bold text-white/50 tracking-wider">Timezone</span>
-          <span className="text-[11px] font-medium text-white/90 font-mono tracking-tight">{timeString}</span>
+        <div className="hidden xl:flex flex-col justify-center h-9 pl-3 border-l border-[#e8dede] text-left mr-1">
+          <span className="text-[9px] uppercase font-bold text-[#8c7770] tracking-wider">Timezone</span>
+          <span className="text-[11px] font-medium text-[#2b201a] font-mono tracking-tight">{timeString}</span>
         </div>
 
         {/* Copilot Assistant Trigger */}
         <button
           onClick={onOpenCopilot}
-          className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#2e1065]/70 hover:bg-[#3b0764] border-2 border-[#8b5cf6] text-[#e9d5ff] text-xs font-semibold uppercase tracking-wider shadow-[0_4px_0_0_#8b5cf6] transition-all hover:translate-y-0.5 active:translate-y-1.5 backdrop-blur-md cursor-pointer"
+          className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#f5f3ff] hover:bg-[#ede9fe] border-2 border-[#8b5cf6] text-[#4c1d95] text-xs font-semibold uppercase tracking-wider shadow-[0_3px_0_0_#8b5cf6] transition-all hover:translate-y-0.5 active:translate-y-1.5 cursor-pointer"
         >
-          <Bot className="w-3.5 h-3.5 text-[#c084fc] animate-pulse" />
+          <Bot className="w-3.5 h-3.5 text-[#8b5cf6] animate-pulse" />
           <span className="hidden sm:inline">AI COPILOT</span>
         </button>
 
         {/* User / Analyst Status Pill */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#1a1c23] border-2 border-[#b18597]/50 shadow-[0_4px_0_0_#b18597/60] text-xs text-white font-mono font-semibold">
-          <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#fff0f0] border-2 border-[#b18597] shadow-[0_3px_0_0_#b18597] text-xs text-[#382b22] font-mono font-semibold">
+          <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
           <span>ANUJ</span>
         </div>
       </div>
     </header>
   );
 };
-

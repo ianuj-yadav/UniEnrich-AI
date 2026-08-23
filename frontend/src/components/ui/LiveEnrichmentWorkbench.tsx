@@ -132,28 +132,28 @@ export function LiveEnrichmentWorkbench() {
   };
 
   return (
-    <div className="rounded-2xl border border-white/12 p-6 md:p-8 backdrop-blur-xl bg-gradient-to-br from-[#181614]/85 to-[#060c0f]/90 shadow-[0_4px_32px_rgba(0,0,0,0.5)] space-y-6">
+    <div className="rounded-3xl border-2 border-[#e8dede] p-6 md:p-8 bg-[#ffffff] shadow-[0_4px_24px_rgba(177,133,151,0.06)] space-y-6">
       {/* Top Header & Presets */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#e8dede] pb-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-blue-400 uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-xs font-bold text-[#b18597] uppercase tracking-wider font-mono">
             <Cpu className="w-3.5 h-3.5 animate-pulse" />
             <span>Interactive Real-Time Extraction Sandbox</span>
           </div>
-          <h3 className="text-xl font-bold text-white mt-1">Live Industrial Enrichment Simulator</h3>
-          <p className="text-xs text-grey-300">Click any domain preset or type your own abbreviated SKU string to test live parsing</p>
+          <h3 className="text-xl font-bold text-[#2b201a] mt-1">Live Industrial Enrichment Simulator</h3>
+          <p className="text-xs text-[#5e4d46]">Click any domain preset or type your own abbreviated SKU string to test live parsing</p>
         </div>
 
         {/* Preset Category Switcher */}
-        <div className="flex items-center gap-1.5 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap">
           {PRESET_SAMPLES.map((s, idx) => (
             <button
               key={s.category}
               onClick={() => handleSelectPreset(idx)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
                 selectedIdx === idx
-                  ? "bg-white text-black font-bold shadow-lg scale-105"
-                  : "bg-white/[0.06] hover:bg-white/[0.12] text-grey-200 border border-white/10"
+                  ? "bg-[#fff0f0] text-[#382b22] border-2 border-[#b18597] shadow-[0_3px_0_0_#b18597] font-bold"
+                  : "bg-[#faf6f6] hover:bg-[#fff5f7] text-[#6e5d56] border border-[#e8dede]"
               }`}
             >
               {s.category}
@@ -168,92 +168,92 @@ export function LiveEnrichmentWorkbench() {
         <div className="lg:col-span-5 space-y-4">
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-[11px] font-semibold uppercase text-grey-400">
+              <label className="text-[11px] font-bold uppercase text-[#5e4d46] font-mono">
                 1. Raw Supplier Record Input
               </label>
-              <span className="text-[10px] text-grey-400 font-mono flex items-center gap-1">
-                <Edit3 className="w-3 h-3 text-blue-400" /> Editable
+              <span className="text-[10px] text-[#8c7770] font-mono flex items-center gap-1 font-semibold">
+                <Edit3 className="w-3 h-3 text-[#b18597]" /> Editable
               </span>
             </div>
             <input
               type="text"
               value={customInput}
               onChange={(e) => setCustomInput(e.target.value)}
-              className="w-full p-3.5 rounded-xl border border-white/20 bg-black/70 font-mono text-xs text-yellow-300 focus:outline-none focus:border-white/40 shadow-inner"
+              className="w-full p-3.5 rounded-xl border-2 border-[#e8dede] bg-[#faf6f6] font-mono text-xs text-[#2b201a] font-semibold focus:outline-none focus:border-[#b18597] shadow-inner"
             />
           </div>
 
           {/* Extracted Pipeline Metas */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="p-3 rounded-lg border border-white/10 bg-white/[0.02] space-y-1">
-              <div className="text-[10px] text-grey-400 uppercase font-semibold">Matched Brand</div>
-              <div className="text-sm font-bold text-white flex items-center gap-1.5">
+            <div className="p-3.5 rounded-xl border border-[#e8dede] bg-[#faf6f6] space-y-1">
+              <div className="text-[10px] text-[#8c7770] uppercase font-bold font-mono">Matched Brand</div>
+              <div className="text-sm font-bold text-[#2b201a] flex items-center gap-1.5">
                 <span>{sample.brand}</span>
-                <span className="text-[10px] font-mono text-green-400">({sample.brandConf}%)</span>
+                <span className="text-[10px] font-mono text-[#065f46]">({sample.brandConf}%)</span>
               </div>
             </div>
 
-            <div className="p-3 rounded-lg border border-white/10 bg-white/[0.02] space-y-1">
-              <div className="text-[10px] text-grey-400 uppercase font-semibold">UNSPSC Class</div>
-              <div className="text-xs font-mono text-purple-300 truncate">
+            <div className="p-3.5 rounded-xl border border-[#e8dede] bg-[#faf6f6] space-y-1">
+              <div className="text-[10px] text-[#8c7770] uppercase font-bold font-mono">UNSPSC Class</div>
+              <div className="text-xs font-mono text-[#5b21b6] font-semibold truncate">
                 {sample.unspsc}
               </div>
             </div>
           </div>
 
           {/* DDE Injection Escaped Proof */}
-          <div className="p-3 rounded-lg border border-green-500/20 bg-green-500/5 flex items-center justify-between text-xs">
-            <div className="flex items-center gap-2 text-green-400 font-medium">
+          <div className="p-3.5 rounded-xl border border-[#a7f3d0] bg-[#ecfdf5] flex items-center justify-between text-xs">
+            <div className="flex items-center gap-2 text-[#065f46] font-semibold">
               <ShieldCheck className="w-4 h-4" />
               <span>DDE Formula Escaped</span>
             </div>
-            <span className="font-mono text-[10px] text-grey-300">0% CSV Injection Risk</span>
+            <span className="font-mono text-[10px] text-[#065f46] font-semibold">0% CSV Injection Risk</span>
           </div>
         </div>
 
         {/* Right Column: Standardized Technical Record */}
         <div className="lg:col-span-7 space-y-4">
           <div className="flex items-center justify-between">
-            <label className="text-[11px] font-semibold uppercase text-grey-400 block">
+            <label className="text-[11px] font-bold uppercase text-[#5e4d46] font-mono block">
               2. Enriched &amp; Standardized Master Record
             </label>
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 text-xs text-grey-200 hover:text-white bg-white/[0.06] hover:bg-white/[0.12] px-2.5 py-1 rounded-md border border-white/10 transition cursor-pointer"
+              className="flex items-center gap-1.5 text-xs text-[#382b22] bg-[#fff0f0] hover:bg-[#ffe9e9] border border-[#b18597] px-3 py-1 rounded-lg font-semibold uppercase tracking-wider transition cursor-pointer"
             >
-              {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
+              {copied ? <Check className="w-3.5 h-3.5 text-[#065f46]" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copied ? "Copied" : "Copy Title"}</span>
             </button>
           </div>
 
           {/* Master Title */}
-          <div className={`p-4 rounded-xl border border-white/20 bg-white/[0.04] text-xs font-medium text-white leading-relaxed transition-opacity duration-300 ${isProcessing ? "opacity-40" : "opacity-100"}`}>
+          <div className={`p-4 rounded-xl border-2 border-[#e8dede] bg-[#faf6f6] text-xs font-semibold text-[#2b201a] leading-relaxed transition-opacity duration-300 ${isProcessing ? "opacity-40" : "opacity-100"}`}>
             {sample.clean}
           </div>
 
           {/* Extracted Specification Key-Value Grid */}
           <div>
-            <div className="text-[11px] font-semibold uppercase text-grey-400 mb-2">
+            <div className="text-[11px] font-bold uppercase text-[#5e4d46] font-mono mb-2">
               Extracted Engineering Specifications (15+ Technical Attributes)
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {Object.entries(sample.specs).map(([key, val]) => (
                 <div 
                   key={key} 
-                  className="p-2.5 rounded-lg border border-white/10 bg-black/50 flex flex-col justify-between hover:border-white/25 transition"
+                  className="p-2.5 rounded-xl border border-[#e8dede] bg-[#faf6f6] flex flex-col justify-between hover:border-[#b18597] transition"
                 >
-                  <span className="text-[10px] text-grey-400 uppercase font-semibold tracking-wider">{key}</span>
-                  <span className="text-xs font-mono text-green-300 font-medium mt-0.5 truncate">{val}</span>
+                  <span className="text-[10px] text-[#8c7770] uppercase font-bold tracking-wider font-mono">{key}</span>
+                  <span className="text-xs font-mono text-[#065f46] font-semibold mt-0.5 truncate">{val}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Overall Confidence Badge */}
-          <div className="flex items-center justify-between pt-2 border-t border-white/10 text-xs">
-            <span className="text-grey-400">Confidence Scoring:</span>
+          <div className="flex items-center justify-between pt-2 border-t border-[#e8dede] text-xs">
+            <span className="text-[#6e5d56] font-semibold">Confidence Scoring:</span>
             <div className="flex items-center gap-2">
-              <span className="font-mono text-green-400 font-bold">
+              <span className="font-mono text-[#065f46] font-bold">
                 <AnimatedCounter value={sample.score} decimals={1} suffix="%" />
               </span>
               <Badge variant="success" size="sm">Auto-Approved (&ge;70%)</Badge>
