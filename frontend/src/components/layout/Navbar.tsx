@@ -42,7 +42,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
                   <circle cx="12.5" cy="12.5" r="12.5" />
                 </clipPath>
               </defs>
-              <g clip-path="url(#navbar-brand-disc)">
+              <g clipPath="url(#navbar-brand-disc)">
                 <rect width="25" height="25" fill="#ededed" />
                 <path d="M12.5 2.5L22.5 12.5L12.5 22.5L2.5 12.5Z" fill="#050606" />
                 <path d="M12.5 5L20 12.5L12.5 20L5 12.5Z" fill="#737778" />
