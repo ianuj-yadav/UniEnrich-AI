@@ -343,27 +343,6 @@ export function Hero3DLogo() {
         ref={canvasRef} 
         className="w-full h-full object-contain cursor-grab active:cursor-grabbing relative z-10"
       />
-
-      {/* Top Floating Badge */}
-      <div className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-blue-200 shadow-md text-[10px] font-mono font-bold text-blue-900 backdrop-blur-md">
-        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-        <span>UNIHACK 3D EMBLEM</span>
-      </div>
-
-      {/* Top Right Specs Badge */}
-      <div className="absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 text-[10px] font-mono font-bold text-purple-900 shadow-sm">
-        <Sparkles className="w-3 h-3 text-purple-500" />
-        <span>IRIDESCENT CORE</span>
-      </div>
-
-      {/* Bottom Hint Floating HUD */}
-      <div className="absolute bottom-4 left-4 right-4 z-20 flex items-center justify-between text-[10px] font-mono text-slate-600 bg-white/90 border border-slate-200 px-4 py-2 rounded-2xl shadow-sm backdrop-blur-md pointer-events-none font-semibold">
-        <span className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
-          <span>Interactive 3D Vector Core</span>
-        </span>
-        <span className="text-slate-900 font-bold">Drag to Orbit 360°</span>
-      </div>
     </div>
   );
 }

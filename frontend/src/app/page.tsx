@@ -153,21 +153,23 @@ export default function DashboardPage() {
           </div>
 
           {/* Right Column: Editorial Mission & 3D Emblem */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="space-y-4 text-xs sm:text-sm font-mono text-stone-700 leading-relaxed max-w-md">
-              <p>
-                UniHack is an AI-powered industrial catalog standardization engine. Built to bridge the gap between noisy supplier feeds and search-ready master records, UniHack extracts 15+ mechanical specs, resolves duplicate vendor listings, and guarantees audit-ready accuracy.
+          <div className="lg:col-span-5 space-y-6 flex flex-col items-center sm:items-start text-center sm:text-left">
+            <div className="space-y-3.5 max-w-lg">
+              <p className="text-base sm:text-lg font-bold text-stone-900 leading-snug tracking-tight font-sans">
+                UniHack is an AI-powered industrial catalog standardization engine. Built to bridge the gap between noisy supplier feeds and search-ready master records.
               </p>
-              <p>
-                Using deterministic RapidFuzz entity matching and Gemini attribute extraction, catalog managers eliminate manual checking while retaining complete explainability.
+              <p className="text-xs sm:text-sm font-semibold text-stone-700 leading-relaxed font-mono">
+                Extracts 15+ mechanical specs, resolves duplicate vendor listings, and guarantees audit-ready accuracy using deterministic RapidFuzz matching &amp; Gemini intelligence.
               </p>
-              <p className="text-[11px] font-bold text-sky-700 uppercase tracking-widest pt-2">
-                LESS COMPLEXITY. LESS REPETITION. MORE ACCOUNTABLE REVISION.
-              </p>
+              <div className="pt-1">
+                <span className="inline-block px-3 py-1 rounded-md bg-sky-100 text-sky-900 border border-sky-300 text-[11px] font-mono font-extrabold uppercase tracking-widest">
+                  LESS COMPLEXITY. LESS REPETITION. MORE ACCOUNTABLE REVISION.
+                </span>
+              </div>
             </div>
 
             {/* 3D WebGL Vector Core */}
-            <div className="pt-2">
+            <div className="w-full pt-2">
               <Hero3DLogo />
             </div>
           </div>
