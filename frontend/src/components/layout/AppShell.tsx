@@ -3,10 +3,8 @@
 import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
-import { ThemeProvider } from "@/context/ThemeContext";
 import { Navbar } from "./Navbar";
 import { Sidebar } from "./Sidebar";
-import { ThemeSwitcherDock } from "./ThemeSwitcherDock";
 import { CopilotDrawer } from "@/components/copilot/CopilotDrawer";
 
 function AppShellContent({ children }: { children: React.ReactNode }) {
@@ -14,7 +12,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
-  const isLandingOrLogin = pathname === "/" || pathname === "/login" || pathname === "/theme-showcase";
+  const isLandingOrLogin = pathname === "/" || pathname === "/login";
 
   React.useEffect(() => {
     if (!isLoading && !isAuthenticated && !isLandingOrLogin) {
@@ -33,7 +31,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col antialiased relative selection:bg-[#f9c4d2] selection:text-[#382b22]">
+    <div className="min-h-screen flex flex-col antialiased bg-[#fdfbfb] text-[#2b201a] relative selection:bg-[#f9c4d2] selection:text-[#382b22]">
       {/* Light Ambient Background */}
       <div className="light-ambient-bg" />
       <div className="light-vignette" />
@@ -51,9 +49,6 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
       </div>
 
       <CopilotDrawer isOpen={isCopilotOpen} onClose={() => setIsCopilotOpen(false)} />
-      
-      {/* Floating Interactive Theme Switcher Dock */}
-      <ThemeSwitcherDock />
     </div>
   );
 }
@@ -61,9 +56,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
 export const AppShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <AuthProvider>
-      <ThemeProvider>
-        <AppShellContent>{children}</AppShellContent>
-      </ThemeProvider>
+      <AppShellContent>{children}</AppShellContent>
     </AuthProvider>
   );
 };

@@ -25,7 +25,6 @@ import { useAuth } from "@/context/AuthContext";
 
 const navItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/theme-showcase", label: "Design Studio", icon: Palette, badge: "Themes" },
   { href: "/profile", label: "Saved Dossiers", icon: Bookmark, badge: "Archive" },
   { href: "/upload", label: "CSV Ingestion", icon: UploadCloud },
   { href: "/process", label: "Live Pipeline", icon: Cpu },
