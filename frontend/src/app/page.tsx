@@ -602,11 +602,11 @@ export default function DashboardPage() {
           <div className="pt-4 flex items-center justify-center">
             <Link 
               href="/upload"
-              className="inline-flex items-center gap-3.5 bg-[#111111] hover:bg-stone-900 text-white pl-7 pr-2.5 py-2.5 rounded-full font-mono text-xs font-bold uppercase tracking-wider shadow-2xl hover:scale-105 transition-all group cursor-pointer"
+              className="inline-flex items-center gap-4 bg-white hover:bg-[#f7f4ed] text-[#111111] pl-8 pr-2.5 py-2.5 rounded-full font-mono text-xs sm:text-sm font-extrabold uppercase tracking-wider border-2 border-stone-800 shadow-xl hover:scale-105 transition-all group cursor-pointer"
             >
-              <span>Open the Review Workspace</span>
-              <div className="w-10 h-10 rounded-full bg-[#38bdf8] group-hover:bg-[#0ea5e9] text-[#111111] flex items-center justify-center transition-colors shadow-md">
-                <ArrowUpRight className="w-5 h-5 stroke-[2.5]" />
+              <span className="text-[#111111]">Open the Review Workspace</span>
+              <div className="w-10 h-10 rounded-full bg-[#38bdf8] group-hover:bg-[#0ea5e9] text-[#111111] flex items-center justify-center transition-colors shadow-md shrink-0">
+                <ArrowUpRight className="w-5 h-5 stroke-[2.5] text-black" />
               </div>
             </Link>
           </div>
