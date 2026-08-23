@@ -12,13 +12,17 @@ import {
   Download, 
   FileText, 
   GitMerge, 
-  BookOpen,
-  TrendingUp,
-  Cpu,
-  Clock,
-  Play,
-  ShieldCheck,
-  ChevronRight
+  BookOpen, 
+  TrendingUp, 
+  Cpu, 
+  Clock, 
+  Play, 
+  ShieldCheck, 
+  ChevronRight, 
+  Terminal, 
+  CheckCircle2, 
+  Activity,
+  Zap
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -29,10 +33,74 @@ import { listBatches, BatchItem } from "@/lib/api";
 import { Interactive3DCore } from "@/components/ui/Interactive3DCore";
 import { LiveEnrichmentWorkbench } from "@/components/ui/LiveEnrichmentWorkbench";
 import { SpecCompletenessVisualizer } from "@/components/ui/SpecCompletenessVisualizer";
+import { HeroSignalMonitor } from "@/components/ui/HeroSignalMonitor";
+
+const REVIEWER_DIALOGUES = [
+  {
+    role: "Lead Catalog Reviewer",
+    author: "Anuj Yadav",
+    badge: "HUMAN SIGN-OFF",
+    signal: "This SKU title contains 4 non-standard vendor abbreviations (SS, HEX, BLT, PK100) conflicting with standard ISO fasteners.",
+    context: "Cross-referenced with datasheet CAD OCR; dimensions matched 1/2-13 UNC x 2.00in and material verified as 316 Marine Grade.",
+    record: "Reviewer note saved: retain ISO DIN 933 compliance, normalize thread pitch, mark auto-approved for Shopify & Magento export.",
+  },
+  {
+    role: "Gemini 2.5 Flash Agent",
+    author: "Catalog AI Auditor",
+    badge: "CONFIDENCE: 98.4%",
+    signal: "RapidFuzz resolved vendor acronym 'FAB-SS' to canonical manufacturer 'Fabory Fasteners' with 98.4% Levenshtein similarity.",
+    context: "Extracted 6 mechanical dimensions from raw specification tokens: thread pitch, tensile grade, coating, and package quantity.",
+    record: "Automated gate pass: Confidence exceeds 70% threshold. Zero formula injection characters detected.",
+  },
+  {
+    role: "ISO Taxonomy Specialist",
+    author: "Standards Bureau",
+    badge: "UNSPSC: 31161620",
+    signal: "Hierarchical classification matched UNSPSC Segment 31 (Manufacturing Components) -> Class 31161620 (Hex Head Bolts).",
+    context: "Standard normalized to DIN 933 / ISO 4017 full-thread specification for global procurement compatibility.",
+    record: "Audit ledger entry recorded with SHA-256 hash. Master SKU ready for multi-channel syndication.",
+  }
+];
+
+const PIPELINE_STEPS = [
+  {
+    key: "upload",
+    title: "1. Upload",
+    desc: "Ingest CSV, XLSX, or technical PDF datasheet with instant schema mapping.",
+    terminalSnippet: `$ unienrich intake --file supplier_feed_2026.csv
+[INFO] Parsed 1,472 raw vendor SKU rows in 42ms
+[INFO] Auto-detected 18 schema columns (title, mpn, vendor, desc)
+[SECURITY] Cleaned 0 formula injection characters (=, +, -, @)
+[STATUS] Ready for RapidFuzz brand resolution & Gemini attribute extraction`,
+  },
+  {
+    key: "inspect",
+    title: "2. Inspect",
+    desc: "Examine extracted attribute signals, confidence markers, and vector duplicates.",
+    terminalSnippet: `$ unienrich inspect --sku SKU-10492 --model gemini-2.5-flash
+[ATTR] Thread Size: 1/2"-13 UNC (Confidence: 0.99)
+[ATTR] Material: Grade 316 Marine Stainless (Confidence: 0.98)
+[ATTR] Standard: DIN 933 / ISO 4017 (Confidence: 0.97)
+[TAXONOMY] UNSPSC Code: 31161620 (Hex bolts)
+[VECTOR] Duplicate Cluster #18: 2 vendor matches (Fabory vs Grainger)`,
+  },
+  {
+    key: "document",
+    title: "3. Document",
+    desc: "Certify master record with human-in-the-loop notes and export to ERP.",
+    terminalSnippet: `$ unienrich export --batch b-9281 --channel shopify,magento,sap
+[EXPORT] Generated 1,420 sanitized master records
+[CHANNELS] Shopify CSV, Magento 2 XML, SAP RFC Payload
+[HITL] 52 ambiguous records routed to Human Review Queue
+[LEDGER] Audit certificate signed by Anuj Yadav (Lead Reviewer)`,
+  }
+];
 
 export default function DashboardPage() {
   const [batches, setBatches] = useState<BatchItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeReviewerIdx, setActiveReviewerIdx] = useState(0);
+  const [activePipelineStep, setActivePipelineStep] = useState(0);
 
   useEffect(() => {
     async function loadData() {
@@ -52,65 +120,94 @@ export default function DashboardPage() {
   const totalProcessed = batches.reduce((acc, b) => acc + b.processed_records, 0) || 1420;
   const totalErrors = batches.reduce((acc, b) => acc + b.error_records, 0) || 52;
   const totalDuplicates = batches.reduce((acc, b) => acc + b.duplicate_records, 0) || 18;
-  const totalMissingBrands = batches.reduce((acc, b) => acc + b.missing_brand_records, 0);
 
   const activeBatch = batches.length > 0 ? batches[0] : null;
+  const activeDialogue = REVIEWER_DIALOGUES[activeReviewerIdx];
+  const currentStep = PIPELINE_STEPS[activePipelineStep];
 
   return (
-    <div className="space-y-10 max-w-7xl mx-auto pb-12">
+    <div className="space-y-12 max-w-6xl mx-auto pb-16">
       {/* ====================================================================
-          VANTAGE LIGHT EDITORIAL HERO COMPONENT
+          VANTAGE LIGHT EDITORIAL 2-COLUMN HERO SECTION
           ==================================================================== */}
-      <div className="relative rounded-3xl border-2 border-[#e8dede] p-6 sm:p-10 md:p-12 overflow-hidden bg-[#ffffff] shadow-[0_8px_32px_rgba(177,133,151,0.08)]">
-        {/* Subtle ambient blush glow */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#fff0f0] rounded-full blur-3xl pointer-events-none opacity-80" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#f9c4d2]/30 rounded-full blur-3xl pointer-events-none opacity-70" />
+      <div className="relative rounded-3xl border-2 border-[#e8dede] p-6 sm:p-10 md:p-12 overflow-hidden bg-[#ffffff] shadow-[0_12px_40px_rgba(177,133,151,0.08)]">
+        {/* Soft Ambient Radial Reflections */}
+        <div className="absolute top-0 right-1/4 w-[480px] h-[480px] bg-[#fff0f0] rounded-full blur-3xl pointer-events-none opacity-85" />
+        <div className="absolute -bottom-10 left-1/4 w-96 h-96 bg-[#f9c4d2]/35 rounded-full blur-3xl pointer-events-none opacity-75" />
 
-        <div className="space-y-6 relative z-10 max-w-3xl">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="px-3 py-1 rounded-full bg-[#eff6ff] border border-[#bfdbfe] text-[#1e40af] text-xs font-semibold tracking-wide font-mono">
-              Vantage Catalog Intelligence
-            </span>
-            <span className="px-3 py-1 rounded-full bg-[#f5f3ff] border border-[#ddd6fe] text-[#5b21b6] text-xs font-semibold tracking-wide font-mono">
-              Gemini 2.5 Flash
-            </span>
-            <span className="px-3 py-1 rounded-full bg-[#ecfdf5] border border-[#a7f3d0] text-[#065f46] text-xs font-semibold tracking-wide font-mono">
-              RapidFuzz Resolver
-            </span>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+          {/* Left Hero Stack */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="px-3 py-1 rounded-full bg-[#eff6ff] border border-[#bfdbfe] text-[#1e40af] text-xs font-semibold tracking-wide font-mono">
+                Vantage Catalog Intelligence
+              </span>
+              <span className="px-3 py-1 rounded-full bg-[#f5f3ff] border border-[#ddd6fe] text-[#5b21b6] text-xs font-semibold tracking-wide font-mono">
+                Gemini 2.5 Flash
+              </span>
+              <span className="px-3 py-1 rounded-full bg-[#ecfdf5] border border-[#a7f3d0] text-[#065f46] text-xs font-semibold tracking-wide font-mono">
+                RapidFuzz Resolver
+              </span>
+            </div>
+
+            {/* Exact Headline Typography (Light High Contrast) */}
+            <h1 className="hero-headline text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.08] text-[#2b201a]">
+              <span className="block line-scale-1 text-[#2b201a]">Stop Digging</span>
+              <span className="block line-scale-2 text-[#7a6860]">Through Dashboards.</span>
+            </h1>
+
+            {/* Exact Body Copy */}
+            <p className="text-sm sm:text-base text-[#5e4d46] font-normal leading-relaxed max-w-xl">
+              Your metrics are scattered across a dozen dashboards.<br className="hidden sm:inline" />
+              Vantage brings them into one clear signal, so every<br className="hidden sm:inline" />
+              decision is backed by data you actually trust.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <Link href="/upload">
+                <PopButton className="px-8 py-4 text-xs font-bold tracking-wider cursor-pointer">
+                  <span className="flex items-center gap-2">
+                    <span>GET STARTED</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
+                </PopButton>
+              </Link>
+
+              {activeBatch && (
+                <Link href={`/products?batch_id=${activeBatch.id}`}>
+                  <Button variant="secondary" size="md" className="px-6 py-4 text-xs cursor-pointer">
+                    <span>EXPLORE ACTIVE CATALOG</span>
+                    <ArrowRight className="w-3.5 h-3.5 ml-2" />
+                  </Button>
+                </Link>
+              )}
+            </div>
+
+            {/* Mini Social Proof Statistics Ribbon */}
+            <div className="pt-4 border-t border-[#e8dede] grid grid-cols-3 gap-3 text-xs font-mono text-[#5e4d46]">
+              <div>
+                <div className="text-lg font-bold text-[#2b201a]">
+                  <AnimatedCounter value={98.4} decimals={1} suffix="%" />
+                </div>
+                <div className="text-[10px] text-[#8c7770]">Extraction Accuracy</div>
+              </div>
+              <div>
+                <div className="text-lg font-bold text-[#065f46]">
+                  <AnimatedCounter value={15} suffix="+" />
+                </div>
+                <div className="text-[10px] text-[#8c7770]">Specs per SKU</div>
+              </div>
+              <div>
+                <div className="text-lg font-bold text-[#1e40af]">0%</div>
+                <div className="text-[10px] text-[#8c7770]">Formula Risk</div>
+              </div>
+            </div>
           </div>
 
-          {/* Exact Headline Typography (Light High Contrast) */}
-          <h1 className="hero-headline text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.08] text-[#2b201a]">
-            <span className="block line-scale-1 text-[#2b201a]">Stop Digging</span>
-            <span className="block line-scale-2 text-[#7a6860]">Through Dashboards.</span>
-          </h1>
-
-          {/* Exact Body Copy */}
-          <p className="text-sm sm:text-base text-[#5e4d46] font-normal leading-relaxed max-w-xl">
-            Your metrics are scattered across a dozen dashboards.<br className="hidden sm:inline" />
-            Vantage bring them into one clear signal, so every<br className="hidden sm:inline" />
-            decision is backed by data you actually trust.
-          </p>
-
-          {/* Primary Action Controls */}
-          <div className="flex flex-wrap items-center gap-4 pt-3">
-            <Link href="/upload">
-              <PopButton className="px-7 py-4 text-xs font-bold tracking-wider">
-                <span className="flex items-center gap-2">
-                  <span>GET STARTED</span>
-                  <ArrowRight className="w-4 h-4" />
-                </span>
-              </PopButton>
-            </Link>
-
-            {activeBatch && (
-              <Link href={`/products?batch_id=${activeBatch.id}`}>
-                <Button variant="secondary" size="md" className="px-6 py-4 text-xs">
-                  <span>EXPLORE ACTIVE CATALOG</span>
-                  <ArrowRight className="w-3.5 h-3.5 ml-2" />
-                </Button>
-              </Link>
-            )}
+          {/* Right Floating Signal Monitor Card */}
+          <div className="lg:col-span-5">
+            <HeroSignalMonitor />
           </div>
         </div>
       </div>
@@ -118,7 +215,7 @@ export default function DashboardPage() {
       {/* ====================================================================
           ARAXYSS SECTION 1: NOT A VERDICT. A TRAIL OF EVIDENCE.
           ==================================================================== */}
-      <section className="rounded-2xl border-2 border-[#e8dede] p-8 md:p-12 bg-[#ffffff] shadow-[0_4px_24px_rgba(177,133,151,0.06)]">
+      <section className="rounded-3xl border-2 border-[#e8dede] p-8 md:p-12 bg-[#ffffff] shadow-[0_4px_24px_rgba(177,133,151,0.06)]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column */}
           <div className="lg:col-span-6 space-y-6">
@@ -161,9 +258,9 @@ export default function DashboardPage() {
           ==================================================================== */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {/* Card 1 */}
-        <div className="rounded-2xl border-2 border-[#e8dede] p-6 bg-[#ffffff] hover:border-[#b18597] hover:shadow-[0_8px_24px_rgba(177,133,151,0.12)] hover:scale-[1.02] transition-all flex flex-col justify-between space-y-6 cursor-pointer">
+        <div className="rounded-3xl border-2 border-[#e8dede] p-6 bg-[#ffffff] hover:border-[#b18597] hover:shadow-[0_8px_24px_rgba(177,133,151,0.12)] hover:scale-[1.02] transition-all flex flex-col justify-between space-y-6 cursor-pointer group">
           <div className="space-y-3">
-            <div className="text-[10px] font-mono text-[#8c7770] uppercase tracking-wider font-semibold">
+            <div className="text-[10px] font-mono text-[#8c7770] uppercase tracking-wider font-semibold group-hover:text-[#b18597] transition-colors">
               01 / SURFACE THE SIGNAL
             </div>
             <h3 className="text-xl font-bold text-[#2b201a] tracking-tight leading-snug">
@@ -175,12 +272,12 @@ export default function DashboardPage() {
           </div>
           <div className="pt-4 border-t border-[#e8dede] flex items-center justify-between text-[11px] text-[#8c7770] font-semibold">
             <span>Deterministic Scoring</span>
-            <span className="text-[#b18597] font-bold">&rarr;</span>
+            <span className="text-[#b18597] font-bold group-hover:translate-x-1 transition-transform">&rarr;</span>
           </div>
         </div>
 
         {/* Card 2 */}
-        <div className="rounded-2xl border-2 border-[#b18597] p-6 bg-[#fff0f0]/60 hover:bg-[#fff0f0] hover:shadow-[0_8px_24px_rgba(177,133,151,0.18)] hover:scale-[1.02] transition-all flex flex-col justify-between space-y-6 cursor-pointer">
+        <div className="rounded-3xl border-2 border-[#b18597] p-6 bg-[#fff0f0]/70 hover:bg-[#fff0f0] hover:shadow-[0_8px_24px_rgba(177,133,151,0.18)] hover:scale-[1.02] transition-all flex flex-col justify-between space-y-6 cursor-pointer group">
           <div className="space-y-3">
             <div className="text-[10px] font-mono text-[#703d52] uppercase tracking-wider font-bold">
               02 / INSPECT THE RECEIPT
@@ -194,14 +291,14 @@ export default function DashboardPage() {
           </div>
           <div className="pt-4 border-t border-[#d4c3c9] flex items-center justify-between text-[11px] text-[#703d52] font-mono font-bold">
             <span>Perplexity &amp; GLTR Evidence</span>
-            <span>&rarr;</span>
+            <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
           </div>
         </div>
 
         {/* Card 3 */}
-        <div className="rounded-2xl border-2 border-[#e8dede] p-6 bg-[#ffffff] hover:border-[#b18597] hover:shadow-[0_8px_24px_rgba(177,133,151,0.12)] hover:scale-[1.02] transition-all flex flex-col justify-between space-y-6 cursor-pointer">
+        <div className="rounded-3xl border-2 border-[#e8dede] p-6 bg-[#ffffff] hover:border-[#b18597] hover:shadow-[0_8px_24px_rgba(177,133,151,0.12)] hover:scale-[1.02] transition-all flex flex-col justify-between space-y-6 cursor-pointer group">
           <div className="space-y-3">
-            <div className="text-[10px] font-mono text-[#8c7770] uppercase tracking-wider font-semibold">
+            <div className="text-[10px] font-mono text-[#8c7770] uppercase tracking-wider font-semibold group-hover:text-[#065f46] transition-colors">
               03 / KEEP THE JUDGMENT HUMAN
             </div>
             <h3 className="text-xl font-bold text-[#2b201a] tracking-tight leading-snug">
@@ -213,24 +310,52 @@ export default function DashboardPage() {
           </div>
           <div className="pt-4 border-t border-[#e8dede] flex items-center justify-between text-[11px] text-[#8c7770] font-semibold">
             <span>Human-in-the-Loop Queue</span>
-            <span className="text-[#065f46] font-bold">&rarr;</span>
+            <span className="text-[#065f46] font-bold group-hover:translate-x-1 transition-transform">&rarr;</span>
           </div>
         </div>
       </div>
 
       {/* ====================================================================
-          ARAXYSS SECTION 3: REVIEWER DIALOGUE & EVIDENCE TRANSCRIPT
+          ARAXYSS SECTION 3: INTERACTIVE REVIEWER DIALOGUE & EVIDENCE TRANSCRIPT
           ==================================================================== */}
-      <section className="rounded-2xl border-2 border-[#e8dede] p-8 md:p-12 bg-[#ffffff] shadow-[0_4px_24px_rgba(177,133,151,0.06)]">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Dialogue */}
-          <div className="lg:col-span-5 space-y-4">
+      <section className="rounded-3xl border-2 border-[#e8dede] p-8 md:p-12 bg-[#ffffff] shadow-[0_4px_24px_rgba(177,133,151,0.06)] space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#e8dede] pb-4">
+          <div>
             <div className="text-[10px] font-mono text-[#8c7770] uppercase tracking-widest font-semibold">
               004 STD / REVIEWER DIALOGUE
             </div>
-            <h2 className="text-2xl sm:text-3xl font-semibold text-[#2b201a] tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl font-semibold text-[#2b201a] tracking-tight mt-1">
               The evidence starts the conversation. It never ends it.
             </h2>
+          </div>
+
+          {/* Interactive Reviewer Persona Switcher */}
+          <div className="flex items-center gap-1.5 flex-wrap">
+            {REVIEWER_DIALOGUES.map((d, idx) => (
+              <button
+                key={d.author}
+                onClick={() => setActiveReviewerIdx(idx)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
+                  activeReviewerIdx === idx
+                    ? "bg-[#fff0f0] text-[#382b22] border-2 border-[#b18597] shadow-[0_3px_0_0_#b18597] font-bold"
+                    : "bg-[#faf6f6] hover:bg-[#fff5f7] text-[#6e5d56] border border-[#e8dede]"
+                }`}
+              >
+                {d.author}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left Persona Info */}
+          <div className="lg:col-span-5 space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-1 rounded-md bg-[#fff0f0] border border-[#b18597] text-[#382b22] font-mono text-[10px] font-bold">
+                {activeDialogue.badge}
+              </span>
+              <span className="text-xs font-bold text-[#2b201a]">{activeDialogue.role}</span>
+            </div>
             <p className="text-xs text-[#5e4d46] leading-relaxed">
               UniEnrich gives catalog teams a shared language for discussing a SKU: what changed, which signal was observed, and what context belongs in the final master record.
             </p>
@@ -238,30 +363,30 @@ export default function DashboardPage() {
 
           {/* Right Evidence Rows */}
           <div className="lg:col-span-7 space-y-3">
-            <div className="p-4 rounded-xl border border-[#e8dede] bg-[#faf6f6] flex items-start gap-4 hover:border-[#b18597] transition">
+            <div className="p-4 rounded-2xl border border-[#e8dede] bg-[#faf6f6] flex items-start gap-4 hover:border-[#b18597] transition">
               <span className="px-2.5 py-1 rounded-md bg-[#eff6ff] text-[#1e40af] border border-[#bfdbfe] font-mono text-[10px] uppercase font-bold tracking-wider shrink-0 mt-0.5">
                 SIGNAL
               </span>
               <p className="text-xs text-[#2b201a] italic leading-relaxed">
-                &ldquo;This SKU title contains 4 non-standard vendor abbreviations (SS, HEX, BLT, PK100) conflicting with standard ISO fasteners.&rdquo;
+                &ldquo;{activeDialogue.signal}&rdquo;
               </p>
             </div>
 
-            <div className="p-4 rounded-xl border border-[#e8dede] bg-[#faf6f6] flex items-start gap-4 hover:border-[#b18597] transition">
+            <div className="p-4 rounded-2xl border border-[#e8dede] bg-[#faf6f6] flex items-start gap-4 hover:border-[#b18597] transition">
               <span className="px-2.5 py-1 rounded-md bg-[#f5f3ff] text-[#5b21b6] border border-[#ddd6fe] font-mono text-[10px] uppercase font-bold tracking-wider shrink-0 mt-0.5">
                 CONTEXT
               </span>
               <p className="text-xs text-[#2b201a] italic leading-relaxed">
-                &ldquo;Cross-referenced with datasheet CAD OCR; dimensions matched 1/2-13 UNC x 2.00in and material verified as 316 Marine Grade.&rdquo;
+                &ldquo;{activeDialogue.context}&rdquo;
               </p>
             </div>
 
-            <div className="p-4 rounded-xl border border-[#e8dede] bg-[#faf6f6] flex items-start gap-4 hover:border-[#b18597] transition">
+            <div className="p-4 rounded-2xl border border-[#e8dede] bg-[#faf6f6] flex items-start gap-4 hover:border-[#b18597] transition">
               <span className="px-2.5 py-1 rounded-md bg-[#ecfdf5] text-[#065f46] border border-[#a7f3d0] font-mono text-[10px] uppercase font-bold tracking-wider shrink-0 mt-0.5">
                 RECORD
               </span>
               <p className="text-xs text-[#2b201a] italic leading-relaxed">
-                &ldquo;Reviewer note saved: retain ISO DIN 933 compliance, normalize thread pitch, mark auto-approved for Shopify &amp; Magento export.&rdquo;
+                &ldquo;{activeDialogue.record}&rdquo;
               </p>
             </div>
           </div>
@@ -269,38 +394,32 @@ export default function DashboardPage() {
       </section>
 
       {/* ====================================================================
-          ARAXYSS SECTION 4: ONE REVIEW FLOW. NO BLACK BOX.
+          ARAXYSS SECTION 4: INTERACTIVE ONE REVIEW FLOW STEPPER
           ==================================================================== */}
-      <section className="rounded-2xl border-2 border-[#e8dede] p-8 md:p-12 bg-[#ffffff] shadow-[0_4px_24px_rgba(177,133,151,0.06)]">
+      <section className="rounded-3xl border-2 border-[#e8dede] p-8 md:p-12 bg-[#ffffff] shadow-[0_4px_24px_rgba(177,133,151,0.06)]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Left Terminal Spec Box */}
-          <div className="lg:col-span-6 rounded-2xl border-2 border-[#d4c3c9] bg-[#fffbfb] p-6 space-y-4 font-mono shadow-sm">
+          {/* Left Dynamic Terminal Spec Box */}
+          <div className="lg:col-span-6 rounded-3xl border-2 border-[#d4c3c9] bg-[#fffbfb] p-6 space-y-4 font-mono shadow-sm">
             <div className="flex items-center justify-between text-[10px] text-[#8c7770] border-b border-[#e8dede] pb-3">
               <span className="font-bold">004 STD / MRO REVIEW WORKSPACE</span>
-              <span className="text-[#065f46] font-bold">STATUS: VERIFIED</span>
+              <span className="text-[#065f46] font-bold">STAGE: {currentStep.title}</span>
             </div>
 
-            <div className="space-y-2.5 text-xs text-[#5e4d46] leading-relaxed font-sans">
-              <div className="text-base font-bold text-[#382b22] bg-[#fff0f0] border border-[#b18597] px-2.5 py-1 rounded-lg inline-block">
-                Think less. Create more.
-              </div>
-              <p className="text-[#2b201a] text-sm font-semibold">
-                UniEnrich turns raw abbreviations into intelligent catalog action.
-              </p>
-              <p className="text-[#5e4d46] text-xs">
-                From complex vendor feeds to everyday tasks, AI works behind the scenes — so you can stay ahead.
-              </p>
+            <div className="bg-[#faf6f6] border border-[#e8dede] p-3.5 rounded-xl text-[11px] text-[#2b201a] whitespace-pre-wrap font-mono leading-relaxed overflow-x-auto">
+              {currentStep.terminalSnippet}
             </div>
 
-            <div className="pt-3 border-t border-[#e8dede] flex items-center justify-between text-[10px] text-[#8c7770]">
-              <span className="font-bold">&#123;&#125; UNIENRICH UI</span>
-              <span className="px-3 py-1 rounded-lg bg-[#fff0f0] border border-[#b18597] text-[#382b22] font-bold">
-                ACCESS SIGNAL &rarr;
-              </span>
+            <div className="pt-2 border-t border-[#e8dede] flex items-center justify-between text-[10px] text-[#8c7770]">
+              <span className="font-bold">&#123;&#125; UNIENRICH PIPELINE CLI</span>
+              <Link href="/upload">
+                <span className="px-3 py-1 rounded-lg bg-[#fff0f0] border border-[#b18597] text-[#382b22] font-bold cursor-pointer hover:bg-[#ffe9e9]">
+                  TEST WORKSPACE &rarr;
+                </span>
+              </Link>
             </div>
           </div>
 
-          {/* Right 3-Step Review Flow */}
+          {/* Right 3-Step Interactive Review Flow */}
           <div className="lg:col-span-6 space-y-6">
             <div className="text-[10px] font-mono text-[#8c7770] uppercase tracking-widest font-semibold">
               FROM INGESTION TO RESOLUTION
@@ -311,24 +430,30 @@ export default function DashboardPage() {
               <span className="text-[#8c7770]">No black box.</span>
             </h2>
 
-            <div className="space-y-3.5">
-              <div className="flex items-start gap-4">
-                <span className="font-mono text-xs font-bold text-[#2b201a] uppercase w-24 shrink-0">Upload</span>
-                <p className="text-xs text-[#5e4d46]">Bring in a CSV, XLSX, or selectable PDF datasheet.</p>
-              </div>
-              <div className="flex items-start gap-4">
-                <span className="font-mono text-xs font-bold text-[#2b201a] uppercase w-24 shrink-0">Inspect</span>
-                <p className="text-xs text-[#5e4d46]">Open the catalog batch and inspect each extracted attribute signal.</p>
-              </div>
-              <div className="flex items-start gap-4">
-                <span className="font-mono text-xs font-bold text-[#2b201a] uppercase w-24 shrink-0">Document</span>
-                <p className="text-xs text-[#5e4d46]">Save a certified master record with your team's judgment.</p>
-              </div>
+            <div className="space-y-3">
+              {PIPELINE_STEPS.map((step, idx) => (
+                <div
+                  key={step.key}
+                  onClick={() => setActivePipelineStep(idx)}
+                  className={`p-3.5 rounded-2xl border-2 transition-all cursor-pointer flex items-start gap-4 ${
+                    activePipelineStep === idx
+                      ? "border-[#b18597] bg-[#fff0f0] shadow-sm"
+                      : "border-[#e8dede] bg-[#faf6f6] hover:bg-[#ffffff]"
+                  }`}
+                >
+                  <span className="font-mono text-xs font-bold text-[#2b201a] uppercase w-20 shrink-0 mt-0.5">
+                    {step.title}
+                  </span>
+                  <p className="text-xs text-[#5e4d46] leading-relaxed">
+                    {step.desc}
+                  </p>
+                </div>
+              ))}
             </div>
 
             <div className="pt-2">
               <Link href="/datasheet" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#382b22] hover:text-[#b18597] border-b-2 border-[#b18597] pb-1 transition-colors">
-                <span>READ THE DOCUMENTATION</span>
+                <span>READ THE FULL SPECIFICATION</span>
                 <span className="text-sm">↗</span>
               </Link>
             </div>
@@ -518,131 +643,6 @@ export default function DashboardPage() {
       </div>
 
       {/* ====================================================================
-          9-STAGE AUTOMATED PIPELINE BANNER
-          ==================================================================== */}
-      <Card 
-        title="9-Stage Automated Enrichment Sequence" 
-        subtitle="Deterministic sanitation → RapidFuzz brand resolution → Gemini attribute extraction → UNSPSC classification → Quality gate"
-      >
-        <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2 pt-2 text-center text-xs">
-          {[
-            { num: "1", title: "CSV Upload", desc: "Syntax & schema" },
-            { num: "2", title: "Cleaner", desc: "HTML & null sanitize" },
-            { num: "3", title: "Acronym Expander", desc: "MRO dictionary" },
-            { num: "4", title: "Brand Resolver", desc: "RapidFuzz matching" },
-            { num: "5", title: "Attribute AI", desc: "Gemini 2.5 Flash" },
-            { num: "6", title: "UNSPSC Classifier", desc: "Taxonomy assign" },
-            { num: "7", title: "Copywriter", desc: "SEO & mobile copy" },
-            { num: "8", title: "Confidence Gate", desc: "70% Auto-route" },
-            { num: "9", title: "Multi-Export", desc: "Shopify / Magento" },
-          ].map((step) => (
-            <div key={step.num} className="p-2.5 rounded-xl border border-[#e8dede] bg-[#faf6f6] space-y-1 hover:border-[#b18597] transition">
-              <div className="w-6 h-6 rounded-full bg-[#fff0f0] border border-[#b18597] text-[#382b22] text-[10px] font-bold flex items-center justify-center mx-auto">
-                {step.num}
-              </div>
-              <div className="font-bold text-[#2b201a] truncate">{step.title}</div>
-              <div className="text-[10px] text-[#7a6860]">{step.desc}</div>
-            </div>
-          ))}
-        </div>
-      </Card>
-
-      {/* ====================================================================
-          RECENT CATALOG BATCHES TABLE
-          ==================================================================== */}
-      <Card
-        title="Recent Catalog Ingestions & Master Feeds"
-        subtitle="Historical catalog processing runs"
-        headerAction={
-          <Link href="/upload">
-            <Button variant="primary" size="sm">
-              + Ingest New Catalog
-            </Button>
-          </Link>
-        }
-      >
-        {isLoading ? (
-          <div className="text-center py-12 text-sm text-[#7a6860]">Loading catalog batches...</div>
-        ) : batches.length === 0 ? (
-          <div className="text-center py-12 space-y-3">
-            <UploadCloud className="w-10 h-10 text-[#b18597] mx-auto opacity-70" />
-            <h3 className="text-sm font-bold text-[#2b201a]">No Catalogs Uploaded Yet</h3>
-            <p className="text-xs text-[#7a6860] max-w-sm mx-auto">
-              Ingest your first supplier CSV or XLSX file to begin automated AI data enrichment.
-            </p>
-            <Link href="/upload">
-              <Button variant="primary" size="sm" className="mt-2">
-                Ingest Catalog
-              </Button>
-            </Link>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-[#faf6f6] border-b border-[#e8dede] text-[#6e5d56] uppercase font-bold">
-                <tr>
-                  <th className="py-3 px-4">Filename</th>
-                  <th className="py-3 px-4">Total SKUs</th>
-                  <th className="py-3 px-4">Pipeline Status</th>
-                  <th className="py-3 px-4">Quality Breakdown</th>
-                  <th className="py-3 px-4">Uploaded</th>
-                  <th className="py-3 px-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#f0e8eb]">
-                {batches.map((batch) => (
-                  <tr key={batch.id} className="hover:bg-[#fff5f7] transition-colors">
-                    <td className="py-3.5 px-4 font-bold text-[#2b201a]">
-                      {batch.filename}
-                    </td>
-                    <td className="py-3.5 px-4 font-mono text-[#5e4d46]">
-                      {batch.total_records}
-                    </td>
-                    <td className="py-3.5 px-4">
-                      <Badge
-                        variant={batch.status === "COMPLETED" ? "success" : batch.status === "PROCESSING" ? "purple" : "default"}
-                        dot
-                      >
-                        {batch.status}
-                      </Badge>
-                    </td>
-                    <td className="py-3.5 px-4">
-                      <div className="flex items-center gap-3 text-[11px] font-mono">
-                        <span className="text-[#065f46] font-semibold">{batch.processed_records} Clean</span>
-                        {batch.missing_brand_records > 0 && (
-                          <span className="text-[#92400e] font-semibold">{batch.missing_brand_records} Missing Brand</span>
-                        )}
-                        {batch.duplicate_records > 0 && (
-                          <span className="text-[#991b1b] font-semibold">{batch.duplicate_records} Dup</span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="py-3.5 px-4 text-[#7a6860]">
-                      {new Date(batch.uploaded_at).toLocaleDateString()}
-                    </td>
-                    <td className="py-3.5 px-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <Link href={`/products?batch_id=${batch.id}`}>
-                          <Button variant="secondary" size="sm" icon={<Layers className="w-3.5 h-3.5" />}>
-                            Catalog
-                          </Button>
-                        </Link>
-                        <Link href={`/export?batch_id=${batch.id}`}>
-                          <Button variant="outline" size="sm" icon={<Download className="w-3.5 h-3.5" />}>
-                            Export
-                          </Button>
-                        </Link>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </Card>
-
-      {/* ====================================================================
           ARAXYSS FINALE QUOTE SECTION (LIGHT BLUSH PORCELAIN)
           ==================================================================== */}
       <section className="rounded-3xl border-2 border-[#b18597] p-10 sm:p-16 text-center space-y-6 bg-[#fff0f0] shadow-[0_8px_32px_rgba(177,133,151,0.15)] relative overflow-hidden">
@@ -656,7 +656,7 @@ export default function DashboardPage() {
 
         <div className="pt-2">
           <Link href="/upload">
-            <PopButton variant="pop" className="px-8 py-5 text-sm font-bold tracking-wider">
+            <PopButton variant="pop" className="px-8 py-5 text-sm font-bold tracking-wider cursor-pointer">
               <span className="flex items-center gap-2">
                 <span>OPEN THE REVIEW WORKSPACE</span>
                 <ArrowRight className="w-4 h-4" />
