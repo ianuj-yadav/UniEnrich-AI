@@ -44,8 +44,8 @@ import { SpecCompletenessVisualizer } from "@/components/ui/SpecCompletenessVisu
 
 const REVIEWER_DIALOGUES = [
   {
-    role: "Lead Catalog Reviewer",
-    author: "Anuj Yadav",
+    role: "Human-in-the-Loop Specialist",
+    author: "Lead Catalog Reviewer",
     badge: "HUMAN SIGN-OFF",
     signal: "This raw SKU title contains 4 non-standard vendor acronyms (SS, HEX, BLT, PK100) conflicting with standard ISO fasteners.",
     context: "Cross-referenced with datasheet CAD OCR; dimensions matched 1/2-13 UNC x 2.00in and material verified as 316 Marine Grade Stainless.",
