@@ -4,11 +4,9 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 const HERO_VIDEO_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260823_050407_500d0339-ab28-41c1-9688-132a74a3b5aa.mp4";
-const ABOUT_VIDEO_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260823_063501_2e2c8971-de1e-473a-8611-a0c9ae7ee186.mp4";
 
 export const TargoHeroSection: React.FC = () => {
   const heroVideoRef = useRef<HTMLVideoElement>(null);
-  const aboutVideoRef = useRef<HTMLVideoElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -24,22 +22,20 @@ export const TargoHeroSection: React.FC = () => {
 
   // Video Autoplay Robustness logic: retry play() every 1s & on first user interaction
   useEffect(() => {
-    const playVideos = () => {
-      [heroVideoRef.current, aboutVideoRef.current].forEach((vid) => {
-        if (vid) {
-          vid.muted = true;
-          vid.play().catch(() => {
-            // Swallow rejection and let retry handler retry
-          });
-        }
-      });
+    const playVideo = () => {
+      if (heroVideoRef.current) {
+        heroVideoRef.current.muted = true;
+        heroVideoRef.current.play().catch(() => {
+          // Swallow rejection and let retry handler retry
+        });
+      }
     };
 
-    playVideos();
-    const interval = setInterval(playVideos, 1000);
+    playVideo();
+    const interval = setInterval(playVideo, 1000);
 
     const handleFirstInteraction = () => {
-      playVideos();
+      playVideo();
       window.removeEventListener("click", handleFirstInteraction);
       window.removeEventListener("touchstart", handleFirstInteraction);
     };
@@ -262,89 +258,6 @@ export const TargoHeroSection: React.FC = () => {
             </Link>
           </div>
 
-        </div>
-      </section>
-
-      {/* ====================================================================
-          SECTION 2: ABOUT SECTION
-          ==================================================================== */}
-      <section
-        id="about"
-        className="w-full flex flex-wrap items-center gap-[40px] overflow-hidden"
-        style={{
-          background: "linear-gradient(180deg, #F2F1F0 0%, #F7F6F8 18%, #F7F6F8 100%)",
-          padding: "clamp(60px, 10vw, 140px) 0 clamp(30px, 5vw, 70px) clamp(20px, 9vw, 118px)",
-        }}
-      >
-        {/* Left Column */}
-        <div className="flex-[1_1_420px] min-w-[300px] pr-6 md:pr-10 select-none">
-          {/* H2 Staircase lines */}
-          <h2
-            className="uppercase font-bold text-[#2b3033]"
-            style={{
-              fontSize: "clamp(34px, 6.5vw, 72px)",
-              lineHeight: 0.98,
-              letterSpacing: "0.01em",
-            }}
-          >
-            <div>ABOUT</div>
-            <div style={{ marginLeft: "min(160px, 18vw)", color: "#15BCDF" }}>
-              BUSINESS
-            </div>
-          </h2>
-
-          {/* Verbatim Paragraph */}
-          <p
-            className="text-[#6b6f72] font-normal max-w-[520px]"
-            style={{
-              margin: "32px 0 0 min(160px, 18vw)",
-              fontSize: "clamp(14px, 1.6vw, 17px)",
-              lineHeight: 1.7,
-            }}
-          >
-            Targo builds the testing infrastructure modern teams rely on. From automated pipelines to full-scale QA audits, we make sure your software ships fast and breaks nothing. Hundreds of releases, zero surprises.
-          </p>
-
-          {/* "LEARN MORE" Button */}
-          <div style={{ margin: "36px 0 0 min(160px, 18vw)" }}>
-            <Link
-              href="/datasheet"
-              className="chamfer-btn targo-btn-glow inline-flex items-center gap-3 bg-[#15BCDF] hover:bg-[#3fd0ef] border border-[#0fa3c2] text-[#1a1c1e] uppercase font-bold transition-all duration-200 cursor-pointer shadow-lg active:scale-95"
-              style={{
-                padding: "18px 34px",
-                fontSize: "clamp(13px, 2.2vw, 16px)",
-                letterSpacing: "0.14em",
-              }}
-            >
-              <span>LEARN MORE</span>
-              {/* Trailing 22x1px dark line */}
-              <span className="w-[22px] h-[1px] bg-[#1a1c1e] block" />
-            </Link>
-          </div>
-        </div>
-
-        {/* Right Column: Video flush to right edge with #15BCDF Hue Blend Overlay */}
-        <div className="flex-[1_1_360px] min-w-[280px] flex justify-end relative overflow-hidden">
-          <div className="relative w-full max-w-[644px] flex justify-end">
-            <video
-              ref={aboutVideoRef}
-              src={ABOUT_VIDEO_URL}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              className="w-full max-w-[644px] h-auto block select-none pointer-events-none"
-            />
-            {/* Overlay rectangle: #15BCDF with mix-blend-mode: hue */}
-            <div
-              className="absolute top-0 right-0 w-full max-w-[644px] h-full pointer-events-none z-[1]"
-              style={{
-                backgroundColor: "#15BCDF",
-                mixBlendMode: "hue",
-              }}
-            />
-          </div>
         </div>
       </section>
 
