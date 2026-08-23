@@ -36,13 +36,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
           <ArrowUpRight className="w-3 h-3" />
         </Link>
 
-        <Link href="/" className="flex items-center gap-2.5 group" aria-label="Araxyss home">
-          {/* Brand Logo [A] */}
-          <div className="w-6 h-6 rounded bg-[#111111] text-[#f7f4ed] font-serif font-black flex items-center justify-center text-xs shadow-xs">
-            A
+        <Link href="/" className="flex items-center gap-2.5 group" aria-label="UniHack home">
+          {/* Brand Logo [U] */}
+          <div className="w-6 h-6 rounded bg-[#111111] text-[#f7f4ed] font-mono font-black flex items-center justify-center text-xs shadow-xs">
+            U
           </div>
           <div className="flex items-center gap-1.5 font-bold text-sm tracking-tight text-[#111111]">
-            <span>Araxyss</span>
+            <span>UniHack</span>
             <span className="text-stone-400 font-light">/</span>
             <span className="text-xs text-stone-600 font-medium hidden md:inline">UniEnrich AI</span>
           </div>
@@ -52,7 +52,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
       {/* Center Status: Sentinel Telemetry */}
       <div className="hidden lg:flex items-center gap-2 text-[10px] font-mono text-stone-500 uppercase tracking-wider">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-        <span>SENTENCE-LEVEL SIGNALS — REVIEWER JUDGMENT REQUIRED</span>
+        <span>SPECIFICATION SIGNALS — REVIEWER JUDGMENT REQUIRED</span>
       </div>
 
       {/* Right Controls & Nav Links */}

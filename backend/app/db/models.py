@@ -31,7 +31,7 @@ class User(Base):
     email = Column(String(255), unique=True, nullable=False, index=True)
     password_hash = Column(String(512), nullable=False)
     role = Column(String(100), default="Catalog Reviewer", nullable=False)
-    organization = Column(String(255), default="Araxyss Industrial AI", nullable=False)
+    organization = Column(String(255), default="UniHack Industrial AI", nullable=False)
     tier = Column(String(100), default="Enterprise Vault", nullable=False)
     avatar = Column(String(1024), nullable=True)
     provider = Column(String(32), default="email", nullable=False)

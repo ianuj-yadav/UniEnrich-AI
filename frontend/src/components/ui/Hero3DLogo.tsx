@@ -347,7 +347,7 @@ export function Hero3DLogo() {
       {/* Top Floating Badge */}
       <div className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-blue-200 shadow-md text-[10px] font-mono font-bold text-blue-900 backdrop-blur-md">
         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-        <span>ARAXYSS 3D EMBLEM</span>
+        <span>UNIHACK 3D EMBLEM</span>
       </div>
 
       {/* Top Right Specs Badge */}

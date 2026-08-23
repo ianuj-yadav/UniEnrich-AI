@@ -135,7 +135,7 @@ export default function WorkspacePage() {
   return (
     <div className="space-y-8 max-w-6xl mx-auto pb-12">
       {/* ====================================================================
-          ARAXYSS WORKSPACE TOP HUD (LIGHT PORCELAIN)
+          UNIHACK WORKSPACE TOP HUD (LIGHT PORCELAIN)
           ==================================================================== */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl border-2 border-[#e8dede] bg-[#ffffff] shadow-sm">
         <div className="flex items-center gap-3">
@@ -144,7 +144,7 @@ export default function WorkspacePage() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-[#2b201a] text-sm">Araxyss</span>
+              <span className="font-bold text-[#2b201a] text-sm">UniHack</span>
               <span className="text-[#b18597] text-xs font-light">/</span>
               <span className="text-xs text-[#5e4d46] font-semibold uppercase tracking-wider">EXPLAINABLE CATALOG ENRICHMENT AUDITOR</span>
             </div>
@@ -172,7 +172,7 @@ export default function WorkspacePage() {
       </div>
 
       {/* ====================================================================
-          ARAXYSS MAIN WORKSPACE INTAKE CONTAINER (LIGHT PORCELAIN)
+          UNIHACK MAIN WORKSPACE INTAKE CONTAINER (LIGHT PORCELAIN)
           ==================================================================== */}
       <div className="rounded-3xl border-2 border-[#e8dede] p-6 md:p-8 bg-[#ffffff] shadow-[0_8px_32px_rgba(177,133,151,0.08)] space-y-6">
         {/* Meta Bar */}
@@ -216,7 +216,7 @@ export default function WorkspacePage() {
           />
         </div>
 
-        {/* 3-Step Araxyss Guidance Bar */}
+        {/* 3-Step UniHack Guidance Bar */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 border-t border-[#e8dede]">
           <div className="space-y-1">
             <div className="text-[10px] font-mono text-[#5e4d46] uppercase font-bold flex items-center gap-1.5">
@@ -273,7 +273,7 @@ export default function WorkspacePage() {
       </div>
 
       {/* ====================================================================
-          ARAXYSS AUDIT RESULTS (LIGHT PORCELAIN)
+          UNIHACK AUDIT RESULTS (LIGHT PORCELAIN)
           ==================================================================== */}
       {showResults && (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">

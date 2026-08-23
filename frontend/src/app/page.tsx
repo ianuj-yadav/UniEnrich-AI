@@ -156,7 +156,7 @@ export default function DashboardPage() {
           <div className="lg:col-span-5 space-y-6">
             <div className="space-y-4 text-xs sm:text-sm font-mono text-stone-700 leading-relaxed max-w-md">
               <p>
-                Araxyss is an AI-powered industrial catalog standardization engine. Built to bridge the gap between noisy supplier feeds and search-ready master records, Araxyss extracts 15+ mechanical specs, resolves duplicate vendor listings, and guarantees audit-ready accuracy.
+                UniHack is an AI-powered industrial catalog standardization engine. Built to bridge the gap between noisy supplier feeds and search-ready master records, UniHack extracts 15+ mechanical specs, resolves duplicate vendor listings, and guarantees audit-ready accuracy.
               </p>
               <p>
                 Using deterministic RapidFuzz entity matching and Gemini attribute extraction, catalog managers eliminate manual checking while retaining complete explainability.
@@ -176,7 +176,7 @@ export default function DashboardPage() {
       </section>
 
       {/* ====================================================================
-          ACT 2: FULL-WIDTH 3-CARD EVIDENCE RIBBON
+          ACT 2: FULL-WIDTH 3-CARD EVIDENCE RIBBON (CLEAN LIGHT PORCELAIN)
           ==================================================================== */}
       <section className="w-full grid grid-cols-1 md:grid-cols-3 border-b border-stone-300">
         
@@ -202,34 +202,34 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Card 2: Solid Pitch Black #111111 with Animated Cyan Signal Bars */}
-        <div className="bg-[#111111] text-white p-8 sm:p-12 border-b md:border-b-0 md:border-r border-stone-800 flex flex-col justify-between space-y-8 relative overflow-hidden group">
+        {/* Card 2: Crisp Porcelain White with Cyan Signal Pulse Indicators */}
+        <div className="bg-white p-8 sm:p-12 border-b md:border-b-0 md:border-r border-stone-300 flex flex-col justify-between space-y-8 relative overflow-hidden group">
           {/* Animated Cyan Signal Scanlines */}
           <div className="space-y-2.5 pt-2">
-            <div className="h-1.5 w-full bg-[#38bdf8] rounded-full cyan-signal-bar-1 shadow-[0_0_12px_rgba(56,189,248,0.7)]" />
-            <div className="h-1.5 w-4/5 bg-[#38bdf8] rounded-full cyan-signal-bar-2 shadow-[0_0_12px_rgba(56,189,248,0.7)]" />
-            <div className="h-1.5 w-3/5 bg-[#38bdf8] rounded-full cyan-signal-bar-3 shadow-[0_0_12px_rgba(56,189,248,0.7)]" />
-            <div className="h-1.5 w-2/3 bg-[#38bdf8] rounded-full cyan-signal-bar-4 shadow-[0_0_12px_rgba(56,189,248,0.7)]" />
+            <div className="h-1.5 w-full bg-sky-500 rounded-full cyan-signal-bar-1 shadow-[0_0_8px_rgba(14,165,233,0.4)]" />
+            <div className="h-1.5 w-4/5 bg-sky-500 rounded-full cyan-signal-bar-2 shadow-[0_0_8px_rgba(14,165,233,0.4)]" />
+            <div className="h-1.5 w-3/5 bg-sky-500 rounded-full cyan-signal-bar-3 shadow-[0_0_8px_rgba(14,165,233,0.4)]" />
+            <div className="h-1.5 w-2/3 bg-sky-500 rounded-full cyan-signal-bar-4 shadow-[0_0_8px_rgba(14,165,233,0.4)]" />
           </div>
 
           <div className="space-y-4 pt-6">
-            <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-sky-400">
+            <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-sky-700">
               02 / INSPECT THE RECEIPT
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white leading-snug">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#111111] leading-snug">
               Every measure has an explanation.
             </h2>
-            <p className="text-xs sm:text-sm text-stone-300 font-mono leading-relaxed">
+            <p className="text-xs sm:text-sm text-stone-600 font-mono leading-relaxed">
               RapidFuzz Levenshtein similarity (98.4%), Gemini confidence ratings, UNSPSC taxonomy codes, and vector duplicate clusters remain visible to the reviewer.
             </p>
           </div>
-          <div className="pt-4 border-t border-stone-800 flex items-center justify-between text-xs font-mono font-bold text-sky-400">
+          <div className="pt-4 border-t border-stone-200 flex items-center justify-between text-xs font-mono font-bold text-sky-700">
             <span>Levenshtein &amp; Spec Extraction</span>
             <span>&rarr;</span>
           </div>
         </div>
 
-        {/* Card 3: Light Silver / Off-White */}
+        {/* Card 3: Light Warm Silver */}
         <div className="bg-[#f0ece1] p-8 sm:p-12 flex flex-col justify-between space-y-8">
           <div className="space-y-4">
             <div className="w-8 h-8 rounded-lg bg-stone-300 flex items-center justify-center text-black shadow-xs">
@@ -275,19 +275,19 @@ export default function DashboardPage() {
             </div>
 
             <p className="text-xs sm:text-sm font-mono text-sky-950/80 leading-relaxed max-w-md">
-              Araxyss gives catalog teams a shared language for discussing a SKU: what changed, which signal was observed, and what context belongs in the final master record.
+              UniHack gives catalog teams a shared language for discussing a SKU: what changed, which signal was observed, and what context belongs in the final master record.
             </p>
 
-            {/* Persona Switcher Tabs */}
+            {/* Persona Switcher Tabs - Classy Light / Active Indigo Pills */}
             <div className="flex flex-wrap gap-2 pt-2">
               {REVIEWER_DIALOGUES.map((d, idx) => (
                 <button
                   key={d.author}
                   onClick={() => setActiveReviewerIdx(idx)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-bold transition-all cursor-pointer ${
                     activeReviewerIdx === idx
-                      ? "bg-[#111111] text-white shadow-sm"
-                      : "bg-white/60 hover:bg-white text-stone-700 border border-sky-300"
+                      ? "bg-sky-900 text-white shadow-sm border border-sky-900"
+                      : "bg-white/80 hover:bg-white text-sky-950 border border-sky-300 shadow-2xs"
                   }`}
                 >
                   {d.author}
@@ -346,10 +346,10 @@ export default function DashboardPage() {
               {/* Document Header */}
               <div className="flex items-center justify-between border-b border-stone-300 pb-3 text-[10px] text-stone-600">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-black"></span>
+                  <span className="w-2 h-2 rounded-full bg-stone-700"></span>
                   <span className="w-2 h-2 rounded-full bg-stone-400"></span>
                   <span className="w-2 h-2 rounded-full bg-stone-400"></span>
-                  <span className="font-bold ml-2">ARA 3155 / CATALOG ENRICHMENT WORKSPACE</span>
+                  <span className="font-bold ml-2">UNIHACK 3155 / CATALOG ENRICHMENT WORKSPACE</span>
                 </div>
                 <span className="text-emerald-700 font-bold">CONFIDENCE: 98.4%</span>
               </div>
@@ -576,18 +576,18 @@ export default function DashboardPage() {
       </section>
 
       {/* ====================================================================
-          ACT 6: FINALE SOLID PITCH BLACK STATEMENT BANNER (#0a0d12)
+          ACT 6: FINALE ELEGANT STATEMENT BANNER (CLEAN WARM IVORY #f7f4ed)
           ==================================================================== */}
-      <section className="w-full bg-[#0a0d12] text-white py-24 px-6 sm:px-12 md:px-20 text-center relative overflow-hidden">
+      <section className="w-full bg-[#f7f4ed] border-t border-stone-300 py-24 px-6 sm:px-12 md:px-20 text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto space-y-8">
           
           {/* Top Cyan Icon Badge */}
-          <div className="w-10 h-10 rounded-xl bg-sky-950/80 border border-sky-400/50 flex items-center justify-center mx-auto text-sky-400 shadow-[0_0_20px_rgba(56,189,248,0.3)]">
-            <FileCheck2 className="w-5 h-5 text-sky-400" />
+          <div className="w-10 h-10 rounded-xl bg-sky-100 border border-sky-300 flex items-center justify-center mx-auto text-sky-800 shadow-xs">
+            <FileCheck2 className="w-5 h-5 text-sky-700" />
           </div>
 
           {/* Giant Centered Headline */}
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-tight">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#111111] leading-tight">
             Evidence should make decisions clearer, not make them for you.
           </h2>
 
@@ -595,7 +595,7 @@ export default function DashboardPage() {
           <div className="pt-4 flex items-center justify-center">
             <Link 
               href="/upload"
-              className="inline-flex items-center gap-3 bg-[#f7f4ed] hover:bg-white text-[#111111] pl-6 pr-2 py-2 rounded-full font-mono text-xs font-bold uppercase tracking-wider shadow-2xl hover:scale-105 transition-all group cursor-pointer"
+              className="inline-flex items-center gap-3 bg-[#111111] hover:bg-black text-[#f7f4ed] pl-6 pr-2 py-2 rounded-full font-mono text-xs font-bold uppercase tracking-wider shadow-xl hover:scale-105 transition-all group cursor-pointer"
             >
               <span>Open the Review Workspace</span>
               <div className="w-9 h-9 rounded-full bg-[#38bdf8] group-hover:bg-[#0ea5e9] text-black flex items-center justify-center transition-colors shadow-sm">

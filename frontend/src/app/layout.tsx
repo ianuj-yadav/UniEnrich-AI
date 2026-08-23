@@ -3,7 +3,7 @@ import "./globals.css";
 import { AppShell } from "@/components/layout/AppShell";
 
 export const metadata: Metadata = {
-  title: "Araxyss / UniEnrich AI – Industrial Product Data Intelligence",
+  title: "UniHack AI – Industrial Product Data Intelligence",
   description: "Transform messy industrial product catalogs into structured, searchable, AI-enriched master catalog data.",
 };
 
@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-[#fdfbfb] text-[#2b201a] min-h-screen antialiased selection:bg-[#f9c4d2] selection:text-[#382b22]">
+      <body className="bg-[#f7f4ed] text-[#111111] min-h-screen antialiased selection:bg-[#bae6fd] selection:text-[#0369a1]">
         <AppShell>{children}</AppShell>
       </body>
     </html>
