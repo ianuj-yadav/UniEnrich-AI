@@ -131,7 +131,7 @@ npm run dev
 
 ---
 
-## 🧪 Running Automated Tests
+## 🧪 Running Automated Test
 
 ```bash
 # Run unit & integration test suite
