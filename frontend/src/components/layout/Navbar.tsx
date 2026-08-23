@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bot, Cpu, Sparkles, User, Bookmark, LogIn, LogOut } from "lucide-react";
+import { Bot, Cpu, Sparkles, User, Bookmark, LogIn, LogOut, Menu, ArrowUpRight } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
 interface NavbarProps {
@@ -11,7 +11,6 @@ interface NavbarProps {
 }
 
 const NAV_LINKS = [
-  { name: "HOME", href: "/" },
   { name: "WORKSPACE", href: "/upload" },
   { name: "BATCH", href: "/products" },
   { name: "SAVED REPORTS", href: "/profile" },
@@ -23,115 +22,77 @@ const NAV_LINKS = [
 export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
   const pathname = usePathname();
   const { user, isAuthenticated, logout } = useAuth();
-  const [timeString, setTimeString] = useState("9:47 PM • 14 July 2026");
-
-  useEffect(() => {
-    try {
-      const updateTime = () => {
-        const now = new Date();
-        const timePart = now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
-        const datePart = now.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
-        setTimeString(`${timePart} • ${datePart}`);
-      };
-      updateTime();
-      const interval = setInterval(updateTime, 1000);
-      return () => clearInterval(interval);
-    } catch {
-      // Fallback
-    }
-  }, []);
-
   const userDisplayName = user ? user.name.split(" ")[0].toUpperCase() : "ANUJ";
 
   return (
-    <header className="h-16 bg-[#faf9f7]/90 border-b border-[#cedaee] px-6 flex items-center justify-between sticky top-0 z-40 backdrop-blur-xl shadow-[0_2px_14px_rgba(52,122,234,0.10)]">
-      {/* Brand & Logo */}
+    <header className="h-14 bg-[#f7f4ed]/95 border-b border-stone-300 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-50 backdrop-blur-xl transition-all">
+      {/* Left: How It Works & Brand */}
       <div className="flex items-center gap-6">
-        <Link href="/" className="flex items-center gap-3 group" aria-label="Araxyss home">
-          {/* Exact 25x25 SVG Disc Brand Logo */}
-          <div className="w-[25px] h-[25px] shrink-0 drop-shadow-[0_1px_2px_rgba(177,133,151,0.3)]">
-            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <clipPath id="navbar-brand-disc">
-                  <circle cx="12.5" cy="12.5" r="12.5" />
-                </clipPath>
-              </defs>
-              <g clipPath="url(#navbar-brand-disc)">
-                <rect width="25" height="25" fill="#fdfafb" />
-                <path d="M12.5 2.5L22.5 12.5L12.5 22.5L2.5 12.5Z" fill="#382b22" />
-                <path d="M12.5 5L20 12.5L12.5 20L5 12.5Z" fill="#b18597" />
-                <path d="M12.5 7.5L17.5 12.5L12.5 17.5L7.5 12.5Z" fill="#fff0f0" />
-                <path d="M12.5 9.5L15.5 12.5L12.5 15.5L9.5 12.5Z" fill="#382b22" />
-              </g>
-            </svg>
-          </div>
+        <Link 
+          href="/datasheet" 
+          className="hidden sm:inline-flex items-center gap-1 text-[11px] font-mono font-bold uppercase tracking-wider text-stone-600 hover:text-black border-b border-stone-400 hover:border-black pb-0.5 transition-colors"
+        >
+          <span>HOW IT WORKS</span>
+          <ArrowUpRight className="w-3 h-3" />
+        </Link>
 
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-sm text-[#2b201a] tracking-tight">Araxyss</span>
-            <span className="text-[#b18597] text-xs font-light">/</span>
-            <span className="text-xs text-[#5e4d46] font-medium hidden sm:inline">UniEnrich AI</span>
+        <Link href="/" className="flex items-center gap-2.5 group" aria-label="Araxyss home">
+          {/* Brand Logo [A] */}
+          <div className="w-6 h-6 rounded bg-[#111111] text-[#f7f4ed] font-serif font-black flex items-center justify-center text-xs shadow-xs">
+            A
+          </div>
+          <div className="flex items-center gap-1.5 font-bold text-sm tracking-tight text-[#111111]">
+            <span>Araxyss</span>
+            <span className="text-stone-400 font-light">/</span>
+            <span className="text-xs text-stone-600 font-medium hidden md:inline">UniEnrich AI</span>
           </div>
         </Link>
       </div>
 
-      {/* Center Nav Links (Araxyss Navigation Bar) */}
-      <nav className="hidden md:flex items-center gap-1">
-        {NAV_LINKS.map((link) => {
-          const isActive = pathname === link.href || (link.href !== "/" && pathname?.startsWith(link.href));
-          return (
+      {/* Center Status: Sentinel Telemetry */}
+      <div className="hidden lg:flex items-center gap-2 text-[10px] font-mono text-stone-500 uppercase tracking-wider">
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+        <span>SENTENCE-LEVEL SIGNALS — REVIEWER JUDGMENT REQUIRED</span>
+      </div>
+
+      {/* Right Controls & Nav Links */}
+      <div className="flex items-center gap-3">
+        {/* Quick Nav Links */}
+        <nav className="hidden xl:flex items-center gap-4 text-xs font-mono font-bold uppercase text-stone-700">
+          {NAV_LINKS.slice(0, 3).map((link) => (
             <Link
               key={link.name}
               href={link.href}
-              className={`relative px-3 py-1.5 text-xs font-bold tracking-wider transition-colors uppercase ${
-                isActive ? "text-[#2b201a]" : "text-[#7a6860] hover:text-[#2b201a]"
-              }`}
+              className={`hover:text-black transition-colors ${pathname === link.href ? "text-black underline underline-offset-4" : ""}`}
             >
-              <span>{link.name}</span>
-              {isActive && (
-                <span className="absolute bottom-0 left-3 right-3 h-[2.5px] bg-[#347aea] rounded-full shadow-[0_0_8px_rgba(52,122,234,0.6)]" />
-              )}
+              {link.name}
             </Link>
-          );
-        })}
-      </nav>
-
-      {/* Right Controls & User Info */}
-      <div className="flex items-center gap-3">
-        {/* Time Panel */}
-        <div className="hidden xl:flex flex-col justify-center h-9 pl-3 border-l border-[#e8dede] text-left mr-1">
-          <span className="text-[9px] uppercase font-bold text-[#8c7770] tracking-wider">Timezone</span>
-          <span className="text-[11px] font-medium text-[#2b201a] font-mono tracking-tight">{timeString}</span>
-        </div>
+          ))}
+        </nav>
 
         {/* Copilot Assistant Trigger */}
         <button
           onClick={onOpenCopilot}
-          className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#f5f3ff] hover:bg-[#ede9fe] border-2 border-[#8b5cf6] text-[#4c1d95] text-xs font-semibold uppercase tracking-wider shadow-[0_3px_0_0_#8b5cf6] transition-all hover:translate-y-0.5 active:translate-y-1.5 cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-200/80 hover:bg-stone-300 text-stone-900 text-xs font-mono font-bold uppercase tracking-wider transition cursor-pointer"
         >
-          <Bot className="w-3.5 h-3.5 text-[#8b5cf6] animate-pulse" />
+          <Bot className="w-3.5 h-3.5 text-blue-600" />
           <span className="hidden sm:inline">AI COPILOT</span>
         </button>
 
-        {/* User / Authentication Pill */}
+        {/* User Auth */}
         {isAuthenticated && user ? (
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <Link 
               href="/profile"
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
-                pathname === "/profile"
-                  ? "bg-[#fff0f0] border-2 border-[#b18597] shadow-[0_3px_0_0_#b18597] text-[#382b22]"
-                  : "bg-[#faf6f6] hover:bg-[#fff0f0] border-2 border-[#e8dede] hover:border-[#b18597] text-[#382b22]"
-              } text-xs font-mono font-bold`}
-              title="View Profile & Saved Reports"
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-100 border border-stone-300 text-xs font-mono font-bold text-stone-900 hover:bg-stone-200 transition"
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
               <span>{userDisplayName}</span>
             </Link>
-
             <button
               onClick={logout}
               title="Sign Out"
-              className="p-1.5 rounded-xl bg-[#faf6f6] hover:bg-[#fef2f2] border border-[#e8dede] hover:border-[#fecaca] text-[#8c7770] hover:text-[#991b1b] transition cursor-pointer"
+              className="p-1 rounded-lg hover:bg-rose-50 text-stone-500 hover:text-rose-600 transition cursor-pointer"
             >
               <LogOut className="w-3.5 h-3.5" />
             </button>
@@ -139,10 +100,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
         ) : (
           <Link
             href="/login"
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-[#fff0f0] hover:bg-[#ffe9e9] border-2 border-[#b18597] shadow-[0_3px_0_0_#b18597] text-xs font-bold text-[#382b22] uppercase tracking-wider hover:translate-y-0.5 active:translate-y-1.5 transition-all cursor-pointer"
+            className="px-3.5 py-1 rounded-lg bg-black text-[#f7f4ed] text-xs font-mono font-bold uppercase tracking-wider hover:bg-stone-800 transition cursor-pointer"
           >
-            <LogIn className="w-3.5 h-3.5 text-[#b18597]" />
-            <span>SIGN IN</span>
+            SIGN IN
           </Link>
         )}
       </div>

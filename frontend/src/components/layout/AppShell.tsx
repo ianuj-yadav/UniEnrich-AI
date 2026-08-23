@@ -12,18 +12,19 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
-  const isLandingOrLogin = pathname === "/" || pathname === "/login";
+  const isLanding = pathname === "/";
+  const isLogin = pathname === "/login";
 
   React.useEffect(() => {
-    if (!isLoading && !isAuthenticated && !isLandingOrLogin) {
+    if (!isLoading && !isAuthenticated && !isLanding && !isLogin) {
       router.replace("/login");
     }
-  }, [isAuthenticated, isLandingOrLogin, isLoading, router]);
+  }, [isAuthenticated, isLanding, isLogin, isLoading, router]);
 
-  if (!isLandingOrLogin && (isLoading || !isAuthenticated)) {
+  if (!isLanding && !isLogin && (isLoading || !isAuthenticated)) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#fdfbfb] text-[#2b201a]">
-        <div className="rounded-2xl border-2 border-[#e8dede] bg-[#ffffff] px-6 py-4 text-xs font-mono font-bold uppercase tracking-wider shadow-md">
+      <div className="min-h-screen flex items-center justify-center bg-[#f7f4ed] text-[#111111]">
+        <div className="rounded-2xl border border-stone-300 bg-white px-6 py-4 text-xs font-mono font-bold uppercase tracking-wider shadow-sm">
           Securing workspace…
         </div>
       </div>
@@ -31,19 +32,15 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col antialiased bg-[#fdfbfb] text-[#2b201a] relative selection:bg-[#f9c4d2] selection:text-[#382b22]">
-      {/* Light Ambient Background */}
-      <div className="light-ambient-bg" />
-      <div className="light-vignette" />
-
+    <div className="min-h-screen flex flex-col antialiased bg-[#f7f4ed] text-[#111111] relative selection:bg-[#bae6fd] selection:text-[#0369a1]">
       {/* App Shell Navbar */}
       <Navbar onOpenCopilot={() => setIsCopilotOpen(true)} />
 
       {/* Main Content Area */}
       <div className="flex flex-1 relative z-10 w-full">
         {/* Render Sidebar only on internal workspace / app pages */}
-        {!isLandingOrLogin && <Sidebar />}
-        <main className={`flex-1 p-6 md:p-8 w-full overflow-x-hidden ${isLandingOrLogin ? "max-w-6xl mx-auto" : "max-w-7xl mx-auto"}`}>
+        {!isLanding && !isLogin && <Sidebar />}
+        <main className={`flex-1 w-full overflow-x-hidden ${isLanding ? "p-0 max-w-none" : isLogin ? "p-6 md:p-8 max-w-md mx-auto" : "p-6 md:p-8 max-w-7xl mx-auto"}`}>
           {children}
         </main>
       </div>
