@@ -13,12 +13,15 @@ import {
   Download, 
   GitMerge, 
   FileText, 
-  BookOpen 
+  BookOpen,
+  Bookmark,
+  UserCheck
 } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 
 const navItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/profile", label: "Saved Dossiers", icon: Bookmark, badge: "Archive" },
   { href: "/upload", label: "CSV Ingestion", icon: UploadCloud },
   { href: "/process", label: "Live Pipeline", icon: Cpu },
   { href: "/products", label: "Catalog & Split View", icon: Database },
@@ -58,7 +61,7 @@ export const Sidebar: React.FC = () => {
                 </div>
                 {item.badge && (
                   <Badge 
-                    variant={isActive ? "pink" : (item.badge === "Vision" || item.badge === "Vector" ? "purple" : "warning")} 
+                    variant={isActive ? "pink" : (item.badge === "Vision" || item.badge === "Vector" || item.badge === "Archive" ? "purple" : "warning")} 
                     size="sm"
                   >
                     {item.badge}

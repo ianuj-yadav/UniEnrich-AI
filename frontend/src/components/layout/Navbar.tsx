@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bot, Cpu, Sparkles, User } from "lucide-react";
+import { Bot, Cpu, Sparkles, User, Bookmark } from "lucide-react";
 
 interface NavbarProps {
   onOpenCopilot?: () => void;
@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { name: "HOME", href: "/" },
   { name: "WORKSPACE", href: "/upload" },
   { name: "BATCH", href: "/products" },
+  { name: "SAVED REPORTS", href: "/profile" },
   { name: "METHODOLOGY", href: "/rules" },
   { name: "DOCUMENTATION", href: "/datasheet" },
   { name: "REPORTS", href: "/analytics" },
@@ -77,13 +78,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
             <Link
               key={link.name}
               href={link.href}
-              className={`relative px-3.5 py-1.5 text-xs font-bold tracking-wider transition-colors uppercase ${
+              className={`relative px-3 py-1.5 text-xs font-bold tracking-wider transition-colors uppercase ${
                 isActive ? "text-[#2b201a]" : "text-[#7a6860] hover:text-[#2b201a]"
               }`}
             >
               <span>{link.name}</span>
               {isActive && (
-                <span className="absolute bottom-0 left-3.5 right-3.5 h-[2.5px] bg-[#b18597] rounded-full shadow-[0_0_8px_rgba(177,133,151,0.6)]" />
+                <span className="absolute bottom-0 left-3 right-3 h-[2.5px] bg-[#b18597] rounded-full shadow-[0_0_8px_rgba(177,133,151,0.6)]" />
               )}
             </Link>
           );
@@ -107,11 +108,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
           <span className="hidden sm:inline">AI COPILOT</span>
         </button>
 
-        {/* User / Analyst Status Pill */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#fff0f0] border-2 border-[#b18597] shadow-[0_3px_0_0_#b18597] text-xs text-[#382b22] font-mono font-semibold">
+        {/* User / Analyst Status Pill -> Links to Profile */}
+        <Link 
+          href="/profile"
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
+            pathname === "/profile"
+              ? "bg-[#fff0f0] border-2 border-[#b18597] shadow-[0_4px_0_0_#b18597] text-[#382b22]"
+              : "bg-[#faf6f6] hover:bg-[#fff0f0] border-2 border-[#e8dede] hover:border-[#b18597] text-[#382b22]"
+          } text-xs font-mono font-bold`}
+          title="View Profile & Saved Reports"
+        >
           <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
           <span>ANUJ</span>
-        </div>
+        </Link>
       </div>
     </header>
   );

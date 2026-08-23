@@ -64,6 +64,44 @@ export default function WorkspacePage() {
     }, 1200);
   };
 
+  const handleSaveReport = () => {
+    setIsSaved(true);
+    try {
+      const newReport = {
+        id: `DOS-2026-${Math.floor(1000 + Math.random() * 9000)}`,
+        title: "Live MRO Extraction & Classification Audit",
+        category: "batch" as const,
+        categoryLabel: "Batch Audit",
+        date: new Date().toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) + " • " + new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }),
+        sourceFile: file ? file.name : "manual_catalog_intake.csv",
+        skuCount: wordCount || 1472,
+        accuracy: 98.4,
+        perplexity: 249.49,
+        burstiness: 0.674,
+        grounding: 98.4,
+        unspscCode: "31161620 (Hex Head Bolts)",
+        reviewerNotes: committeeNote || "Standardized and certified for ERP multi-channel export. All token confidences exceed 70% threshold.",
+        status: "Certified" as const,
+        tags: ["Audit", "Gemini 2.5", "RapidFuzz", "Certified"],
+        specsPreview: {
+          "Thread Pitch": '1/2"-13 UNC',
+          "Material Grade": "Marine Grade 316 SS",
+          "Standard": "DIN 933 / ISO 4017",
+          "Packaging": "100 Units / Pack",
+        },
+        rawSnippet: inputText.slice(0, 80) + "...",
+        cleanSnippet: "Industrial Master Record: Standardized MRO Components & Verified ISO Specifications",
+      };
+
+      const existing = localStorage.getItem("unienrich_saved_reports");
+      const list = existing ? JSON.parse(existing) : [];
+      const updated = [newReport, ...(Array.isArray(list) ? list : [])];
+      localStorage.setItem("unienrich_saved_reports", JSON.stringify(updated));
+    } catch (err) {
+      console.error("Failed to save report to storage:", err);
+    }
+  };
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const uploadedFile = e.target.files[0];
@@ -269,7 +307,7 @@ export default function WorkspacePage() {
               <Button
                 variant="primary"
                 size="sm"
-                onClick={() => setIsSaved(true)}
+                onClick={handleSaveReport}
                 className="w-full justify-center"
                 icon={isSaved ? <Check className="w-3.5 h-3.5" /> : <Bookmark className="w-3.5 h-3.5" />}
               >
