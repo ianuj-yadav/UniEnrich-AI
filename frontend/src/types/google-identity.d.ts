@@ -11,6 +11,7 @@ interface GoogleIdentityApi {
     parent: HTMLElement,
     options: { theme: "outline"; size: "large"; width: number; text: "continue_with" }
   ) => void;
+  prompt?: () => void;
 }
 
 interface Window {

@@ -9,11 +9,12 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "UniEnrich AI"
     API_V1_STR: str = "/api/v1"
     DATABASE_URL: str = f"sqlite+aiosqlite:///{BASE_DIR}/unienrich.db"
-    FRONTEND_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000"
+    FRONTEND_ORIGINS: str = os.getenv("FRONTEND_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000,https://unienrich-ai.vercel.app")
     GOOGLE_CLIENT_ID: str = os.getenv("GOOGLE_CLIENT_ID", "")
+    GOOGLE_CLIENT_SECRET: str = os.getenv("GOOGLE_CLIENT_SECRET", "")
     
     # AI / LLM Configuration (NVIDIA Nemotron 30B / OpenAI SDK)
-    NVIDIA_API_KEY: str = os.getenv("NVIDIA_API_KEY", "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")
+    NVIDIA_API_KEY: str = os.getenv("NVIDIA_API_KEY", "")
     NVIDIA_BASE_URL: str = os.getenv("NVIDIA_BASE_URL", "https://integrate.api.nvidia.com/v1")
     NVIDIA_MODEL: str = os.getenv("NVIDIA_MODEL", "nvidia/nemotron-3.5-lightning-30b-a3b")
     
