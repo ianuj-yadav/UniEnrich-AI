@@ -112,6 +112,227 @@ export default function DashboardPage() {
         </div>
 
       {/* ====================================================================
+          ARAXYSS SECTION 1: NOT A VERDICT. A TRAIL OF EVIDENCE.
+          ==================================================================== */}
+      <section className="rounded-2xl border border-white/12 p-8 md:p-12 backdrop-blur-xl bg-gradient-to-br from-white/[0.04] to-black/80 shadow-[0_4px_32px_rgba(0,0,0,0.5)]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column */}
+          <div className="lg:col-span-6 space-y-6">
+            <div className="text-[11px] font-bold text-grey-400 uppercase tracking-widest flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              <span>A Better Way to Enrich Industrial Catalogs</span>
+            </div>
+            
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-white leading-[1.1]">
+              Not a verdict.<br />
+              <span className="text-grey-300">A trail of evidence.</span>
+            </h2>
+
+            <Link href="/upload" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white hover:text-blue-400 border-b border-white/30 pb-1 hover:border-blue-400 transition-colors">
+              <span>Explore The Workspace</span>
+              <span>&nearr;</span>
+            </Link>
+          </div>
+
+          {/* Right Column */}
+          <div className="lg:col-span-6 space-y-6 text-sm text-grey-300 leading-relaxed font-light">
+            <p>
+              UniEnrich is more than an AI-powered data pipeline — it is a smarter, verifiable way to conduct industrial catalog standardization and review.
+            </p>
+            <p>
+              Built to bridge the gap between noisy supplier feeds and search-ready master records, UniEnrich uses explainable NLP, RapidFuzz entity matching, and Gemini attribute extraction to reduce repetitive manual checking, organize review signals, and help catalog managers work with total context.
+            </p>
+            
+            <div className="pt-2 flex flex-wrap gap-2 text-[10px] font-mono uppercase text-grey-400">
+              <span className="px-2.5 py-1 rounded bg-white/[0.04] border border-white/10">Less Complexity</span>
+              <span className="px-2.5 py-1 rounded bg-white/[0.04] border border-white/10">Less Repetition</span>
+              <span className="px-2.5 py-1 rounded bg-white/[0.04] border border-white/10 text-green-400">More Accountable Revision</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          ARAXYSS SECTION 2: 3-CARD INTERACTIVE EVIDENCE DECK
+          ==================================================================== */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {/* Card 1 */}
+        <div className="rounded-xl border border-white/12 p-6 backdrop-blur-xl bg-gradient-to-b from-white/[0.05] to-black/60 hover:border-white/25 transition-all flex flex-col justify-between space-y-6">
+          <div className="space-y-3">
+            <div className="text-[10px] font-mono text-grey-400 uppercase tracking-wider">
+              01 / SURFACE THE SIGNAL
+            </div>
+            <h3 className="text-xl font-medium text-white tracking-tight leading-snug">
+              See where a catalog SKU deserves attention.
+            </h3>
+            <p className="text-xs text-grey-300 leading-relaxed font-light">
+              Read an abbreviated product in context and see the confidence markers that produced its enrichment signal.
+            </p>
+          </div>
+          <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[11px] text-grey-400">
+            <span>Deterministic Scoring</span>
+            <span className="text-blue-400">&rarr;</span>
+          </div>
+        </div>
+
+        {/* Card 2 */}
+        <div className="rounded-xl border border-blue-500/30 p-6 backdrop-blur-xl bg-gradient-to-b from-blue-950/20 to-black/80 hover:border-blue-500/50 transition-all flex flex-col justify-between space-y-6 shadow-[0_0_24px_rgba(59,130,246,0.15)]">
+          <div className="space-y-3">
+            <div className="text-[10px] font-mono text-blue-300 uppercase tracking-wider">
+              02 / INSPECT THE RECEIPT
+            </div>
+            <h3 className="text-xl font-medium text-white tracking-tight leading-snug">
+              Every measure has an explanation.
+            </h3>
+            <p className="text-xs text-grey-300 leading-relaxed font-light">
+              RapidFuzz confidence, MRO acronym lookups, UNSPSC taxonomy codes, and vector duplicates remain visible to the reviewer.
+            </p>
+          </div>
+          <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[11px] text-blue-300 font-mono">
+            <span>Perplexity &amp; GLTR Evidence</span>
+            <span>&rarr;</span>
+          </div>
+        </div>
+
+        {/* Card 3 */}
+        <div className="rounded-xl border border-white/12 p-6 backdrop-blur-xl bg-gradient-to-b from-white/[0.05] to-black/60 hover:border-white/25 transition-all flex flex-col justify-between space-y-6">
+          <div className="space-y-3">
+            <div className="text-[10px] font-mono text-grey-400 uppercase tracking-wider">
+              03 / KEEP THE JUDGMENT HUMAN
+            </div>
+            <h3 className="text-xl font-medium text-white tracking-tight leading-snug">
+              Decide with evidence, not automation.
+            </h3>
+            <p className="text-xs text-grey-300 leading-relaxed font-light">
+              Confirm, dismiss, or add context before a standardized catalog record is exported to ERP or commerce channels.
+            </p>
+          </div>
+          <div className="pt-4 border-t border-white/10 flex items-center justify-between text-[11px] text-grey-400">
+            <span>Human-in-the-Loop Queue</span>
+            <span className="text-green-400">&rarr;</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ====================================================================
+          ARAXYSS SECTION 3: REVIEWER DIALOGUE & EVIDENCE TRANSCRIPT
+          ==================================================================== */}
+      <section className="rounded-2xl border border-white/12 p-8 md:p-12 backdrop-blur-xl bg-gradient-to-br from-white/[0.04] to-black/80 shadow-[0_4px_32px_rgba(0,0,0,0.5)]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left Dialogue */}
+          <div className="lg:col-span-5 space-y-4">
+            <div className="text-[10px] font-mono text-grey-400 uppercase tracking-widest">
+              004 STD / REVIEWER DIALOGUE
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-medium text-white tracking-tight leading-tight">
+              The evidence starts the conversation. It never ends it.
+            </h2>
+            <p className="text-xs text-grey-300 leading-relaxed font-light">
+              UniEnrich gives catalog teams a shared language for discussing a SKU: what changed, which signal was observed, and what context belongs in the final master record.
+            </p>
+          </div>
+
+          {/* Right Evidence Rows */}
+          <div className="lg:col-span-7 space-y-3">
+            <div className="p-4 rounded-xl border border-white/10 bg-black/40 flex items-start gap-4">
+              <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-mono text-[10px] uppercase font-bold tracking-wider shrink-0 mt-0.5">
+                SIGNAL
+              </span>
+              <p className="text-xs text-grey-200 font-light italic leading-relaxed">
+                &ldquo;This SKU title contains 4 non-standard vendor abbreviations (SS, HEX, BLT, PK100) conflicting with standard ISO fasteners.&rdquo;
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-white/10 bg-black/40 flex items-start gap-4">
+              <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[10px] uppercase font-bold tracking-wider shrink-0 mt-0.5">
+                CONTEXT
+              </span>
+              <p className="text-xs text-grey-200 font-light italic leading-relaxed">
+                &ldquo;Cross-referenced with datasheet CAD OCR; dimensions matched 1/2-13 UNC x 2.00in and material verified as 316 Marine Grade.&rdquo;
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-white/10 bg-black/40 flex items-start gap-4">
+              <span className="px-2 py-0.5 rounded bg-green-500/20 text-green-300 font-mono text-[10px] uppercase font-bold tracking-wider shrink-0 mt-0.5">
+                RECORD
+              </span>
+              <p className="text-xs text-grey-200 font-light italic leading-relaxed">
+                &ldquo;Reviewer note saved: retain ISO DIN 933 compliance, normalize thread pitch, mark auto-approved for Shopify &amp; Magento export.&rdquo;
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================================
+          ARAXYSS SECTION 4: ONE REVIEW FLOW. NO BLACK BOX.
+          ==================================================================== */}
+      <section className="rounded-2xl border border-white/12 p-8 md:p-12 backdrop-blur-xl bg-gradient-to-br from-white/[0.04] to-black/80 shadow-[0_4px_32px_rgba(0,0,0,0.5)]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          {/* Left Terminal Spec Box */}
+          <div className="lg:col-span-6 rounded-xl border border-white/15 bg-black/60 p-6 space-y-4 font-mono shadow-2xl">
+            <div className="flex items-center justify-between text-[10px] text-grey-400 border-b border-white/10 pb-3">
+              <span>004 STD / MRO REVIEW WORKSPACE</span>
+              <span className="text-green-400">STATUS: VERIFIED</span>
+            </div>
+
+            <div className="space-y-2.5 text-xs text-grey-300 leading-relaxed font-sans">
+              <div className="text-base font-bold text-white bg-blue-500/20 px-2 py-1 rounded inline-block">
+                Think less. Create more.
+              </div>
+              <p className="text-white text-sm font-medium">
+                UniEnrich turns raw abbreviations into intelligent catalog action.
+              </p>
+              <p className="text-grey-300 text-xs font-light">
+                From complex vendor feeds to everyday tasks, AI works behind the scenes — so you can stay ahead.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[10px] text-grey-400">
+              <span>&#123;&#125; UNIENRICH UI</span>
+              <span className="px-2 py-0.5 rounded bg-white/[0.06] border border-white/10 text-white font-semibold">
+                ACCESS SIGNAL &rarr;
+              </span>
+            </div>
+          </div>
+
+          {/* Right 3-Step Review Flow */}
+          <div className="lg:col-span-6 space-y-6">
+            <div className="text-[10px] font-mono text-grey-400 uppercase tracking-widest">
+              FROM INGESTION TO RESOLUTION
+            </div>
+            
+            <h2 className="text-3xl sm:text-4xl font-medium text-white tracking-tight leading-tight">
+              One review flow.<br />
+              <span className="text-grey-300">No black box.</span>
+            </h2>
+
+            <div className="space-y-3.5">
+              <div className="flex items-start gap-4">
+                <span className="font-mono text-xs font-bold text-white uppercase w-20 shrink-0">Upload</span>
+                <p className="text-xs text-grey-300 font-light">Bring in a CSV, XLSX, or selectable PDF datasheet.</p>
+              </div>
+              <div className="flex items-start gap-4">
+                <span className="font-mono text-xs font-bold text-white uppercase w-20 shrink-0">Inspect</span>
+                <p className="text-xs text-grey-300 font-light">Open the catalog batch and inspect each extracted attribute signal.</p>
+              </div>
+              <div className="flex items-start gap-4">
+                <span className="font-mono text-xs font-bold text-white uppercase w-20 shrink-0">Document</span>
+                <p className="text-xs text-grey-300 font-light">Save a certified master record with your team's judgment.</p>
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <Link href="/datasheet" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white hover:text-blue-400 border-b border-white/30 pb-1 hover:border-blue-400 transition-colors">
+                <span>Read The Documentation</span>
+                <span>&nearr;</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================================
           3D INTERACTIVE VECTOR GRAPH & 5-KPI BENTO SECTION
           ==================================================================== */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
@@ -401,6 +622,32 @@ export default function DashboardPage() {
           </div>
         )}
       </Card>
+
+      {/* ====================================================================
+          ARAXYSS DARK FINALE QUOTE SECTION
+          ==================================================================== */}
+      <section className="rounded-2xl border border-white/15 p-10 sm:p-16 text-center space-y-6 backdrop-blur-2xl bg-black/90 shadow-[0_8px_32px_rgba(0,0,0,0.8)] relative overflow-hidden">
+        <div className="absolute inset-0 bg-radial-gradient from-blue-600/10 via-transparent to-transparent pointer-events-none" />
+        
+        <div className="w-10 h-10 rounded-full border border-white/20 bg-white/[0.04] flex items-center justify-center mx-auto text-white">
+          <Sparkles className="w-5 h-5 text-blue-400" />
+        </div>
+
+        <h2 className="text-2xl sm:text-4xl md:text-5xl font-medium text-white max-w-2xl mx-auto leading-tight tracking-tight">
+          Evidence should make decisions clearer, not make them for you.
+        </h2>
+
+        <div className="pt-2">
+          <Link href="/upload">
+            <button className="h-12 px-7 rounded-full bg-white hover:bg-white/90 text-black font-semibold text-sm transition-all hover:scale-105 active:scale-95 shadow-[0_0_24px_rgba(255,255,255,0.2)] inline-flex items-center gap-3">
+              <span>Open the review workspace</span>
+              <span className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center text-xs">
+                &rarr;
+              </span>
+            </button>
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

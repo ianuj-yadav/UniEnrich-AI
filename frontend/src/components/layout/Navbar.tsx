@@ -2,18 +2,27 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Bot, Cpu, ShieldCheck } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
+import { usePathname } from "next/navigation";
+import { Bot, Cpu, Sparkles, User } from "lucide-react";
 
 interface NavbarProps {
   onOpenCopilot?: () => void;
 }
 
+const NAV_LINKS = [
+  { name: "HOME", href: "/" },
+  { name: "WORKSPACE", href: "/upload" },
+  { name: "BATCH", href: "/products" },
+  { name: "METHODOLOGY", href: "/rules" },
+  { name: "DOCUMENTATION", href: "/datasheet" },
+  { name: "REPORTS", href: "/analytics" },
+];
+
 export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
+  const pathname = usePathname();
   const [timeString, setTimeString] = useState("9:47 PM • 14 July 2026");
 
   useEffect(() => {
-    // Dynamic real-time update with fallback to static format
     try {
       const updateTime = () => {
         const now = new Date();
@@ -30,10 +39,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
   }, []);
 
   return (
-    <header className="h-16 bg-black/60 border-b border-white/[0.12] px-6 flex items-center justify-between sticky top-0 z-30 backdrop-blur-xl">
+    <header className="h-16 bg-black/75 border-b border-white/[0.12] px-6 flex items-center justify-between sticky top-0 z-40 backdrop-blur-xl">
       {/* Brand & Logo */}
-      <div className="flex items-center gap-4">
-        <Link href="/" className="flex items-center gap-3 group" aria-label="Vantage home">
+      <div className="flex items-center gap-6">
+        <Link href="/" className="flex items-center gap-3 group" aria-label="Araxyss home">
           {/* Exact 25x25 SVG Disc Brand Logo */}
           <div className="w-[25px] h-[25px] shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
             <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,38 +62,58 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="font-bold text-sm text-white tracking-tight">Vantage</span>
+            <span className="font-bold text-sm text-white tracking-tight">Araxyss</span>
             <span className="text-white/40 text-xs font-light">/</span>
             <span className="text-xs text-grey-300 font-medium hidden sm:inline">UniEnrich AI</span>
           </div>
         </Link>
       </div>
 
-      {/* Center / Right Status & Time Panel */}
-      <div className="flex items-center gap-4">
-        {/* Time Panel (Timezone) */}
-        <div className="hidden md:flex flex-col justify-center h-10 pl-3 border-l-2 border-white/20 text-left">
-          <span className="text-[10px] uppercase font-bold text-white/50 tracking-wider">Timezone</span>
-          <span className="text-xs font-medium text-white/90 font-mono tracking-tight">{timeString}</span>
-        </div>
+      {/* Center Nav Links (Araxyss Navigation Bar) */}
+      <nav className="hidden md:flex items-center gap-1">
+        {NAV_LINKS.map((link) => {
+          const isActive = pathname === link.href || (link.href !== "/" && pathname?.startsWith(link.href));
+          return (
+            <Link
+              key={link.name}
+              href={link.href}
+              className={`relative px-3.5 py-1.5 text-xs font-bold tracking-wider transition-colors uppercase ${
+                isActive ? "text-white" : "text-grey-400 hover:text-white"
+              }`}
+            >
+              <span>{link.name}</span>
+              {isActive && (
+                <span className="absolute bottom-0 left-3.5 right-3.5 h-[2px] bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+              )}
+            </Link>
+          );
+        })}
+      </nav>
 
-        {/* Model Spec Badge */}
-        <div className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/10 text-xs text-grey-200">
-          <Cpu className="w-3.5 h-3.5 text-blue-400" />
-          <span className="text-white/50">Engine:</span>
-          <span className="font-medium text-white">Gemini 2.5 Flash</span>
+      {/* Right Controls & User Info */}
+      <div className="flex items-center gap-3">
+        {/* Time Panel */}
+        <div className="hidden xl:flex flex-col justify-center h-9 pl-3 border-l border-white/20 text-left mr-1">
+          <span className="text-[9px] uppercase font-bold text-white/50 tracking-wider">Timezone</span>
+          <span className="text-[11px] font-medium text-white/90 font-mono tracking-tight">{timeString}</span>
         </div>
 
         {/* Copilot Assistant Trigger */}
         <button
           onClick={onOpenCopilot}
-          className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-purple-950/60 hover:bg-purple-900/70 border border-purple-500/40 text-purple-200 text-xs font-medium shadow-sm transition hover:scale-[1.02] active:scale-[0.98] backdrop-blur-md"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-purple-950/60 hover:bg-purple-900/70 border border-purple-500/40 text-purple-200 text-xs font-medium shadow-sm transition hover:scale-[1.02] active:scale-[0.98] backdrop-blur-md"
         >
           <Bot className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
-          <span>AI Copilot</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-purple-400"></span>
+          <span className="hidden sm:inline">AI Copilot</span>
         </button>
+
+        {/* User / Analyst Status Pill */}
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.06] border border-white/15 text-xs text-white font-mono font-semibold">
+          <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>ANUJ</span>
+        </div>
       </div>
     </header>
   );
 };
+
