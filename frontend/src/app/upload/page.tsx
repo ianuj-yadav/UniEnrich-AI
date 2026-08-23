@@ -232,14 +232,14 @@ export default function WorkspacePage() {
             <button
               onClick={handleStartPipeline}
               disabled={isStartingEnrichment}
-              className="chamfer-btn targo-btn-glow px-6 py-3 bg-stone-900 hover:bg-stone-800 text-white font-quantico font-bold text-xs uppercase tracking-widest transition flex items-center gap-2 shadow-md cursor-pointer"
+              className="chamfer-btn px-6 py-3 bg-white hover:bg-stone-50 text-[#111111] font-quantico font-extrabold text-xs uppercase tracking-widest transition flex items-center gap-2 shadow-md border-2 border-stone-900 cursor-pointer"
             >
               {isStartingEnrichment ? (
                 <Loader2 className="w-4 h-4 animate-spin text-[#15BCDF]" />
               ) : (
                 <Sparkles className="w-4 h-4 text-[#15BCDF]" />
               )}
-              <span>PROCEED TO ENRICHMENT PIPELINE &rarr;</span>
+              <span className="text-[#111111] font-bold">PROCEED TO ENRICHMENT PIPELINE &rarr;</span>
             </button>
           </div>
         )}
@@ -343,17 +343,17 @@ export default function WorkspacePage() {
             <div className="flex flex-col gap-2">
               <button
                 onClick={handleSaveReport}
-                className="w-full py-2 px-3 rounded-xl bg-stone-900 hover:bg-stone-800 text-white text-xs font-bold transition flex items-center justify-center gap-2"
+                className="w-full py-2 px-3 rounded-xl bg-white hover:bg-stone-50 border-2 border-stone-800 text-stone-900 text-xs font-bold transition flex items-center justify-center gap-2 shadow-xs cursor-pointer"
               >
-                {isSaved ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Bookmark className="w-3.5 h-3.5" />}
-                <span>{isSaved ? "Saved" : "Save Report"}</span>
+                {isSaved ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Bookmark className="w-3.5 h-3.5 text-stone-700" />}
+                <span className="text-stone-900">{isSaved ? "Saved" : "Save Report"}</span>
               </button>
               <button
                 onClick={handleStartPipeline}
-                className="w-full py-2 px-3 rounded-xl bg-[#15BCDF] hover:bg-[#3fd0ef] text-black text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-xs"
+                className="w-full py-2 px-3 rounded-xl bg-white hover:bg-stone-50 border-2 border-[#15BCDF] text-stone-900 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
               >
-                <span>Pipeline</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <span className="text-stone-900 font-bold">Pipeline</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#15BCDF]" />
               </button>
             </div>
           </div>

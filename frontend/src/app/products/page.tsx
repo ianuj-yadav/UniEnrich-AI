@@ -276,11 +276,11 @@ function ProductsContent() {
           <button
             onClick={handleExportCsv}
             disabled={isExporting}
-            className="px-3.5 py-1.5 rounded-xl bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-xs cursor-pointer shrink-0"
+            className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-stone-50 border-2 border-stone-800 text-stone-900 font-bold text-xs flex items-center gap-1.5 transition shadow-xs cursor-pointer shrink-0"
             title="Download current filtered catalog as CSV"
           >
-            <Download className="w-3.5 h-3.5 text-[#15BCDF]" />
-            <span>{isExporting ? "Exporting..." : "Export CSV"}</span>
+            <Download className="w-3.5 h-3.5 text-stone-800" />
+            <span className="text-stone-900 font-bold">{isExporting ? "Exporting..." : "Export CSV"}</span>
           </button>
         </div>
       </div>

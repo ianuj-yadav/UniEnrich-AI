@@ -235,14 +235,14 @@ function ExportContent() {
           <button
             onClick={() => handleDownload("csv")}
             disabled={!selectedBatchId || isDownloading}
-            className="chamfer-btn targo-btn-glow w-full py-3.5 px-4 bg-[#15BCDF] hover:bg-[#3fd0ef] text-black font-quantico font-bold text-xs uppercase tracking-widest transition-all cursor-pointer shadow-md flex items-center justify-center gap-2"
+            className="chamfer-btn w-full py-3.5 px-4 bg-white hover:bg-stone-50 text-[#111111] font-quantico font-bold text-xs uppercase tracking-widest transition-all cursor-pointer shadow-md border-2 border-[#15BCDF] flex items-center justify-center gap-2"
           >
             {isDownloading ? (
-              <Loader2 className="w-4 h-4 animate-spin text-black" />
+              <Loader2 className="w-4 h-4 animate-spin text-[#15BCDF]" />
             ) : (
-              <Download className="w-4 h-4 text-black" />
+              <Download className="w-4 h-4 text-[#15BCDF]" />
             )}
-            <span>DOWNLOAD CSV ({selectedTemplate.toUpperCase()})</span>
+            <span className="text-[#111111] font-extrabold">DOWNLOAD CSV ({selectedTemplate.toUpperCase()})</span>
           </button>
         </div>
 
@@ -262,10 +262,10 @@ function ExportContent() {
           <button
             onClick={() => handleDownload("xlsx")}
             disabled={!selectedBatchId || isDownloading}
-            className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md flex items-center justify-center gap-2"
+            className="w-full py-3 px-4 rounded-xl bg-white hover:bg-stone-50 text-[#111111] font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md border-2 border-emerald-600 flex items-center justify-center gap-2"
           >
-            <FileSpreadsheet className="w-4 h-4 text-white" />
-            <span>Download Excel Compatible</span>
+            <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
+            <span className="text-[#111111] font-bold">Download Excel Compatible</span>
           </button>
         </div>
 
@@ -285,10 +285,10 @@ function ExportContent() {
           <button
             onClick={() => handleDownload("json")}
             disabled={!selectedBatchId || isDownloading}
-            className="w-full py-3 px-4 rounded-xl bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md flex items-center justify-center gap-2"
+            className="w-full py-3 px-4 rounded-xl bg-white hover:bg-stone-50 text-[#111111] font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md border-2 border-stone-800 flex items-center justify-center gap-2"
           >
-            <Code className="w-4 h-4 text-white" />
-            <span>Download JSON Feed</span>
+            <Code className="w-4 h-4 text-stone-800" />
+            <span className="text-[#111111] font-bold">Download JSON Feed</span>
           </button>
         </div>
       </div>
