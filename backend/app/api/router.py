@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from app.api.v1 import (
+    auth,
     upload, 
     enrich, 
     products, 
@@ -14,6 +15,7 @@ from app.api.v1 import (
 )
 
 api_router = APIRouter()
+api_router.include_router(auth.router, tags=["Authentication"])
 api_router.include_router(upload.router, tags=["Upload"])
 api_router.include_router(enrich.router, tags=["Enrichment"])
 api_router.include_router(products.router, tags=["Products"])

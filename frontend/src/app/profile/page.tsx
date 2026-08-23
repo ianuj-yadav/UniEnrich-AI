@@ -35,6 +35,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { PopButton } from "@/components/ui/PopButton";
 import { AnimatedCounter } from "@/components/ui/AnimatedCounter";
+import { useAuth } from "@/context/AuthContext";
 
 export interface SavedReport {
   id: string;
@@ -161,11 +162,25 @@ const DEFAULT_SAVED_REPORTS: SavedReport[] = [
 ];
 
 export default function ProfilePage() {
+  const { user, logout } = useAuth();
   const [reports, setReports] = useState<SavedReport[]>([]);
   const [activeTab, setActiveTab] = useState<"all" | "batch" | "ocr" | "signoff">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedReport, setSelectedReport] = useState<SavedReport | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const userName = user?.name || "Anuj Yadav";
+  const userEmail = user?.email || "anuj.yadav@unienrich.ai";
+  const userOrg = user?.organization || "Araxyss / UniEnrich Industrial AI";
+  const userRole = user?.role || "Lead Catalog Reviewer";
+  const userTier = user?.tier || "Enterprise Vault";
+  const userProvider = user?.provider === "google" ? "Google OAuth" : "Email & Password";
+  const initials = userName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
   // Load from LocalStorage or default mock
   useEffect(() => {
@@ -231,7 +246,7 @@ export default function ProfilePage() {
             {/* Avatar Disc */}
             <div className="relative">
               <div className="w-20 h-20 rounded-3xl bg-[#fff0f0] border-2 border-[#b18597] shadow-[0_4px_0_0_#b18597] flex items-center justify-center text-2xl font-bold text-[#382b22]">
-                AY
+                {initials}
               </div>
               <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-[#ffffff]" />
             </div>
@@ -239,21 +254,23 @@ export default function ProfilePage() {
             <div className="space-y-1.5">
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="text-2xl sm:text-3xl font-bold text-[#2b201a] tracking-tight">
-                  Anuj Yadav
+                  {userName}
                 </h1>
-                <Badge variant="pink" size="sm">Lead Reviewer</Badge>
+                <Badge variant="pink" size="sm">{userRole}</Badge>
                 <Badge variant="success" size="sm" dot>Active Session</Badge>
               </div>
 
               <p className="text-xs text-[#5e4d46] font-medium flex items-center gap-2">
                 <Building2 className="w-3.5 h-3.5 text-[#b18597]" />
-                <span>Araxyss / UniEnrich Industrial AI Organization</span>
+                <span>{userOrg}</span>
+                <span>•</span>
+                <span className="text-[#8c7770] font-mono">{userEmail}</span>
               </p>
 
               <div className="flex flex-wrap items-center gap-3 pt-1 text-[11px] font-mono text-[#8c7770]">
-                <span>Role: <strong>Lead Catalog Reviewer</strong></span>
+                <span>Auth: <strong className="text-[#382b22]">{userProvider}</strong></span>
                 <span>•</span>
-                <span>Tier: <strong>Enterprise Vault</strong></span>
+                <span>Tier: <strong>{userTier}</strong></span>
                 <span>•</span>
                 <span>ID: <strong>AY-2026-STD</strong></span>
               </div>
@@ -270,12 +287,14 @@ export default function ProfilePage() {
                 </span>
               </PopButton>
             </Link>
-            <Link href="/export">
-              <Button variant="secondary" size="md" className="px-4 py-3 text-xs">
-                <span>EXPORT CENTER</span>
-                <ArrowRight className="w-3.5 h-3.5 ml-1" />
-              </Button>
-            </Link>
+            <Button 
+              variant="secondary" 
+              size="md" 
+              onClick={logout}
+              className="px-4 py-3 text-xs"
+            >
+              <span>SIGN OUT</span>
+            </Button>
           </div>
         </div>
 

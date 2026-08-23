@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bot, Cpu, Sparkles, User, Bookmark } from "lucide-react";
+import { Bot, Cpu, Sparkles, User, Bookmark, LogIn, LogOut } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 interface NavbarProps {
   onOpenCopilot?: () => void;
@@ -21,6 +22,7 @@ const NAV_LINKS = [
 
 export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
   const pathname = usePathname();
+  const { user, isAuthenticated, logout } = useAuth();
   const [timeString, setTimeString] = useState("9:47 PM • 14 July 2026");
 
   useEffect(() => {
@@ -38,6 +40,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
       // Fallback
     }
   }, []);
+
+  const userDisplayName = user ? user.name.split(" ")[0].toUpperCase() : "ANUJ";
 
   return (
     <header className="h-16 bg-[#ffffff]/90 border-b border-[#e8dede] px-6 flex items-center justify-between sticky top-0 z-40 backdrop-blur-xl shadow-[0_2px_12px_rgba(177,133,151,0.04)]">
@@ -108,19 +112,39 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCopilot }) => {
           <span className="hidden sm:inline">AI COPILOT</span>
         </button>
 
-        {/* User / Analyst Status Pill -> Links to Profile */}
-        <Link 
-          href="/profile"
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
-            pathname === "/profile"
-              ? "bg-[#fff0f0] border-2 border-[#b18597] shadow-[0_4px_0_0_#b18597] text-[#382b22]"
-              : "bg-[#faf6f6] hover:bg-[#fff0f0] border-2 border-[#e8dede] hover:border-[#b18597] text-[#382b22]"
-          } text-xs font-mono font-bold`}
-          title="View Profile & Saved Reports"
-        >
-          <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-          <span>ANUJ</span>
-        </Link>
+        {/* User / Authentication Pill */}
+        {isAuthenticated && user ? (
+          <div className="flex items-center gap-1.5">
+            <Link 
+              href="/profile"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
+                pathname === "/profile"
+                  ? "bg-[#fff0f0] border-2 border-[#b18597] shadow-[0_3px_0_0_#b18597] text-[#382b22]"
+                  : "bg-[#faf6f6] hover:bg-[#fff0f0] border-2 border-[#e8dede] hover:border-[#b18597] text-[#382b22]"
+              } text-xs font-mono font-bold`}
+              title="View Profile & Saved Reports"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>{userDisplayName}</span>
+            </Link>
+
+            <button
+              onClick={logout}
+              title="Sign Out"
+              className="p-1.5 rounded-xl bg-[#faf6f6] hover:bg-[#fef2f2] border border-[#e8dede] hover:border-[#fecaca] text-[#8c7770] hover:text-[#991b1b] transition cursor-pointer"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        ) : (
+          <Link
+            href="/login"
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-[#fff0f0] hover:bg-[#ffe9e9] border-2 border-[#b18597] shadow-[0_3px_0_0_#b18597] text-xs font-bold text-[#382b22] uppercase tracking-wider hover:translate-y-0.5 active:translate-y-1.5 transition-all cursor-pointer"
+          >
+            <LogIn className="w-3.5 h-3.5 text-[#b18597]" />
+            <span>SIGN IN</span>
+          </Link>
+        )}
       </div>
     </header>
   );
