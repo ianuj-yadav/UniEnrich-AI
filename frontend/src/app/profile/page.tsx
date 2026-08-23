@@ -231,6 +231,32 @@ export default function ProfilePage() {
     ? (reports.reduce((acc, r) => acc + r.accuracy, 0) / reports.length).toFixed(1)
     : "98.4";
 
+  if (!user) {
+    return (
+      <div className="max-w-md mx-auto py-16 text-center space-y-6">
+        <div className="w-16 h-16 rounded-3xl bg-[#fff0f0] border-2 border-[#b18597] shadow-[0_4px_0_0_#b18597] flex items-center justify-center mx-auto text-[#382b22]">
+          <User className="w-8 h-8 text-[#b18597]" />
+        </div>
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold text-[#2b201a]">Sign In to View Saved Dossiers</h2>
+          <p className="text-xs text-[#5e4d46] max-w-sm mx-auto">
+            Authenticate with your work email or Google account to access certified catalog audit reports and reviewer credentials.
+          </p>
+        </div>
+        <div className="flex flex-col gap-3 pt-2">
+          <Link href="/login">
+            <PopButton className="w-full py-4 text-xs">
+              <span className="flex items-center justify-center gap-2">
+                <span>SIGN IN WITH EMAIL OR GOOGLE</span>
+                <ArrowRight className="w-4 h-4" />
+              </span>
+            </PopButton>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-10 max-w-6xl mx-auto pb-16">
       {/* ====================================================================

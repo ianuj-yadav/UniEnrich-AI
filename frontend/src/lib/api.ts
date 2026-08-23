@@ -364,3 +364,61 @@ export async function localizeProduct(productId: string, targetLanguage: string)
   if (!res.ok) throw new Error("Failed to localize product");
   return res.json();
 }
+
+/* Authentication API */
+export interface AuthUserResponse {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  organization: string;
+  tier: string;
+  avatar: string;
+  provider: "google" | "email";
+}
+
+export interface AuthApiResponse {
+  success: boolean;
+  token: string;
+  user: AuthUserResponse;
+}
+
+export async function apiLogin(email: string, password = "Password123!"): Promise<AuthApiResponse> {
+  const res = await fetch(`${API_BASE}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.detail || "Invalid email or password");
+  }
+  return res.json();
+}
+
+export async function apiSignup(name: string, email: string, password = "Password123!"): Promise<AuthApiResponse> {
+  const res = await fetch(`${API_BASE}/auth/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, email, password }),
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.detail || "Failed to create account");
+  }
+  return res.json();
+}
+
+export async function apiGoogleAuth(email = "anuj.yadav@gmail.com", name = "Anuj Yadav", picture?: string): Promise<AuthApiResponse> {
+  const res = await fetch(`${API_BASE}/auth/google`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, name, picture }),
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.detail || "Google authentication failed");
+  }
+  return res.json();
+}
+
